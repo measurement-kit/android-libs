@@ -5,9 +5,9 @@
 package io.github.measurement_kit.jni.sync;
 
 /**
- * Allows to run OONI tests.
+ * JNI API to run synchronous OONI tests.
  */
-class OONI {
+public class OoniSyncApi {
 
     /**
      * Runs OONI dns-injection test.
@@ -45,5 +45,4 @@ class OONI {
                                            String inputPath,
                                            boolean verbose,
                                            String logPath);
-
 }

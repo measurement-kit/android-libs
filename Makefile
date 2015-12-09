@@ -1,8 +1,9 @@
-PHONIES += check dist download-and-verify help jni-libs jni-libs-no-unpack
-PHONIES += unpack unpack-clean
+PHONIES += check dist download-and-verify help javah jni-libs
+PHONIES += jni-libs-no-unpack unpack unpack-clean
 .PHONY: $(PHONIES)
 
 GPG2      = gpg2
+JAVAH     = javah
 NDK_BUILD = ndk-build
 WGET      = wget
 
@@ -12,6 +13,7 @@ TAG       = 5-ge0eb44b
 INPUT     = measurement_kit-jni-$(VERSION)-$(TAG).tar.bz2
 OVERSION  = $$(git describe --tags)
 OUTPUT    = measurement_kit-jni-libs-$(OVERSION).tar.bz2
+PACKAGE   = io.github.measurement_kit.jni
 
 ABIS      = arm64-v8a armeabi armeabi-v7a mips mips64 x86 x86_64
 
@@ -27,7 +29,12 @@ dist: jni-libs
 	@echo "Creating $(OUTPUT)..."
 	@tar -cjf $(OUTPUT) java jniLibs
 
-jni-libs: unpack jni-libs-no-unpack
+jni-libs: unpack javah jni-libs-no-unpack
+
+javah:
+	@echo "Creating header files in jni using $(JAVAH)..."
+	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.OoniSyncApi
+	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.PortolanSyncApi
 
 jni-libs-no-unpack:
 	$(NDK_BUILD) NDK_LIBS_OUT=./jniLibs
@@ -51,6 +58,11 @@ check:
 	  exit 1;                                                              \
 	fi
 	@echo "Using $(GPG2): $$(which $(GPG2))"
+	@if [ -z "$$(which $(JAVAH))" ]; then                                  \
+	  echo "FATAL: install $(JAVAH) or make sure it's in PATH" 1>&2;       \
+	  exit 1;                                                              \
+	fi
+	@echo "Using $(JAVAH): $$(which $(JAVAH))"
 	@if [ -z "$$(which $(NDK_BUILD))" ]; then                              \
 	  echo "FATAL: install $(NDK_BUILD) or make sure it's in PATH" 1>&2;   \
 	  exit 1;                                                              \
