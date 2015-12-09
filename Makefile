@@ -35,6 +35,7 @@ javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.OoniSyncApi
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.PortolanSyncApi
+	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).LoggerApi
 
 jni-libs-no-unpack:
 	$(NDK_BUILD) NDK_LIBS_OUT=./jniLibs
