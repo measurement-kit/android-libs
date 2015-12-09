@@ -30,7 +30,7 @@ LOCAL_LDLIBS := -llog -latomic
 LOCAL_STATIC_LIBRARIES := measurement_kit event event_pthreads jansson \
 			  maxminddb yaml-cpp
 LOCAL_MODULE := measurement_kit_jni
-LOCAL_SRC_FILES := measurement_kit_jni.cpp
+LOCAL_SRC_FILES := common.cpp ooni_sync_api.cpp portolan_sync_api.cpp
 APP_PLATFORM := android-21
 LOCAL_CPPFLAGS += -I jni/$(TARGET_ARCH_ABI)/include -std=c++11
 include $(BUILD_SHARED_LIBRARY)

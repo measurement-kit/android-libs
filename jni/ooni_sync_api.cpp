@@ -5,24 +5,17 @@
 #include <jni.h>
 #include <measurement_kit/ooni.hpp>
 #include <string>
-#include "io_github_measurement_kit_jni_sync_OONI.h"
-
-static std::string jstring_to_cxxstring(JNIEnv *env, jstring source) {
-    const char *ptr = env->GetStringUTFChars(source, nullptr);
-    if (ptr == nullptr) throw std::bad_alloc();
-    std::string copy = ptr;
-    env->ReleaseStringUTFChars(source, ptr);
-    return copy;
-}
+#include "common.hpp"
+#include "io_github_measurement_kit_jni_sync_OoniSyncApi.h"
 
 JNIEXPORT jstring JNICALL
-Java_io_github_measurement_1kit_jni_sync_OONI_dnsInjection(
+Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jstring inputPath,
     jboolean /*verbose*/, jstring logPath) {
     try {
         mk::ooni::DnsInjectionTest()
-            .set_backend(jstring_to_cxxstring(env, backend))
-            .set_input_file_path(jstring_to_cxxstring(env, inputPath))
+            .set_backend(mk::jni::cxxstring(env, backend))
+            .set_input_file_path(mk::jni::cxxstring(env, inputPath))
             .set_verbose()
             .run();
     } catch (...) {
@@ -32,12 +25,12 @@ Java_io_github_measurement_1kit_jni_sync_OONI_dnsInjection(
 }
 
 JNIEXPORT jstring JNICALL
-Java_io_github_measurement_1kit_jni_sync_OONI_httpInvalidRequestLine(
+Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jboolean /*verbose*/,
     jstring logPath) {
     try {
         mk::ooni::HttpInvalidRequestLineTest()
-            .set_backend(jstring_to_cxxstring(env, backend))
+            .set_backend(mk::jni::cxxstring(env, backend))
             .set_verbose()
             .run();
     } catch (...) {
@@ -47,13 +40,13 @@ Java_io_github_measurement_1kit_jni_sync_OONI_httpInvalidRequestLine(
 }
 
 JNIEXPORT jstring JNICALL
-Java_io_github_measurement_1kit_jni_sync_OONI_tcpConnect(
+Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
     JNIEnv *env, jclass /*clazz*/, jstring port, jstring inputPath,
     jboolean verbose, jstring logPath) {
     try {
         mk::ooni::TcpConnectTest()
-            .set_port(jstring_to_cxxstring(env, port))
-            .set_input_file_path(jstring_to_cxxstring(env, inputPath))
+            .set_port(mk::jni::cxxstring(env, port))
+            .set_input_file_path(mk::jni::cxxstring(env, inputPath))
             .set_verbose()
             .run();
     } catch (...) {

@@ -23,17 +23,15 @@ This will download the latest Measurement Kit binaries from GitHub, verify
 them with GnuPG, cross-compile the JNI code and statically link it with the
 downloaded binaries, package a tarball suitable for distribution.
 
-The version number of the tarball will be the version downloaded from
-GitHub, plus the abbreviated reference of the current HEAD.
-
 A Unix environment is assumed. You need to have the following executables
 in your PATH:
 
 - git
-- wget
-- ndk-build
 - gpg2
+- javah
+- ndk-build
+- wget
 
-Git, wget, and gpg2 could be installed using your distributions package
+Most of these could be installed using your distributions package
 manager. As regards ndk-build, [there are instructions to install it inside
 Measurement Kit repository](https://github.com/measurement-kit/measurement-kit/tree/master/mobile/android#installing-the-ndk).
