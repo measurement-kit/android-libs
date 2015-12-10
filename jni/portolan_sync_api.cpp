@@ -2,6 +2,7 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
+#include <android/log.h>
 #include <jni.h>
 #include <limits.h>
 #include <measurement_kit/net.hpp>
@@ -126,15 +127,21 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_closeProber
 JNIEXPORT jboolean JNICALL
 Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_checkPort
        (JNIEnv *env, jclass /*clazz*/, jboolean use_ipv4, jstring address,
-        jstring port, jdouble timeout) {
+        jstring port, jdouble timeout, jboolean verbose) {
     jboolean is_port_open = JNI_FALSE;
     try {
         Poller poller;
+        Logger custom_logger;
+        custom_logger.set_verbose(verbose);
+        custom_logger.on_log([](const char *s) {
+            __android_log_print(ANDROID_LOG_INFO,
+                "portolan-check-port", "%s", s);
+        });
         net::Transport connection = net::connect({
             {"family", (use_ipv4) ? "PF_INET" : "PF_INET6"},
             {"address", mk::jni::cxxstring(env, address)},
             {"port", mk::jni::cxxstring(env, port)},
-        }, Logger::global(), &poller).as_value();
+        }, &custom_logger, &poller).as_value();
         connection.set_timeout(timeout);
         connection.on_error([&poller](Error) {
             poller.break_loop();

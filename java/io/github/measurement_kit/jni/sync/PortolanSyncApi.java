@@ -77,8 +77,10 @@ public class PortolanSyncApi {
      * @param addr Address to use.
      * @param port Port to use.
      * @param timeo Connect() timeout.
+     * @param verbose Whether to run test in verbose mode.
      * @return True if port is open, false otherwise.
      */
     public static native boolean checkPort(boolean useIpv4, String addr,
-                                           String port, double timeo);
+                                           String port, double timeo,
+                                           boolean verbose);
 }
