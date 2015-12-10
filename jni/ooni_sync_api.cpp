@@ -2,6 +2,7 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
+#include <android/log.h>
 #include <jni.h>
 #include <measurement_kit/ooni.hpp>
 #include <string>
@@ -17,6 +18,10 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
             .set_backend(mk::jni::cxxstring(env, backend))
             .set_input_file_path(mk::jni::cxxstring(env, inputPath))
             .set_verbose(verbose)
+            .on_log([](const char *s) {
+                __android_log_print(ANDROID_LOG_INFO,
+                        "dns-injection", "%s", s);
+            })
             .run();
     } catch (...) {
         // XXX suppress
@@ -32,6 +37,10 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
         mk::ooni::HttpInvalidRequestLineTest()
             .set_backend(mk::jni::cxxstring(env, backend))
             .set_verbose(verbose)
+            .on_log([](const char *s) {
+                __android_log_print(ANDROID_LOG_INFO,
+                        "http-invalid-request-line", "%s", s);
+            })
             .run();
     } catch (...) {
         // XXX suppress
@@ -48,6 +57,10 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
             .set_port(mk::jni::cxxstring(env, port))
             .set_input_file_path(mk::jni::cxxstring(env, inputPath))
             .set_verbose(verbose)
+            .on_log([](const char *s) {
+                __android_log_print(ANDROID_LOG_INFO,
+                        "tcp-connect", "%s", s);
+            })
             .run();
     } catch (...) {
         // XXX suppress
