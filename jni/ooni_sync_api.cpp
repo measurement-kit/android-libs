@@ -11,12 +11,12 @@
 JNIEXPORT jstring JNICALL
 Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jstring inputPath,
-    jboolean /*verbose*/, jstring logPath) {
+    jboolean verbose, jstring logPath) {
     try {
         mk::ooni::DnsInjectionTest()
             .set_backend(mk::jni::cxxstring(env, backend))
             .set_input_file_path(mk::jni::cxxstring(env, inputPath))
-            .set_verbose()
+            .set_verbose(verbose)
             .run();
     } catch (...) {
         // XXX suppress
@@ -26,12 +26,12 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
 
 JNIEXPORT jstring JNICALL
 Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
-    JNIEnv *env, jclass /*clazz*/, jstring backend, jboolean /*verbose*/,
+    JNIEnv *env, jclass /*clazz*/, jstring backend, jboolean verbose,
     jstring logPath) {
     try {
         mk::ooni::HttpInvalidRequestLineTest()
             .set_backend(mk::jni::cxxstring(env, backend))
-            .set_verbose()
+            .set_verbose(verbose)
             .run();
     } catch (...) {
         // XXX suppress
@@ -47,7 +47,7 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
         mk::ooni::TcpConnectTest()
             .set_port(mk::jni::cxxstring(env, port))
             .set_input_file_path(mk::jni::cxxstring(env, inputPath))
-            .set_verbose()
+            .set_verbose(verbose)
             .run();
     } catch (...) {
         // XXX suppress
