@@ -24,7 +24,8 @@ class ProberContext {
             use4, s_port, poller.get_event_base()) {}
 };
 
-static const char *map_code(ProbeResult r) {
+static const char *map_code(ProbeResult r, bool timeout) {
+    if (timeout) return "TIMEOUT";
 
 #define XX(kkk) \
     if (meaning == ProbeResultMeaning::kkk) \
@@ -65,8 +66,8 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_sendProbe
    jdoubleArray outDoubles) {
 
     static const int payload_size = 256;
-
     ProbeResult result;
+    bool is_timed_out = false;
     try {
         if (ptr == 0L) throw std::runtime_error("Null pointer");
         ProberContext *ctx = (ProberContext *) ptr;
@@ -75,7 +76,10 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_sendProbe
             result = r;
             ctx->poller.break_loop();
         });
-        ctx->prober.on_timeout([&ctx]() { ctx->poller.break_loop(); });
+        ctx->prober.on_timeout([&ctx, &is_timed_out]() {
+            ctx->poller.break_loop();
+            is_timed_out = true;
+        });
         ctx->prober.on_error([&ctx](Error) { ctx->poller.break_loop(); });
         ctx->prober.send_probe(mk::jni::cxxstring(env, destIp), destPort, ttl,
                                payload, timeout);
@@ -87,7 +91,7 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_sendProbe
     jstring temp;
 
     // Note: the map_code() function provides a no-throw guarantee
-    temp = env->NewStringUTF(map_code(result));
+    temp = env->NewStringUTF(map_code(result, is_timed_out));
     if (!temp) return;
     env->SetObjectArrayElement(outStrings, 0, temp);
     if (env->ExceptionCheck()) return;
