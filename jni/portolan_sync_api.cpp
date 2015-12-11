@@ -77,6 +77,8 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_sendProbe
         });
         ctx->prober.on_timeout([&ctx]() { ctx->poller.break_loop(); });
         ctx->prober.on_error([&ctx](Error) { ctx->poller.break_loop(); });
+        ctx->prober.send_probe(mk::jni::cxxstring(env, destIp), destPort, ttl,
+                               payload, timeout);
         ctx->poller.loop();
     } catch (...) {
         // fallthrough; by default `result` contains an error
