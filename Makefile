@@ -9,7 +9,7 @@ WGET      = wget
 
 BASEURL   = https://github.com/measurement-kit/measurement-kit/releases/download
 VERSION   = v0.1.0-beta.3
-TAG       =
+TAG       = -4-gb3b3a95
 INPUT     = measurement_kit-jni-$(VERSION)$(TAG).tar.bz2
 OVERSION  = $$(git describe --tags)
 OUTPUT    = measurement_kit-jni-libs-$(OVERSION).tar.bz2
