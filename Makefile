@@ -36,6 +36,7 @@ javah:
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.OoniSyncApi
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.PortolanSyncApi
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).LoggerApi
+	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).DnsApi
 
 jni-libs-no-unpack:
 	$(NDK_BUILD) NDK_LIBS_OUT=./jniLibs
