@@ -10,6 +10,11 @@ package io.github.measurement_kit.jni;
 public class DnsApi {
 
     /**
+     * Clear all configured nameservers.
+     */
+    public static native void clearNameServers();
+
+    /**
      * Count number of registered nameservers
      * @return Number of registered nameservers
      */
