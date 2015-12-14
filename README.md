@@ -1,10 +1,10 @@
-# Measurement Kit JNI Libs
+# Measurement Kit for Android
 
-This repository contains Measurement Kit Java native interface (JNI). It
-also contains the code to generate Measurement Kit JNI libs.
+This repository contains Measurement Kit for Android. That is, it contains
+the Java native interface (JNI) code as well as its Java counterpart.
 
 The `Makefile` file allows you to cross-compile JNI libs suitable for being
-used by Android applications.
+used by Android applications for all target architectures.
 
 To see all the available targets, just type:
 
