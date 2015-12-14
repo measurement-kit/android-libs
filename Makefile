@@ -12,7 +12,7 @@ VERSION   = v0.1.0-beta.4
 TAG       = -2-g17a7acb
 INPUT     = measurement_kit-jni-$(VERSION)$(TAG).tar.bz2
 OVERSION  = $$(git describe --tags)
-OUTPUT    = measurement_kit-jni-libs-$(OVERSION).tar.bz2
+OUTPUT    = measurement_kit-android-$(OVERSION).tar.bz2
 PACKAGE   = io.github.measurement_kit.jni
 
 ABIS      = arm64-v8a armeabi armeabi-v7a mips mips64 x86 x86_64
