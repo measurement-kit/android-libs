@@ -8,7 +8,7 @@ NDK_BUILD = ndk-build
 WGET      = wget
 
 BASEURL   = https://github.com/measurement-kit/measurement-kit/releases/download
-VERSION   = v0.1.0
+VERSION   = v0.1.1
 TAG       =
 INPUT     = measurement_kit-jni-$(VERSION)$(TAG).tar.bz2
 OVERSION  = $$(git describe --tags)

@@ -13,36 +13,39 @@ public class OoniSyncApi {
      * Runs OONI dns-injection test.
      * @param backend Address (and optionally port) of backend.
      * @param inputPath Path of input file to use.
-     * @param verbose Whether to run in verbose mode.
+     * @param reportPath Path of the report file.
      * @param logPath Path of log file to use.
-     * @return Path of test report file.
+     * @param verbose Whether to run in verbose mode.
      */
-    public static native String dnsInjection(String backend,
-                                             String inputPath,
-                                             boolean verbose,
-                                             String logPath);
+    public static native void dnsInjection(String backend,
+                                           String inputPath,
+                                           String reportPath,
+                                           String logPath,
+                                           boolean verbose);
 
     /**
      * Runs OONI http-invalid-request-line test.
      * @param backend URL of backend.
-     * @param verbose Whether to run in verbose mode.
+     * @param reportPath Path of the report file.
      * @param logPath Path of log file to use.
-     * @return Path of test report file.
+     * @param verbose Whether to run in verbose mode.
      */
-    public static native String httpInvalidRequestLine(String backend,
-                                                       boolean verbose,
-                                                       String logPath);
+    public static native void httpInvalidRequestLine(String backend,
+                                                     String reportPath,
+                                                     String logPath,
+                                                     boolean verbose);
 
     /**
      * Runs OONI tcp-connect test.
      * @param port Port to use.
      * @param inputPath Path of input file to use.
-     * @param verbose Whether to run in verbose mode.
+     * @param reportPath Path of the report file.
      * @param logPath Path of log file to use.
-     * @return Path of test report file.
+     * @param verbose Whether to run in verbose mode.
      */
-    public static native String tcpConnect(String port,
-                                           String inputPath,
-                                           boolean verbose,
-                                           String logPath);
+    public static native void tcpConnect(String port,
+                                         String inputPath,
+                                         String reportPath,
+                                         String logPath,
+                                         boolean verbose);
 }
