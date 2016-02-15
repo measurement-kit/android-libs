@@ -12,8 +12,17 @@ To see all the available targets, just type:
 make
 ```
 
-To generate a tarball containing the Java files and the corresponding
-compiled libraries, type:
+The Makefile will verify all downloaded binaries using GnuPG. Binaries are
+digitally signed by Simone Basso using a PGP key with ID `7733D95B` and
+fingerprint (`7388 77AA 6C82 9F26 A431 C5F4 80B6 9127 7733 D95B`). You can
+fetch this key using gpg using the following command:
+
+```bash
+gpg --recv-keys 7733D95B
+```
+
+After this step, to generate a tarball containing the Java files and the
+corresponding compiled libraries, type:
 
 ```
 make dist
