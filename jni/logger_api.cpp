@@ -6,7 +6,7 @@
 #include <jni.h>
 #include <measurement_kit/common.hpp>
 #include <string>
-#include "io_github_measurement_kit_jni_LoggerApi.h"
+#include "org_openobservatory_measurement_kit_jni_LoggerApi.h"
 
 JNIEXPORT void JNICALL
 Java_io_github_measurement_1kit_jni_LoggerApi_setVerbose

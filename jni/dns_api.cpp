@@ -7,7 +7,7 @@
 #include <measurement_kit/common.hpp>
 #include <string>
 #include "common.hpp"
-#include "io_github_measurement_kit_jni_DnsApi.h"
+#include "org_openobservatory_measurement_kit_jni_DnsApi.h"
 
 JNIEXPORT void JNICALL
 Java_io_github_measurement_1kit_jni_DnsApi_clearNameServers

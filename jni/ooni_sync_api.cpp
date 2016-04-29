@@ -9,7 +9,7 @@
 #include <string>
 #include <unistd.h>
 #include "common.hpp"
-#include "io_github_measurement_kit_jni_sync_OoniSyncApi.h"
+#include "org_openobservatory_measurement_kit_jni_sync_OoniSyncApi.h"
 
 class LogFile {
   public:
