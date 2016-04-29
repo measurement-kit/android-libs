@@ -10,7 +10,7 @@
 #include "org_openobservatory_measurement_kit_jni_DnsApi.h"
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_DnsApi_clearNameServers
+Java_org_openobservatory_measurement_1kit_jni_DnsApi_clearNameServers
   (JNIEnv * /*env*/, jclass /*clazz*/) {
     try {
         mk::clear_nameservers();
@@ -20,7 +20,7 @@ Java_io_github_measurement_1kit_jni_DnsApi_clearNameServers
 }
 
 JNIEXPORT jint JNICALL
-Java_io_github_measurement_1kit_jni_DnsApi_countNameServers
+Java_org_openobservatory_measurement_1kit_jni_DnsApi_countNameServers
   (JNIEnv * /*env*/, jclass /*clazz*/) {
     try {
         return mk::count_nameservers();
@@ -30,7 +30,7 @@ Java_io_github_measurement_1kit_jni_DnsApi_countNameServers
 }
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_DnsApi_addNameServer
+Java_org_openobservatory_measurement_1kit_jni_DnsApi_addNameServer
   (JNIEnv * env, jclass /*clazz*/, jstring nameServer) {
     try {
         mk::add_nameserver(mk::jni::cxxstring(env, nameServer));

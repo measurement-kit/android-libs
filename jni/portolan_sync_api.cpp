@@ -50,7 +50,7 @@ static const char *map_code(ProbeResult r, bool timeout) {
 }
 
 JNIEXPORT jlong JNICALL
-Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_openProber
+Java_org_openobservatory_measurement_1kit_jni_sync_PortolanSyncApi_openProber
   (JNIEnv * /*env*/, jclass /*clazz*/, jboolean use_ipv4, jint port) {
     try {
         return (jlong) new ProberContext(use_ipv4, port);
@@ -60,7 +60,7 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_openProber
 }
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_sendProbe
+Java_org_openobservatory_measurement_1kit_jni_sync_PortolanSyncApi_sendProbe
   (JNIEnv *env, jclass /*clazz*/, jlong ptr, jstring destIp, jint destPort,
    jint ttl, jdouble timeout, jobjectArray outStrings, jintArray outInts,
    jdoubleArray outDoubles) {
@@ -119,7 +119,7 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_sendProbe
 }
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_closeProber
+Java_org_openobservatory_measurement_1kit_jni_sync_PortolanSyncApi_closeProber
   (JNIEnv * /*env*/, jclass /*clazz*/, jlong ptr) {
     // Note: `delete` gracefully handles null pointers
     try {
@@ -131,7 +131,7 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_closeProber
 }
 
 JNIEXPORT jboolean JNICALL
-Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_checkPort
+Java_org_openobservatory_measurement_1kit_jni_sync_PortolanSyncApi_checkPort
        (JNIEnv *env, jclass /*clazz*/, jboolean use_ipv4, jstring address,
         jstring port, jdouble timeout, jboolean verbose) {
     jboolean is_port_open = JNI_FALSE;

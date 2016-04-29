@@ -9,7 +9,7 @@
 #include "org_openobservatory_measurement_kit_jni_LoggerApi.h"
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_LoggerApi_setVerbose
+Java_org_openobservatory_measurement_1kit_jni_LoggerApi_setVerbose
   (JNIEnv *, jclass, jint verbose) {
     try {
         mk::set_verbose(verbose);
@@ -19,7 +19,7 @@ Java_io_github_measurement_1kit_jni_LoggerApi_setVerbose
 }
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_LoggerApi_useAndroidLogger
+Java_org_openobservatory_measurement_1kit_jni_LoggerApi_useAndroidLogger
   (JNIEnv *, jclass) {
     try {
         mk::on_log([](const char *s) {
