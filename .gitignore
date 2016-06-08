@@ -4,3 +4,4 @@ measurement_kit-android-v*.tar.bz2.asc
 measurement_kit-jni-v*.tar.bz2
 measurement_kit-jni-v*.tar.bz2.asc
 jni/org_openobservatory_measurement_kit_jni_*.h
+jni/spec/
