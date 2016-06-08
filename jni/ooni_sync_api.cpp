@@ -46,11 +46,12 @@ class LogFile {
 JNIEXPORT void JNICALL
 Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jstring inputPath,
-    jstring reportPath, jstring logPath, jboolean verbose) {
+    jstring reportPath, jstring logPath, jboolean verbose, jstring nameServer) {
     try {
         LogFile log_file(env, logPath);
         mk::ooni::DnsInjectionTest()
             .set_options("backend", mk::jni::cxxstring(env, backend))
+            .set_options("dns/nameserver", mk::jni::cxxstring(env, nameServer))
             .set_input_file_path(mk::jni::cxxstring(env, inputPath))
             .set_output_file_path(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)
@@ -68,11 +69,12 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
 JNIEXPORT void JNICALL
 Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jstring reportPath,
-    jstring logPath, jboolean verbose) {
+    jstring logPath, jboolean verbose, jstring nameServer) {
     try {
         LogFile log_file(env, logPath);
         mk::ooni::HttpInvalidRequestLineTest()
             .set_options("backend", mk::jni::cxxstring(env, backend))
+            .set_options("dns/nameserver", mk::jni::cxxstring(env, nameServer))
             .set_output_file_path(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)
             .on_log([&log_file](uint32_t, const char *s) {
@@ -89,11 +91,12 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidReques
 JNIEXPORT void JNICALL
 Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
     JNIEnv *env, jclass /*clazz*/, jstring port, jstring inputPath,
-    jstring reportPath, jstring logPath, jboolean verbose) {
+    jstring reportPath, jstring logPath, jboolean verbose, jstring nameServer) {
     try {
         LogFile log_file(env, logPath);
         mk::ooni::TcpConnectTest()
             .set_options("port", mk::jni::cxxstring(env, port))
+            .set_options("dns/nameserver", mk::jni::cxxstring(env, nameServer))
             .set_input_file_path(mk::jni::cxxstring(env, inputPath))
             .set_output_file_path(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)

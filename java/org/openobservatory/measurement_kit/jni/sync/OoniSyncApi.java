@@ -16,12 +16,14 @@ public class OoniSyncApi {
      * @param reportPath Path of the report file.
      * @param logPath Path of log file to use.
      * @param verbose Whether to run in verbose mode.
+     * @param nameServer Nameserver to use for this test.
      */
     public static native void dnsInjection(String backend,
                                            String inputPath,
                                            String reportPath,
                                            String logPath,
-                                           boolean verbose);
+                                           boolean verbose,
+                                           String nameServer);
 
     /**
      * Runs OONI http-invalid-request-line test.
@@ -29,11 +31,13 @@ public class OoniSyncApi {
      * @param reportPath Path of the report file.
      * @param logPath Path of log file to use.
      * @param verbose Whether to run in verbose mode.
+     * @param nameServer Nameserver to use for this test.
      */
     public static native void httpInvalidRequestLine(String backend,
                                                      String reportPath,
                                                      String logPath,
-                                                     boolean verbose);
+                                                     boolean verbose,
+                                                     String nameServer);
 
     /**
      * Runs OONI tcp-connect test.
@@ -42,10 +46,12 @@ public class OoniSyncApi {
      * @param reportPath Path of the report file.
      * @param logPath Path of log file to use.
      * @param verbose Whether to run in verbose mode.
+     * @param nameServer Nameserver to use for this test.
      */
     public static native void tcpConnect(String port,
                                          String inputPath,
                                          String reportPath,
                                          String logPath,
-                                         boolean verbose);
+                                         boolean verbose,
+                                         String nameServer);
 }

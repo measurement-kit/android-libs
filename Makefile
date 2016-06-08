@@ -11,7 +11,7 @@ BASEURL   = https://github.com/measurement-kit/measurement-kit/releases/download
 VERSION   = v0.2.0-beta
 TAG       =
 INPUT     = measurement_kit-jni-$(VERSION)$(TAG).tar.bz2
-OVERSION  = $(VERSION)-1
+OVERSION  = $(VERSION)-2
 OUTPUT    = measurement_kit-android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit.jni
 
@@ -36,7 +36,6 @@ javah:
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.OoniSyncApi
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.PortolanSyncApi
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).LoggerApi
-	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).DnsApi
 
 jni-libs-no-unpack:
 	$(NDK_BUILD) NDK_LIBS_OUT=./jniLibs
