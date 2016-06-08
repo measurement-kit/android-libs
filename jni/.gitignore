@@ -1,7 +1,7 @@
 arm64-v8a/
 armeabi/
 armeabi-v7a/
-io_github_measurement_kit_jni_*.h
+org_openobservatory_measurement_kit_jni_*.h
 mips/
 mips64/
 x86/

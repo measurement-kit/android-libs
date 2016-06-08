@@ -44,7 +44,7 @@ class LogFile {
 };
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
+Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jstring inputPath,
     jstring reportPath, jstring logPath, jboolean verbose) {
     try {
@@ -66,7 +66,7 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
 }
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
+Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jstring reportPath,
     jstring logPath, jboolean verbose) {
     try {
@@ -87,7 +87,7 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
 }
 
 JNIEXPORT void JNICALL
-Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
+Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
     JNIEnv *env, jclass /*clazz*/, jstring port, jstring inputPath,
     jstring reportPath, jstring logPath, jboolean verbose) {
     try {
