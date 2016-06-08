@@ -50,11 +50,11 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
     try {
         LogFile log_file(env, logPath);
         mk::ooni::DnsInjectionTest()
-            .set_backend(mk::jni::cxxstring(env, backend))
+            .set_options("backend", mk::jni::cxxstring(env, backend))
             .set_input_file_path(mk::jni::cxxstring(env, inputPath))
             .set_output_file_path(mk::jni::cxxstring(env, reportPath))
-            .set_verbose(verbose)
-            .on_log([&log_file](const char *s) {
+            .set_verbosity(verbose)
+            .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
                         "dns-injection", "%s", s);
                 fprintf(log_file.get(), "%s\n", s);
@@ -72,10 +72,10 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
     try {
         LogFile log_file(env, logPath);
         mk::ooni::HttpInvalidRequestLineTest()
-            .set_backend(mk::jni::cxxstring(env, backend))
+            .set_options("backend", mk::jni::cxxstring(env, backend))
             .set_output_file_path(mk::jni::cxxstring(env, reportPath))
-            .set_verbose(verbose)
-            .on_log([&log_file](const char *s) {
+            .set_verbosity(verbose)
+            .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
                         "http-invalid-request-line", "%s", s);
                 fprintf(log_file.get(), "%s\n", s);
@@ -93,11 +93,11 @@ Java_io_github_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
     try {
         LogFile log_file(env, logPath);
         mk::ooni::TcpConnectTest()
-            .set_port(mk::jni::cxxstring(env, port))
+            .set_options("port", mk::jni::cxxstring(env, port))
             .set_input_file_path(mk::jni::cxxstring(env, inputPath))
             .set_output_file_path(mk::jni::cxxstring(env, reportPath))
-            .set_verbose(verbose)
-            .on_log([&log_file](const char *s) {
+            .set_verbosity(verbose)
+            .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
                         "tcp-connect", "%s", s);
                 fprintf(log_file.get(), "%s\n", s);

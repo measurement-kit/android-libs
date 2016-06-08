@@ -16,12 +16,12 @@ using namespace mk::traceroute;
 
 class ProberContext {
   public:
-    Poller poller;
+    Var<Reactor> reactor = Reactor::make();
     AndroidProber prober;
 
     /// Constructor with @use4 and @s_port
     ProberContext(bool use4, int s_port) : prober(
-            use4, s_port, poller.get_event_base()) {}
+            use4, s_port, reactor->get_event_base()) {}
 };
 
 static const char *map_code(ProbeResult r, bool timeout) {
@@ -72,18 +72,19 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_sendProbe
         if (ptr == 0L) throw std::runtime_error("Null pointer");
         ProberContext *ctx = (ProberContext *) ptr;
         std::string payload(payload_size, '\0');
-        ctx->prober.on_result([&ctx, &result](ProbeResult r) {
-            result = r;
-            ctx->poller.break_loop();
+        ctx->reactor->loop_with_initial_event([&]() {
+            ctx->prober.on_result([&ctx, &result](ProbeResult r) {
+                result = r;
+                ctx->reactor->break_loop();
+            });
+            ctx->prober.on_timeout([&ctx, &is_timed_out]() {
+                ctx->reactor->break_loop();
+                is_timed_out = true;
+            });
+            ctx->prober.on_error([&ctx](Error) { ctx->reactor->break_loop(); });
+            ctx->prober.send_probe(mk::jni::cxxstring(env, destIp), destPort,
+                                   ttl, payload, timeout);
         });
-        ctx->prober.on_timeout([&ctx, &is_timed_out]() {
-            ctx->poller.break_loop();
-            is_timed_out = true;
-        });
-        ctx->prober.on_error([&ctx](Error) { ctx->poller.break_loop(); });
-        ctx->prober.send_probe(mk::jni::cxxstring(env, destIp), destPort, ttl,
-                               payload, timeout);
-        ctx->poller.loop();
     } catch (...) {
         // fallthrough; by default `result` contains an error
     }
@@ -136,27 +137,23 @@ Java_io_github_measurement_1kit_jni_sync_PortolanSyncApi_checkPort
         jstring port, jdouble timeout, jboolean verbose) {
     jboolean is_port_open = JNI_FALSE;
     try {
-        Poller poller;
-        Logger custom_logger;
-        custom_logger.set_verbose(verbose);
-        custom_logger.on_log([](const char *s) {
+        Var<Reactor> reactor = Reactor::make();
+        Var<Logger> logger = Logger::make();
+        logger->set_verbosity(verbose);
+        logger->on_log([](uint32_t, const char *s) {
             __android_log_print(ANDROID_LOG_INFO,
                 "portolan-check-port", "%s", s);
         });
-        net::Transport connection = net::connect({
-            {"family", (use_ipv4) ? "PF_INET" : "PF_INET6"},
-            {"address", mk::jni::cxxstring(env, address)},
-            {"port", mk::jni::cxxstring(env, port)},
-        }, &custom_logger, &poller).as_value();
-        connection.set_timeout(timeout);
-        connection.on_error([&poller](Error) {
-            poller.break_loop();
+        reactor->loop_with_initial_event([&]() {
+            net::connect(mk::jni::cxxstring(env, address),
+                         mk::lexical_cast<int>(mk::jni::cxxstring(env, port)),
+                         [&](Error err, Var<mk::net::Transport> txp) {
+                             if (!err) {
+                                 is_port_open = JNI_TRUE;
+                             }
+                             reactor->break_loop();
+                         }, {{"net/timeout", timeout}}, logger, reactor);
         });
-        connection.on_connect([&poller, &is_port_open]() {
-            is_port_open = JNI_TRUE;
-            poller.break_loop();
-        });
-        poller.loop();
     } catch (...) {
         // XXX suppress
     }
