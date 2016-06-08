@@ -40,7 +40,7 @@ LOCAL_LDLIBS := -llog -latomic
 # Note to self: the order of libraries matters
 LOCAL_STATIC_LIBRARIES := measurement_kit GeoIP ssl crypto event event_openssl \
                           event_pthreads
-LOCAL_MODULE := measurement_kit_jni
+LOCAL_MODULE := measurement_kit-android
 LOCAL_SRC_FILES := common.cpp logger_api.cpp ooni_sync_api.cpp                 \
                    portolan_sync_api.cpp
 APP_PLATFORM := android-21
