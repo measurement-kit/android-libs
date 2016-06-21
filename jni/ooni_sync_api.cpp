@@ -49,11 +49,11 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
     jstring reportPath, jstring logPath, jboolean verbose, jstring nameServer) {
     try {
         LogFile log_file(env, logPath);
-        mk::ooni::DnsInjectionTest()
+        mk::ooni::DnsInjection()
             .set_options("backend", mk::jni::cxxstring(env, backend))
             .set_options("dns/nameserver", mk::jni::cxxstring(env, nameServer))
-            .set_input_file_path(mk::jni::cxxstring(env, inputPath))
-            .set_output_file_path(mk::jni::cxxstring(env, reportPath))
+            .set_input_filepath(mk::jni::cxxstring(env, inputPath))
+            .set_output_filepath(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)
             .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
@@ -72,10 +72,10 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidReques
     jstring logPath, jboolean verbose, jstring nameServer) {
     try {
         LogFile log_file(env, logPath);
-        mk::ooni::HttpInvalidRequestLineTest()
+        mk::ooni::HttpInvalidRequestLine()
             .set_options("backend", mk::jni::cxxstring(env, backend))
             .set_options("dns/nameserver", mk::jni::cxxstring(env, nameServer))
-            .set_output_file_path(mk::jni::cxxstring(env, reportPath))
+            .set_output_filepath(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)
             .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
@@ -94,11 +94,11 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
     jstring reportPath, jstring logPath, jboolean verbose, jstring nameServer) {
     try {
         LogFile log_file(env, logPath);
-        mk::ooni::TcpConnectTest()
+        mk::ooni::TcpConnect()
             .set_options("port", mk::jni::cxxstring(env, port))
             .set_options("dns/nameserver", mk::jni::cxxstring(env, nameServer))
-            .set_input_file_path(mk::jni::cxxstring(env, inputPath))
-            .set_output_file_path(mk::jni::cxxstring(env, reportPath))
+            .set_input_filepath(mk::jni::cxxstring(env, inputPath))
+            .set_output_filepath(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)
             .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
