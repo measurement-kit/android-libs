@@ -12,7 +12,7 @@ JNIEXPORT void JNICALL
 Java_org_openobservatory_measurement_1kit_jni_LoggerApi_setVerbose
   (JNIEnv *, jclass, jint verbose) {
     try {
-        mk::set_verbose(verbose);
+        mk::set_verbosity(verbose);
     } catch (...) {
         // XXX suppress
     }
@@ -22,7 +22,7 @@ JNIEXPORT void JNICALL
 Java_org_openobservatory_measurement_1kit_jni_LoggerApi_useAndroidLogger
   (JNIEnv *, jclass) {
     try {
-        mk::on_log([](const char *s) {
+        mk::on_log([](uint32_t, const char *s) {
             __android_log_print(ANDROID_LOG_INFO, "default-logger", "%s", s);
         });
     } catch (...) {
