@@ -28,6 +28,7 @@ help:
 dist: jni-libs
 	@echo "Creating $(OUTPUT)..."
 	@tar -cjf $(OUTPUT) java jniLibs
+	@gpg2 -u 7733D95B -b --armor $(OUTPUT)
 
 jni-libs: unpack javah jni-libs-no-unpack
 
