@@ -11,6 +11,7 @@
 #include "common.hpp"
 #include "org_openobservatory_measurement_kit_jni_sync_OoniSyncApi.h"
 
+// TODO: use MK 0.3.0 new functionality to write to logfile
 class LogFile {
   public:
     LogFile(JNIEnv *ep, jstring lp) {
@@ -55,6 +56,8 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
             .set_input_filepath(mk::jni::cxxstring(env, inputPath))
             .set_output_filepath(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)
+            .set_options("collector_base_url",
+                         "http://a.collector.test.ooni.io") // FIXME
             .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
                         "dns-injection", "%s", s);
@@ -77,6 +80,8 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidReques
             .set_options("dns/nameserver", mk::jni::cxxstring(env, nameServer))
             .set_output_filepath(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)
+            .set_options("collector_base_url",
+                         "http://a.collector.test.ooni.io") // FIXME
             .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
                         "http-invalid-request-line", "%s", s);
@@ -100,6 +105,8 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
             .set_input_filepath(mk::jni::cxxstring(env, inputPath))
             .set_output_filepath(mk::jni::cxxstring(env, reportPath))
             .set_verbosity(verbose)
+            .set_options("collector_base_url",
+                         "http://a.collector.test.ooni.io") // FIXME
             .on_log([&log_file](uint32_t, const char *s) {
                 __android_log_print(ANDROID_LOG_INFO,
                         "tcp-connect", "%s", s);
