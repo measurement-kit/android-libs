@@ -6,3 +6,7 @@
 /jni/org_openobservatory_measurement_kit_jni_*.h
 /jni/conf
 /jni/spec/
+/java/org/openobservatory/measurement_kit/jni/OoniTestWrapper.java
+/java/org/openobservatory/measurement_kit/jni/OoniTestWrapperSwig.java
+/java/org/openobservatory/measurement_kit/jni/OoniTestWrapperSwigJNI.java
+/jni/ooni_test_wrapper_wrap.cpp

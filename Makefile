@@ -5,6 +5,7 @@ PHONIES += jni-libs-no-unpack unpack unpack-clean
 GPG2      = gpg2
 JAVAH     = javah
 NDK_BUILD = ndk-build
+SWIG      = swig
 WGET      = wget
 
 BASEURL   = https://github.com/measurement-kit/measurement-kit/releases/download
@@ -30,7 +31,10 @@ dist: jni-libs
 	@tar -cjf $(OUTPUT) java jniLibs
 	@gpg2 -u 7733D95B -b --armor $(OUTPUT)
 
-jni-libs: unpack javah jni-libs-no-unpack
+jni-libs: unpack javah run-swig jni-libs-no-unpack
+
+run-swig:
+	./scripts/run-swig
 
 javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
@@ -70,6 +74,11 @@ check:
 	  exit 1;                                                              \
 	fi
 	@echo "Using $(NDK_BUILD): $$(which $(NDK_BUILD))"
+	@if [ -z "$$(which $(SWIG))" ]; then                                   \
+	  echo "FATAL: install $(SWIG) or make sure it's in PATH" 1>&2;        \
+	  exit 1;                                                              \
+	fi
+	@echo "Using $(SWIG): $$(which $(SWIG))"
 	@if [ -z "$$(which $(WGET))" ]; then                                   \
 	  echo "FATAL: install $(WGET) or make sure it's in PATH" 1>&2;        \
 	  exit 1;                                                              \

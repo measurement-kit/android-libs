@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+ROOTDIR=$(cd $(dirname $(dirname $0)) && pwd -P)
+
+swig -c++ -package org.openobservatory.measurement_kit.jni                     \
+        -java jni/ooni_test_wrapper.i
+
+for suffix in "" Swig SwigJNI; do
+    mv jni/OoniTestWrapper${suffix}.java                                       \
+            java/org/openobservatory/measurement_kit/jni
+done
+mv jni/ooni_test_wrapper_wrap.cxx jni/ooni_test_wrapper_wrap.cpp
