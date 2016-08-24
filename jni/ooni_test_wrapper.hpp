@@ -4,6 +4,7 @@
 #ifndef JNI_OONI_TEST_WRAPPER_HPP
 #define JNI_OONI_TEST_WRAPPER_HPP
 
+#include <android/log.h>
 #include <measurement_kit/ooni.hpp>
 #include <string>
 
@@ -35,6 +36,19 @@ class OoniTestWrapper {
 
     void set_error_filepath(std::string fpath) {
         // XXX: this requires MK v0.3.0
+    }
+
+    void use_logcat() {
+        real_test_->on_log([](uint32_t level, const char *msg) {
+            level &= MK_LOG_VERBOSITY_MASK;
+            if (level <= MK_LOG_WARNING) {
+                __android_log_print(ANDROID_LOG_WARN, "ooni", "%s", msg);
+            } else if (level <= MK_LOG_INFO) {
+                __android_log_print(ANDROID_LOG_INFO, "ooni", "%s", msg);
+            } else {
+                __android_log_print(ANDROID_LOG_DEBUG, "ooni", "%s", msg);
+            }
+        });
     }
 
     void set_options(std::string key, std::string value) {
