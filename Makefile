@@ -12,7 +12,7 @@ BASEURL   = https://github.com/measurement-kit/measurement-kit/releases/download
 VERSION   = v0.2.8
 TAG       =
 INPUT     = measurement_kit-jni-$(VERSION)$(TAG).tar.bz2
-OVERSION  = $(VERSION)-1
+OVERSION  = $(VERSION)-1-swig-1
 OUTPUT    = measurement_kit-android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit.jni
 
@@ -86,7 +86,7 @@ check:
 	@echo "Using $(WGET): $$(which $(WGET))"
 
 $(INPUT):
-	$(WGET) -q $(BASEURL)/$(VERSION)/$(INPUT)
+	$(WGET) $(BASEURL)/$(VERSION)/$(INPUT)
 
 $(INPUT).asc:
-	$(WGET) -q $(BASEURL)/$(VERSION)/$(INPUT).asc
+	$(WGET) $(BASEURL)/$(VERSION)/$(INPUT).asc
