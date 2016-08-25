@@ -6,10 +6,10 @@
 #include <jni.h>
 #include <measurement_kit/common.hpp>
 #include <string>
-#include "org_openobservatory_measurement_kit_jni_LoggerApi.h"
+#include "org_openobservatory_measurement_kit_LoggerApi.h"
 
 JNIEXPORT void JNICALL
-Java_org_openobservatory_measurement_1kit_jni_LoggerApi_setVerbose
+Java_org_openobservatory_measurement_1kit_LoggerApi_setVerbose
   (JNIEnv *, jclass, jint verbose) {
     try {
         mk::set_verbosity(verbose);
@@ -19,7 +19,7 @@ Java_org_openobservatory_measurement_1kit_jni_LoggerApi_setVerbose
 }
 
 JNIEXPORT void JNICALL
-Java_org_openobservatory_measurement_1kit_jni_LoggerApi_useAndroidLogger
+Java_org_openobservatory_measurement_1kit_LoggerApi_useAndroidLogger
   (JNIEnv *, jclass) {
     try {
         mk::on_log([](uint32_t, const char *s) {

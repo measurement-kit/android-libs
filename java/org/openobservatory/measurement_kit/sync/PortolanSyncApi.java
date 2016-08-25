@@ -2,7 +2,7 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit.jni.sync;
+package org.openobservatory.measurement_kit.sync;
 
 /**
  * JNI API to run synchronous Portolan tests.
