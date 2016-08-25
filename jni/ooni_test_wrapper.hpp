@@ -5,14 +5,23 @@
 #define JNI_OONI_TEST_WRAPPER_HPP
 
 #include <android/log.h>
+#include <measurement_kit/ndt.hpp>
 #include <measurement_kit/ooni.hpp>
 #include <string>
 
 class OoniTestWrapper {
   public:
     OoniTestWrapper(std::string test_name) {
-        if (test_name == "tcp_connect") {
+        if (test_name == "dns_injection") {
+            real_test_.reset(new mk::ooni::DnsInjection);
+        } else if (test_name == "http_invalid_request_line") {
+            real_test_.reset(new mk::ooni::HttpInvalidRequestLine);
+        } else if (test_name == "ndt") {
+            real_test_.reset(new mk::ndt::NdtTest);
+        } else if (test_name == "tcp_connect") {
             real_test_.reset(new mk::ooni::TcpConnect);
+        } else if (test_name == "web_connectivity") {
+            real_test_.reset(new mk::ooni::WebConnectivity);
         } else {
             throw std::runtime_error("invalid test name");
         }
@@ -35,7 +44,7 @@ class OoniTestWrapper {
     }
 
     void set_error_filepath(std::string fpath) {
-        // XXX: this requires MK v0.3.0
+        // XXX not available in v0.3.0-alpha
     }
 
     void use_logcat() {
