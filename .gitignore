@@ -1,8 +1,8 @@
 .DS_Store
-/measurement_kit-android-v*.tar.bz2
-/measurement_kit-android-v*.tar.bz2.asc
-/measurement_kit-jni-v*.tar.bz2
-/measurement_kit-jni-v*.tar.bz2.asc
+/measurement_kit_android-v*.tar.bz2
+/measurement_kit_android-v*.tar.bz2.asc
+/measurement_kit-v*-android_jni*.tar.bz2
+/measurement_kit-v*-android_jni*.tar.bz2.asc
 /jni/org_openobservatory_measurement_kit_jni_*.h
 /jni/conf
 /jni/spec/

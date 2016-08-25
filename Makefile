@@ -9,11 +9,11 @@ SWIG      = swig
 WGET      = wget
 
 BASEURL   = https://github.com/measurement-kit/measurement-kit/releases/download
-VERSION   = v0.3.0-alpha
-TAG       = -3-g0bf7324
-INPUT     = measurement_kit-jni-$(VERSION)$(TAG).tar.bz2
-OVERSION  = $(VERSION)$(TAG)-2
-OUTPUT    = measurement_kit-android-$(OVERSION).tar.bz2
+VERSION   = v0.3.0-alpha.1
+TAG       = -android_jni
+INPUT     = measurement_kit-$(VERSION)$(TAG).tar.bz2
+OVERSION  = $(VERSION)-1
+OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit.jni
 
 ABIS      = arm64-v8a armeabi armeabi-v7a mips mips64 x86 x86_64
