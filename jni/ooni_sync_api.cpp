@@ -9,7 +9,7 @@
 #include <string>
 #include <unistd.h>
 #include "common.hpp"
-#include "org_openobservatory_measurement_kit_jni_sync_OoniSyncApi.h"
+#include "org_openobservatory_measurement_kit_sync_OoniSyncApi.h"
 
 // TODO: use MK 0.3.0 new functionality to write to logfile
 class LogFile {
@@ -45,7 +45,7 @@ class LogFile {
 };
 
 JNIEXPORT void JNICALL
-Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
+Java_org_openobservatory_measurement_1kit_sync_OoniSyncApi_dnsInjection(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jstring inputPath,
     jstring reportPath, jstring logPath, jboolean verbose, jstring nameServer) {
     try {
@@ -70,7 +70,7 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_dnsInjection(
 }
 
 JNIEXPORT void JNICALL
-Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidRequestLine(
+Java_org_openobservatory_measurement_1kit_sync_OoniSyncApi_httpInvalidRequestLine(
     JNIEnv *env, jclass /*clazz*/, jstring backend, jstring reportPath,
     jstring logPath, jboolean verbose, jstring nameServer) {
     try {
@@ -94,7 +94,7 @@ Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_httpInvalidReques
 }
 
 JNIEXPORT void JNICALL
-Java_org_openobservatory_measurement_1kit_jni_sync_OoniSyncApi_tcpConnect(
+Java_org_openobservatory_measurement_1kit_sync_OoniSyncApi_tcpConnect(
     JNIEnv *env, jclass /*clazz*/, jstring port, jstring inputPath,
     jstring reportPath, jstring logPath, jboolean verbose, jstring nameServer) {
     try {

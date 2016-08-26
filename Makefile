@@ -5,15 +5,16 @@ PHONIES += jni-libs-no-unpack unpack unpack-clean
 GPG2      = gpg2
 JAVAH     = javah
 NDK_BUILD = ndk-build
+SWIG      = swig
 WGET      = wget
 
 BASEURL   = https://github.com/measurement-kit/measurement-kit/releases/download
-VERSION   = v0.2.8
-TAG       =
-INPUT     = measurement_kit-jni-$(VERSION)$(TAG).tar.bz2
-OVERSION  = $(VERSION)-1
-OUTPUT    = measurement_kit-android-$(OVERSION).tar.bz2
-PACKAGE   = org.openobservatory.measurement_kit.jni
+VERSION   = v0.3.0-alpha.1
+TAG       = -android_jni
+INPUT     = measurement_kit-$(VERSION)$(TAG).tar.bz2
+OVERSION  = $(VERSION)-2
+OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
+PACKAGE   = org.openobservatory.measurement_kit
 
 ABIS      = arm64-v8a armeabi armeabi-v7a mips mips64 x86 x86_64
 
@@ -30,7 +31,10 @@ dist: jni-libs
 	@tar -cjf $(OUTPUT) java jniLibs
 	@gpg2 -u 7733D95B -b --armor $(OUTPUT)
 
-jni-libs: unpack javah jni-libs-no-unpack
+jni-libs: unpack javah run-swig jni-libs-no-unpack
+
+run-swig:
+	./scripts/run-swig
 
 javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
@@ -70,6 +74,11 @@ check:
 	  exit 1;                                                              \
 	fi
 	@echo "Using $(NDK_BUILD): $$(which $(NDK_BUILD))"
+	@if [ -z "$$(which $(SWIG))" ]; then                                   \
+	  echo "FATAL: install $(SWIG) or make sure it's in PATH" 1>&2;        \
+	  exit 1;                                                              \
+	fi
+	@echo "Using $(SWIG): $$(which $(SWIG))"
 	@if [ -z "$$(which $(WGET))" ]; then                                   \
 	  echo "FATAL: install $(WGET) or make sure it's in PATH" 1>&2;        \
 	  exit 1;                                                              \
@@ -77,7 +86,7 @@ check:
 	@echo "Using $(WGET): $$(which $(WGET))"
 
 $(INPUT):
-	$(WGET) -q $(BASEURL)/$(VERSION)/$(INPUT)
+	$(WGET) $(BASEURL)/$(VERSION)/$(INPUT)
 
 $(INPUT).asc:
-	$(WGET) -q $(BASEURL)/$(VERSION)/$(INPUT).asc
+	$(WGET) $(BASEURL)/$(VERSION)/$(INPUT).asc
