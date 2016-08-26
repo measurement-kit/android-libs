@@ -44,7 +44,7 @@ class OoniTestWrapper {
     }
 
     void set_error_filepath(std::string fpath) {
-        // XXX not available in v0.3.0-alpha
+        real_test_->set_error_filepath(fpath);
     }
 
     void use_logcat() {
