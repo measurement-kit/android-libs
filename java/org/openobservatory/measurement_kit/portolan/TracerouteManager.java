@@ -32,7 +32,7 @@
 
 // Adapted from: it/unipi/iet/portolan/mda/Tracerouter.java
 
-package java.org.openobservatory.measurement_kit.portolan;
+package org.openobservatory.measurement_kit.portolan;
 
 import java.util.Random;
 
@@ -76,7 +76,7 @@ public class TracerouteManager {
                               outStrings, outInts, outDoubles);
 
         int code = TracerouteResult.NET_ERROR;
-        if (outInts[2] /* isIpv4 */) {
+        if (outInts[2] != 0 /* isIpv4 */) {
             if (outStrings[0] /* statusCode */ .equals("GOT_REPLY_PACKET")) {
                 code = TracerouteResult.DEST_REACHED;
             } else if (outStrings[0].equals("TTL_EXCEEDED")) {
@@ -110,7 +110,7 @@ public class TracerouteManager {
                                     outInts[1] /* ttl */,
                                     outDoubles[0] /* rtt */,
                                     code,
-                                    outInts[2] /* isIpv4 */ ? 0 : 1,
+                                    outInts[2] != 0 /* isIpv4 */ ? 0 : 1,
                                     outInts[1] /* numBytes */);
     }
 

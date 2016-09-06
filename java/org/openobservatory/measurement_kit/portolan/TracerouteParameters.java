@@ -32,15 +32,10 @@
 
 // Adapted from: utilspkg/ProbeParameters.java
 
-package java.org.openobservatory.measurement_kit.portolan;
+package org.openobservatory.measurement_kit.portolan;
 
 /**
  * Parameters of the probe.
- * @param destIp probe destination IP in the form a.b.c.d
- * @param sourcePort probe source port, if -1 it is chosen by the system
- * @param destPort probe destination port
- * @param ttl probe Time To Live
- * @param ttl probe timeout
  */
 public class TracerouteParameters {
 
@@ -88,7 +83,7 @@ public class TracerouteParameters {
     }
 
     /**
-     * @param port destination port to be set
+     * @param destPort destination port to be set
      * @throws IllegalArgumentException if (port < 0 || port > 65535)
      */
     public void setDestPort(int destPort) throws IllegalArgumentException {

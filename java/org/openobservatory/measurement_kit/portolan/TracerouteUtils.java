@@ -32,7 +32,7 @@
 
 // Adapted from: utilspkg/Utils.java
 
-package java.org.openobservatory.measurement_kit.portolan;
+package org.openobservatory.measurement_kit.portolan;
 
 import java.util.regex.Pattern;
 

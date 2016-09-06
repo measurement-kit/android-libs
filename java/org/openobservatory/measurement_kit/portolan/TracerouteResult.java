@@ -32,7 +32,7 @@
 
 // Adapted from: utilspkg/TracerouteResult.java
 
-package java.org.openobservatory.measurement_kit.portolan;
+package org.openobservatory.measurement_kit.portolan;
 
 import android.util.Patterns; // XXX: this makes code android specific!
 

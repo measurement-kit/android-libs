@@ -2,12 +2,12 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit.sync;
+package org.openobservatory.measurement_kit.portolan;
 
 /**
  * JNI API to run synchronous Portolan tests.
  */
-public class PortolanSyncApi {
+public class PortolanJni {
 
     /**
      * Open traceroute prober (i.e. opaque object to send probes).
@@ -44,7 +44,7 @@ public class PortolanSyncApi {
      *        the response is IPv4 (the latter with the semantic that zero
      *        is false and nonzero is true).
      *
-     * @param outDouble On success this vector will be filled with the RTT
+     * @param outDoubles On success this vector will be filled with the RTT
      *        of the response in position 0.
      */
     public static native void sendProbe(long prober,
