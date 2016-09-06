@@ -30,11 +30,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-// Adapted from: utilspkg/ProbeResult.java
+// Adapted from: utilspkg/TracerouteResult.java
 
 package java.org.openobservatory.measurement_kit.portolan;
 
-import android.util.Patterns;
+import android.util.Patterns; // XXX: this makes code android specific!
 
 public class TracerouteResult {
     public final static int DEST_REACHED            = 0;
@@ -60,8 +60,8 @@ public class TracerouteResult {
     /**
      * Public constructor.
      */
-    public ProbeResult(String interfaceIp, int ttl, double rtt, int code,
-                       int ipv6, int bytes) {
+    public TracerouteResult(String interfaceIp, int ttl, double rtt, int code,
+                            int ipv6, int bytes) {
         setInterfaceIp(interfaceIp,ipv6);
         setTtl(ttl);
         setRtt(rtt);
@@ -81,7 +81,7 @@ public class TracerouteResult {
      * @throws IllegalArgumentException if @p interfaceIp port is neither
      *                                  a valid IP address nor "*"
      */
-    public void setInterfaceIp(String interfaceIp,int ipv6) {
+    public void setInterfaceIp(String interfaceIp, int ipv6) {
         if (interfaceIp == null) {
             this.interfaceIp = "*";
         } else if (ipv6 == 0) {
@@ -89,6 +89,7 @@ public class TracerouteResult {
                 this.interfaceIp = interfaceIp;
             }
         } else {
+            // XXX shouldn't we check whether we match IPv6 here?
             this.interfaceIp = interfaceIp;
         }
     }
@@ -105,6 +106,7 @@ public class TracerouteResult {
      * @throws IllegalArgumentException if (ttl < 1 || ttl > 255)
      */
     public void setTtl(int ttl) {
+        // XXX this should throw if ttl is invalid, but does not throw
         this.ttl = ttl;
     }
 
@@ -120,6 +122,7 @@ public class TracerouteResult {
      * @throws IllegalArgumentException if (rtt < 0)
      */
     public void setRtt(double rtt) {
+        // XXX this should throw if RTT is invalid but does not
         this.rtt = rtt;
     }
 

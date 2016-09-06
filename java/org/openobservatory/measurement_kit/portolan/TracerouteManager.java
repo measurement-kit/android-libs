@@ -35,7 +35,6 @@
 package java.org.openobservatory.measurement_kit.portolan;
 
 import java.util.Random;
-import org.openobservatory.measurement_kit.jni.sync;
 
 public class TracerouteManager {
 
@@ -50,7 +49,7 @@ public class TracerouteManager {
         mPortFree = new boolean[64512];
         mTotalProbesCount = 0;
         mTotalICMPCount = 0;
-        for(int i = 0; i < 64512; i++) {
+        for (int i = 0; i < 64512; i++) {
             mPorts[i] = i + 1025;
             mPortFree[i] = true;
         }
@@ -68,47 +67,55 @@ public class TracerouteManager {
     }
 
     public TracerouteResult trace(TracerouteParameters parameters, long prober) {
-        TraceResult res = new TraceResult();
-        Traceroute.trace(res, prober, parameters.destIp, parameters.destPort,
-                         parameters.ttl, parameters.timeout / 1000.0);
+        String[] outStrings = {"", ""};
+        int[] outInts = {0, 0, 0};
+        double[] outDoubles = {0.0};
+
+        PortolanJni.sendProbe(prober, parameters.destIp, parameters.destPort,
+                              parameters.ttl, parameters.timeout / 1000.0,
+                              outStrings, outInts, outDoubles);
 
         int code = TracerouteResult.NET_ERROR;
-        if (res.isIPv4) {
-            if (res.code.equals("GOT_REPLY_PACKET")) {
+        if (outInts[2] /* isIpv4 */) {
+            if (outStrings[0] /* statusCode */ .equals("GOT_REPLY_PACKET")) {
                 code = TracerouteResult.DEST_REACHED;
-            } else if (res.code.equals("TTL_EXCEEDED")) {
+            } else if (outStrings[0].equals("TTL_EXCEEDED")) {
                 code = TracerouteResult.TTL_EXC;
-            } else if (res.code.equals("PORT_IS_CLOSED")) {
+            } else if (outStrings[0].equals("PORT_IS_CLOSED")) {
                 code = TracerouteResult.DEST_REACHED;
-            } else if (res.code.equals("PROTO_NOT_IMPL")) {
+            } else if (outStrings[0].equals("PROTO_NOT_IMPL")) {
                 code = TracerouteResult.PROT_UNREACHABLE;
-            } else if (res.code.equals("NO_ROUTE_TO_HOST")) {
+            } else if (outStrings[0].equals("NO_ROUTE_TO_HOST")) {
                 code = TracerouteResult.NET_UNREACHABLE;
-            } else if (res.code.equals("ADDRESS_UNREACH")) {
+            } else if (outStrings[0].equals("ADDRESS_UNREACH")) {
                 code = TracerouteResult.HOST_UNREACHABLE;
             }
         } else {
-            if (res.code.equals("GOT_REPLY_PACKET")) {
+            if (outStrings[0].equals("GOT_REPLY_PACKET")) {
                 code = TracerouteResult.DEST_REACHED_V6;
-            } else if (res.code.equals("TTL_EXCEEDED")) {
+            } else if (outStrings[0].equals("TTL_EXCEEDED")) {
                 code = TracerouteResult.TTL_EXC_V6;
-            } else if (res.code.equals("PORT_IS_CLOSED")) {
+            } else if (outStrings[0].equals("PORT_IS_CLOSED")) {
                 code = TracerouteResult.DEST_REACHED_V6;
-            } else if (res.code.equals("NO_ROUTE_TO_HOST")) {
+            } else if (outStrings[0].equals("NO_ROUTE_TO_HOST")) {
                 code = TracerouteResult.NOROUTE_HOST_V6;
-            } else if (res.code.equals("ADDRESS_UNREACH")) {
+            } else if (outStrings[0].equals("ADDRESS_UNREACH")) {
                 code = TracerouteResult.HOST_UNREACHABLE_V6;
-            } else if (res.code.equals("ADMIN_FILTER")) {
+            } else if (outStrings[0].equals("ADMIN_FILTER")) {
                 code = TracerouteResult.ADMIN_UNREACHABLE_V6;
             }
         }
 
-        return new TracerouteResult(res.interfaceIp, res.ttl, res.rtt, code,
-                               res.isIPv4 ? 0 : 1, res.reply.length());
+        return new TracerouteResult(outStrings[1] /* interfaceIp */,
+                                    outInts[1] /* ttl */,
+                                    outDoubles[0] /* rtt */,
+                                    code,
+                                    outInts[2] /* isIpv4 */ ? 0 : 1,
+                                    outInts[1] /* numBytes */);
     }
 
     public long createSocket(int s_port) {
-        return Traceroute.createProber(true, s_port);
+        return PortolanJni.openProber(true, s_port);
     }
 
     public TracerouteResult trace6(TracerouteParameters parameters,
@@ -117,11 +124,11 @@ public class TracerouteManager {
     }
 
     public long createSocket6(int s_port) {
-        return Traceroute.createProber(false, s_port);
+        return PortolanJni.openProber(false, s_port);
     }
 
     public void closeSocket(long prober) {
-        Traceroute.closeProber(prober);
+        PortolanJni.closeProber(prober);
     }
 
     public synchronized int[] getRandomSourcePort() {
