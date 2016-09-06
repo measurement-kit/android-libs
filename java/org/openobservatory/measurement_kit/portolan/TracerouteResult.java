@@ -29,6 +29,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+// Adapted from: utilspkg/ProbeResult.java
+
 package java.org.openobservatory.measurement_kit.portolan;
 
 import android.util.Patterns;

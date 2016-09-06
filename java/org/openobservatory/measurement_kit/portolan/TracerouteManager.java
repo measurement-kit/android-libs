@@ -29,6 +29,9 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+// Adapted from: it/unipi/iet/portolan/mda/Tracerouter.java
+
 package java.org.openobservatory.measurement_kit.portolan;
 
 import java.util.Random;
