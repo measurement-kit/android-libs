@@ -39,7 +39,7 @@ run-swig:
 javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.OoniSyncApi
-	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).sync.PortolanSyncApi
+	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).portolan.PortolanJni
 	@cd jni && $(JAVAH) -cp ../java $(PACKAGE).LoggerApi
 
 jni-libs-no-unpack:

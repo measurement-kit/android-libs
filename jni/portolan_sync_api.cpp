@@ -9,7 +9,7 @@
 #include <measurement_kit/traceroute.hpp>
 #include <string>
 #include "common.hpp"
-#include "org_openobservatory_measurement_kit_sync_PortolanSyncApi.h"
+#include "org_openobservatory_measurement_kit_portolan_PortolanJni.h"
 
 using namespace mk;
 using namespace mk::traceroute;
