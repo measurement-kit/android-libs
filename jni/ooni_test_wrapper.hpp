@@ -4,10 +4,11 @@
 #ifndef JNI_OONI_TEST_WRAPPER_HPP
 #define JNI_OONI_TEST_WRAPPER_HPP
 
-#include <android/log.h>
 #include <measurement_kit/ndt.hpp>
 #include <measurement_kit/ooni.hpp>
-#include <string>
+
+#include <android/log.h>
+#include <jni.h>
 
 class OoniTestWrapper {
   public:
@@ -47,6 +48,7 @@ class OoniTestWrapper {
         real_test_->set_error_filepath(fpath);
     }
 
+    // XXX Deprecated since `on_log` has now been implemented
     void use_logcat() {
         real_test_->on_log([](uint32_t level, const char *msg) {
             level &= MK_LOG_VERBOSITY_MASK;
@@ -60,6 +62,10 @@ class OoniTestWrapper {
         });
     }
 
+    // Implemented in jni/ooni_test_wrapper_extra.cpp
+    void on_log(jobject delegate);
+    ~OoniTestWrapper();
+
     void set_options(std::string key, std::string value) {
         real_test_->set_options(key, value);
     }
@@ -70,6 +76,7 @@ class OoniTestWrapper {
 
   private:
     mk::Var<mk::NetTest> real_test_;
+    jobject log_cb_ = nullptr;
 };
 
 #endif
