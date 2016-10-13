@@ -4,6 +4,6 @@
 
 package org.openobservatory.measurement_kit;
 
-public interface LogCallback {
-    public void callback(final long verbosity, final String message);
+public interface EntryCallback {
+    public void callback(final String entry);
 }

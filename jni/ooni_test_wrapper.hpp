@@ -65,6 +65,7 @@ class OoniTestWrapper {
     // Implemented in jni/ooni_test_wrapper_extra.cpp
     void on_log(jobject delegate);
     void run(jobject callback);
+    void on_entry(jobject delegate);
 
     void set_options(std::string key, std::string value) {
         real_test_->set_options(key, value);

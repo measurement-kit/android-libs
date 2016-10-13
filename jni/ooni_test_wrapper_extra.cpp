@@ -102,3 +102,35 @@ void OoniTestWrapper::run(jobject callback) {
         environ->DeleteGlobalRef(global_cb);
     });
 }
+
+void OoniTestWrapper::on_entry(jobject delegate) {
+    Environment environ; // Throws on error
+    jobject global_cb = environ->NewGlobalRef(delegate); // Keep safe
+    if (global_cb == nullptr) {
+        return;
+    }
+    real_test_->on_end([global_cb]() {
+        Environment environ; // Throws on error
+        environ->DeleteGlobalRef(global_cb);
+    });
+    real_test_->on_entry([global_cb](std::string entry) {
+        Environment environ; // Throws on error
+        jstring java_entry = environ->NewStringUTF(entry.c_str());
+        if (!java_entry) {
+            return;
+        }
+        jclass clazz = environ->GetObjectClass(global_cb);
+        if (!clazz) {
+            return;
+        }
+        jmethodID meth_id = environ->GetMethodID(clazz, "callback",
+                "(JLjava/lang/String;)V");
+        if (!meth_id) {
+            return;
+        }
+        environ->CallVoidMethod(global_cb, meth_id, java_entry);
+        // Note: sure the above function could cause exceptions but
+        // my understanding is that it will be raised when we return
+        // back to Java, so I don't know what should we do here
+    });
+}

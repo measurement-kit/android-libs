@@ -46,6 +46,11 @@ public class OoniTestBase {
         return this;
     }
 
+    public OoniTestBase on_entry(EntryCallback delegate) {
+        wrapper.on_entry(delegate);
+        return this;
+    }
+
     public void run(TestCompleteCallback callback) {
         wrapper.run(callback);
     }
