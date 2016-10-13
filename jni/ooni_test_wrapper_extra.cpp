@@ -53,15 +53,21 @@ void OoniTestWrapper::on_log(jobject delegate) {
     if (!environ) {
         return;
     }
-    log_cb_ = environ->NewGlobalRef(delegate); // Keep safe
-    if (log_cb_ == nullptr) {
+    jobject global_cb = environ->NewGlobalRef(delegate); // Keep safe
+    if (global_cb == nullptr) {
         return;
     }
-    real_test_->on_log([this](uint32_t severity, const char *message) {
+    real_test_->logger->on_eof([global_cb]() {
+        Environment environ;
+        if (!environ) {
+            return;
+        }
+        environ->DeleteGlobalRef(global_cb);
+    });
+    real_test_->on_log([global_cb](uint32_t severity, const char *message) {
         // Note: as stated above, we don't know in which thread we are running
         // and whether it's attached to JVM, thus we follow the most robust and
         // general approach implemented in the `Environment` class
-        assert(log_cb_ != nullptr);
         Environment environ;
         if (!environ) {
             return;
@@ -71,7 +77,7 @@ void OoniTestWrapper::on_log(jobject delegate) {
         if (!java_message) {
             return;
         }
-        jclass clazz = environ->GetObjectClass(log_cb_);
+        jclass clazz = environ->GetObjectClass(global_cb);
         if (!clazz) {
             return;
         }
@@ -80,20 +86,40 @@ void OoniTestWrapper::on_log(jobject delegate) {
         if (!meth_id) {
             return;
         }
-        environ->CallVoidMethod(log_cb_, meth_id, java_severity, java_message);
+        environ->CallVoidMethod(global_cb, meth_id, java_severity,
+                                java_message);
         // Note: sure the above function could cause exceptions but
         // my understanding is that it will be raised when we return
         // back to Java, so I don't know what should we do here
     });
 }
 
-OoniTestWrapper::~OoniTestWrapper() {
-    if (log_cb_ != nullptr) {
+void OoniTestWrapper::run(jobject callback) {
+    Environment environ;
+    if (!environ) {
+        return;
+    }
+    jobject global_cb = environ->NewGlobalRef(callback); // Keep safe
+    if (global_cb == nullptr) {
+        return;
+    }
+    real_test_->run([global_cb]() {
         Environment environ;
         if (!environ) {
+            // XXX leaking the reference
             return;
         }
-        environ->DeleteGlobalRef(log_cb_); // Forget
-        log_cb_ = nullptr;
-    }
+        jclass clazz = environ->GetObjectClass(global_cb);
+        if (!clazz) {
+            environ->DeleteGlobalRef(global_cb);
+            return;
+        }
+        jmethodID meth_id = environ->GetMethodID(clazz, "callback", "()V");
+        if (!meth_id) {
+            environ->DeleteGlobalRef(global_cb);
+            return;
+        }
+        environ->CallVoidMethod(global_cb, meth_id);
+        environ->DeleteGlobalRef(global_cb);
+    });
 }

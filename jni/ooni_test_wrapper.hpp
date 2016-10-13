@@ -64,7 +64,7 @@ class OoniTestWrapper {
 
     // Implemented in jni/ooni_test_wrapper_extra.cpp
     void on_log(jobject delegate);
-    ~OoniTestWrapper();
+    void run(jobject callback);
 
     void set_options(std::string key, std::string value) {
         real_test_->set_options(key, value);
@@ -76,7 +76,6 @@ class OoniTestWrapper {
 
   private:
     mk::Var<mk::NetTest> real_test_;
-    jobject log_cb_ = nullptr;
 };
 
 #endif
