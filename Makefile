@@ -12,7 +12,7 @@ BASEURL   = https://github.com/measurement-kit/measurement-kit/releases/download
 VERSION   = v0.3.2
 TAG       = -android_jni
 INPUT     = measurement_kit-$(VERSION)$(TAG).tar.bz2
-OVERSION  = $(VERSION)-2-alpha.3
+OVERSION  = $(VERSION)-2-alpha.4
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit
 

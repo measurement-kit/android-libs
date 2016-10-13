@@ -124,7 +124,7 @@ void OoniTestWrapper::on_entry(jobject delegate) {
             return;
         }
         jmethodID meth_id = environ->GetMethodID(clazz, "callback",
-                "(JLjava/lang/String;)V");
+                "(Ljava/lang/String;)V");
         if (!meth_id) {
             return;
         }
