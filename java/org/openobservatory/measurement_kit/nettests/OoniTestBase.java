@@ -4,6 +4,7 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
+import org.openobservatory.measurement_kit.android.DnsUtils;
 import org.openobservatory.measurement_kit.common.LogCallback;
 import org.openobservatory.measurement_kit.swig.OoniTestWrapper;
 
@@ -12,6 +13,10 @@ public class OoniTestBase {
 
     public OoniTestBase(String test_name) {
         wrapper = new OoniTestWrapper(test_name);
+
+        // Rationale: start with reasonable DNS configuration and then the user is
+        // free to override it using calling again `set_options` if need be.
+        set_options("dns/nameserver", DnsUtils.get_device_dns());
     }
 
     public OoniTestBase set_verbosity(long verbosity) {
