@@ -4,7 +4,7 @@ PHONIES += jni-libs-no-unpack unpack unpack-clean
 
 GPG2      = gpg2
 JAVAH     = javah
-NDK_BUILD = ndk-build
+NDK_BUILD = /usr/local/Cellar/android-ndk/r12b/ndk-build
 SWIG      = swig
 WGET      = wget
 
