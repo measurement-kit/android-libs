@@ -6,6 +6,7 @@ package org.openobservatory.measurement_kit.sync;
 
 /**
  * JNI API to run synchronous OONI tests.
+ * @deprecated This is an old API that will be removed in 0.4
  */
 public class OoniSyncApi {
 

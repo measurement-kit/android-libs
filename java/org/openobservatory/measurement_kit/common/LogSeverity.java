@@ -2,7 +2,7 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit;
+package org.openobservatory.measurement_kit.common;
 
 public interface LogSeverity {
     // Note: keep in sync with <measurement_kit/common/logger.hpp>

@@ -2,11 +2,11 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit;
+package org.openobservatory.measurement_kit.nettests;
 
-public class HttpInvalidRequestLine extends OoniTestBase {
+public class HttpInvalidRequestLineTest extends OoniTestBase {
 
-    public HttpInvalidRequestLine() {
+    public HttpInvalidRequestLineTest() {
         super("http_invalid_request_line");
     }
 }

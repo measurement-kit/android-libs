@@ -2,7 +2,10 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit;
+package org.openobservatory.measurement_kit.nettests;
+
+import org.openobservatory.measurement_kit.common.LogCallback;
+import org.openobservatory.measurement_kit.swig.OoniTestWrapper;
 
 public class OoniTestBase {
     private OoniTestWrapper wrapper = null;
