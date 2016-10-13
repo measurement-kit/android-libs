@@ -29,6 +29,8 @@ public class ResourceUtils {
     }
 
     public static void copy_resource(Activity activity, int id, String filename) {
+        // Note to self: I am not totally sure this code handles correctly
+        // exceptions and resources cleanup under read/write errrors
         Log.v(LOG_TAG, "copy_resource...");
         try (InputStream in = activity.getResources().openRawResource(id)) {
             try (FileOutputStream out = activity.openFileOutput(filename, 0)) {
