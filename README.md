@@ -13,35 +13,71 @@ make
 ```
 
 The Makefile will verify all downloaded binaries using GnuPG. Binaries are
-digitally signed by Simone Basso using a PGP key with ID `7733D95B` and
-fingerprint (`7388 77AA 6C82 9F26 A431 C5F4 80B6 9127 7733 D95B`) or by Lorenzo Primiterra using a PGP key with ID `ECEB9D12` and
-fingerprint (`1191 0C85 CD8C D493 8DFA  17F7 AA09 A57A ECEB 9D12`). You can
+digitally signed by Simone Basso
+(PGP key: `7388 77AA 6C82 9F26 A431 C5F4 80B6 9127 7733 D95B`) or
+by Lorenzo Primiterra
+(PGP key: `1191 0C85 CD8C D493 8DFA  17F7 AA09 A57A ECEB 9D12`). You can
 fetch this key using gpg using the following command:
 
 ```bash
-gpg --recv-keys 7733D95B ECEB9D12
+gpg --recv-keys 738877AA6C829F26A431C5F480B691277733D95B \
+                11910C85CD8CD4938DFA17F7AA09A57AECEB9D12
 ```
 
 After this step, to generate a tarball containing the Java files and the
 corresponding compiled libraries, type:
 
 ```
-make dist
+make dist NDK_BUILD=/path/to/ndk-build
 ```
 
-This will download the latest Measurement Kit binaries from GitHub, verify
-them with GnuPG, cross-compile the JNI code and statically link it with the
-downloaded binaries, package a tarball suitable for distribution.
+Note that you *MUST* explicitly provide the path to ndk-build on your
+system. See below for more information on this point.
 
-A Unix environment is assumed. You need to have the following executables
+This command will perform the following steps:
+
+1. download the latest prebuilt MeasurementKit dependencies from GitHub
+   and verify their digital signature
+
+2. clone MeasurementKit sources in `jni/measurement-kit`, check out a
+   specific version, and generate the list of files to be compiled that
+   will be passed to `ndk-build`
+
+3. Use javah and/or SWIG to automatically generate bits of Java code
+   and/or C wrappers exposing a JNI API
+
+4. cross compile MeasurementKit (`jni/measurement-kit`) and its JNI
+   wrappers (`jni/wrappers`) for all available architectures using
+   the `ndk-build` command
+
+5. package the result into a tarball (which will be located in the root
+   directory of the repository) and digitally sign it
+
+When developing, if you want to quickly recompile and build again the
+distribution without running all the above steps, do:
+
+```
+make redist NDK_BUILD=/path/to/ndk-build
+```
+
+This will only run steps 4 and 5 above and, since ndk-build uses `make`,
+it will be much quicker because only changed files will be compiled.
+
+A Unix environment is assumed (we mostly develop for Android using a
+macOS Sierra system). You need to have the following executables
 in your PATH:
 
 - git
 - gpg2
 - javah
-- ndk-build
 - wget
 
 Most of these could be installed using your distributions package
-manager. As regards ndk-build, [there are instructions to install it inside
-Measurement Kit repository](https://github.com/measurement-kit/measurement-kit/tree/master/mobile/android#installing-the-ndk).
+manager (try [Homebrew](http://brew.sh/) for macOS). As regards ndk-build,
+we recommend to [install it using Android studio](
+https://developer.android.com/ndk/guides/index.html#download-ndk)
+since in our experience this is the most reliable way to get a
+working ndk-build. (This should explain why we need to pass the
+`NDK_BUILD` variable explicitly to `make`: Android studio does
+not install ndk-build in the `PATH`.) On macOS, Android studio installs
+the ndk-build at `~/Library/Android/sdk/ndk-bundle/ndk-build`.

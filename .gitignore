@@ -1,10 +1,12 @@
 .DS_Store
 /measurement_kit_android-v*.tar.bz2
 /measurement_kit_android-v*.tar.bz2.asc
-/measurement_kit-v*-android_jni*.tar.bz2
-/measurement_kit-v*-android_jni*.tar.bz2.asc
-/jni/org_openobservatory_measurement_kit_*.h
+/android-dependencies-20161003T225928Z.tgz
+/android-dependencies-20161003T225928Z.tgz.asc
+/jni/measurement-kit/
+/jni/mk-files.mk
+/jni/wrappers/org_openobservatory_measurement_kit_*.h
 /jni/conf
 /jni/spec/
 /java/org/openobservatory/measurement_kit/swig/
-/jni/ooni_test_wrapper_wrap.cpp
+/jni/wrappers/ooni_test_wrapper_wrap.cpp

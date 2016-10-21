@@ -3,12 +3,12 @@ set -e
 ROOTDIR=$(cd $(dirname $(dirname $0)) && pwd -P)
 
 swig -c++ -package org.openobservatory.measurement_kit.swig                    \
-        -java jni/ooni_test_wrapper.i
+        -java jni/wrappers/ooni_test_wrapper.i
 
 install -d java/org/openobservatory/measurement_kit/swig
 for suffix in "" SwigJNI; do
-    mv jni/OoniTestWrapper${suffix}.java                                       \
+    mv jni/wrappers/OoniTestWrapper${suffix}.java                              \
             java/org/openobservatory/measurement_kit/swig
 done
-rm jni/OoniTestWrapperSwig.java  # basically an empty file
-mv jni/ooni_test_wrapper_wrap.cxx jni/ooni_test_wrapper_wrap.cpp
+rm jni/wrappers/OoniTestWrapperSwig.java  # basically an empty file
+mv jni/wrappers/ooni_test_wrapper_wrap.cxx jni/wrappers/ooni_test_wrapper_wrap.cpp

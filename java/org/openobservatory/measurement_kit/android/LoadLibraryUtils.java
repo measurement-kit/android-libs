@@ -9,6 +9,6 @@ public class LoadLibraryUtils {
     // You can call this function more than once without harm. For more
     // on this topic, see <http://stackoverflow.com/a/21879539>.
     public static void load_measurement_kit() {
-        System.loadLibrary("measurement_kit-android");
+        System.loadLibrary("measurement_kit");
     }
 }
