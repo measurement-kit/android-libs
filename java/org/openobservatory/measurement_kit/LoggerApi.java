@@ -6,6 +6,7 @@ package org.openobservatory.measurement_kit;
 
 /**
  * Access to MeasurementKit Logger functionality
+ * @deprecated This is an old API that would be removed in 0.4
  */
 public class LoggerApi {
 

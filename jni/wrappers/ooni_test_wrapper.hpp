@@ -4,10 +4,11 @@
 #ifndef JNI_OONI_TEST_WRAPPER_HPP
 #define JNI_OONI_TEST_WRAPPER_HPP
 
-#include <android/log.h>
 #include <measurement_kit/ndt.hpp>
 #include <measurement_kit/ooni.hpp>
-#include <string>
+
+#include <android/log.h>
+#include <jni.h>
 
 class OoniTestWrapper {
   public:
@@ -47,6 +48,9 @@ class OoniTestWrapper {
         real_test_->set_error_filepath(fpath);
     }
 
+    // TODO: in MK v0.4.x we should allow one to both use the logcat and
+    // receive input using the callback, which currently does not work since
+    // the there is just one single callback for each logger object.
     void use_logcat() {
         real_test_->on_log([](uint32_t level, const char *msg) {
             level &= MK_LOG_VERBOSITY_MASK;
@@ -59,6 +63,13 @@ class OoniTestWrapper {
             }
         });
     }
+
+    // Implemented in jni/ooni_test_wrapper_extra.cpp
+    // XXX: currently we pass around Objects in the `swig` package, which is
+    // actually not so nice but I think a little SWIG fu can help here.
+    void on_log(jobject delegate);
+    void run(jobject callback);
+    void on_entry(jobject delegate);
 
     void set_options(std::string key, std::string value) {
         real_test_->set_options(key, value);
