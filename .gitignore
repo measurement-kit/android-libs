@@ -1,8 +1,8 @@
 .DS_Store
 /measurement_kit_android-v*.tar.bz2
 /measurement_kit_android-v*.tar.bz2.asc
-/android-dependencies-20161003T225928Z.tgz
-/android-dependencies-20161003T225928Z.tgz.asc
+/android-dependencies-*.tgz
+/android-dependencies-*.tgz.asc
 /jni/measurement-kit/
 /jni/mk-files.mk
 /jni/wrappers/org_openobservatory_measurement_kit_*.h
