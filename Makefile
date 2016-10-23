@@ -11,8 +11,8 @@ WGET      = wget
 
 INPUT     = android-dependencies-20161003T225928Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/measurement-kit-deps/releases/download/2016-10-03/$(INPUT)
-VERSION   = v0.3.2
-OVERSION  = $(VERSION)-2-alpha.5
+VERSION   = v0.3.3
+OVERSION  = $(VERSION)-1
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit
 
