@@ -4,9 +4,11 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
+import android.content.Context;
+
 public class NdtTest extends OoniTestBase {
 
-    public NdtTest() {
-        super("ndt");
+    public NdtTest(Context ctx) {
+        super("ndt", ctx);
     }
 }

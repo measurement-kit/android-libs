@@ -4,16 +4,32 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+
 import org.openobservatory.measurement_kit.android.DnsUtils;
 import org.openobservatory.measurement_kit.common.LogCallback;
 import org.openobservatory.measurement_kit.swig.OoniTestWrapper;
 
-public class OoniTestBase {
-    private OoniTestWrapper wrapper = null;
+import java.util.Date;
 
-    public OoniTestBase(String test_name) {
+public class OoniTestBase {
+
+    private OoniTestWrapper wrapper = null;
+    private Integer testId;
+    private LocalBroadcastManager lbm = null;
+
+    // List of callback to be setted before calling the run method
+    LogCallback logDelegate = null;
+    EntryCallback entryDelegate = null;
+
+    public OoniTestBase(String test_name, Context context) {
         wrapper = new OoniTestWrapper(test_name);
 
+        lbm = LocalBroadcastManager.getInstance(context);
+        // XXX Define a way to give unique id to the tests
+        testId = (test_name + new Date().getTime()).hashCode();
         // Rationale: start with reasonable DNS configuration and then the user is
         // free to override it using calling again `set_options` if need be.
         set_options("dns/nameserver", DnsUtils.get_device_dns());
@@ -50,25 +66,71 @@ public class OoniTestBase {
     }
 
     public OoniTestBase on_log(LogCallback delegate) {
-        wrapper.on_log(delegate);
+        this.logDelegate = delegate;
         return this;
     }
 
     public OoniTestBase on_entry(EntryCallback delegate) {
-        wrapper.on_entry(delegate);
+        this.entryDelegate = delegate;
         return this;
     }
 
-    public void run(TestCompleteCallback callback) {
-        wrapper.run(callback);
-    }
+
 
     public OoniTestBase set_options(String key, String value) {
         wrapper.set_options(key, value);
         return this;
     }
 
-    public void run() {
-        wrapper.run();
+    public Integer run(TestCompleteCallback callback) {
+        this.run_impl(callback);
+        return testId;
     }
+
+    public Integer run() {
+        // XXX: it's actually not safe to use a blocking callback on Android
+        // If the UI Thread is not responding for more than 3 seconds the system kills the app
+        this.run_impl(null);
+        return testId;
+    }
+
+    private void run_impl(final TestCompleteCallback delegate) {
+        wrapper.on_log(new LogCallback() {
+            @Override
+            public void callback(long verbosity, String message) {
+                Intent intent = new Intent();
+                intent.setAction("on_log/id/"+testId);
+                intent.putExtra("verbosity", verbosity);
+                intent.putExtra("message", message);
+                lbm.sendBroadcast(intent);
+                if (logDelegate != null) {
+                    logDelegate.callback(verbosity, message);
+                }
+            }
+        });
+        wrapper.on_entry(new EntryCallback() {
+            @Override
+            public void callback(String entry) {
+                Intent intent = new Intent();
+                intent.setAction("on_entry/id/"+testId);
+                intent.putExtra("entry", entry);
+                lbm.sendBroadcast(intent);
+                if (entryDelegate != null) {
+                    entryDelegate.callback(entry);
+                }
+            }
+        });
+        wrapper.run(new TestCompleteCallback() {
+            @Override
+            public void callback() {
+                Intent intent = new Intent();
+                intent.setAction("on_end/id/"+testId);
+                lbm.sendBroadcast(intent);
+                if (delegate != null) {
+                    delegate.callback();
+                }
+            }
+        });
+    }
+
 }
