@@ -1,3 +1,7 @@
+// Part of measurement-kit <https://measurement-kit.github.io/>.
+// Measurement-kit is free software. See AUTHORS and LICENSE for more
+// information on the copying conditions.
+
 package org.openobservatory.measurement_kit.nettests;
 
 import android.content.BroadcastReceiver;
@@ -7,10 +11,6 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.openobservatory.measurement_kit.common.LogCallback;
-
-/**
- * Created by autogen on 27/10/16.
- */
 
 public class TestListener {
 
@@ -72,6 +72,8 @@ public class TestListener {
             @Override
             public void onReceive(Context context, Intent intent) {
                 cb.callback();
+                // Make sure to remove all the callbacks when the on_end event is called
+                clear_all();
             }
         };
         lbm.registerReceiver(onEndReceiver, filter);
