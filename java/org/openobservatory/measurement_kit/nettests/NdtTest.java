@@ -8,7 +8,7 @@ import android.content.Context;
 
 public class NdtTest extends OoniTestBase {
 
-    public NdtTest(Context ctx) {
-        super("ndt", ctx);
+    public NdtTest() {
+        super("ndt");
     }
 }

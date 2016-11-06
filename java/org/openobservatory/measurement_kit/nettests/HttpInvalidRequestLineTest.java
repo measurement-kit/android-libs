@@ -8,7 +8,7 @@ import android.content.Context;
 
 public class HttpInvalidRequestLineTest extends OoniTestBase {
 
-    public HttpInvalidRequestLineTest(Context ctx) {
-        super("http_invalid_request_line", ctx);
+    public HttpInvalidRequestLineTest() {
+        super("http_invalid_request_line");
     }
 }
