@@ -93,7 +93,7 @@ public class OoniTestBase {
             @Override
             public void callback(long verbosity, String message) {
                 Intent intent = new Intent();
-                intent.setAction("on_log/id/"+testId);
+                intent.setAction(testId + "/on_log");
                 intent.putExtra("verbosity", verbosity);
                 intent.putExtra("message", message);
                 lbm.sendBroadcast(intent);
@@ -103,7 +103,7 @@ public class OoniTestBase {
             @Override
             public void callback(String entry) {
                 Intent intent = new Intent();
-                intent.setAction("on_entry/id/"+testId);
+                intent.setAction(testId + "/on_entry");
                 intent.putExtra("entry", entry);
                 lbm.sendBroadcast(intent);
             }
@@ -112,7 +112,7 @@ public class OoniTestBase {
             @Override
             public void callback() {
                 Intent intent = new Intent();
-                intent.setAction("on_end/id/"+testId);
+                intent.setAction(testId + "/on_end");
                 lbm.sendBroadcast(intent);
             }
         });

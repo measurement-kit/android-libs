@@ -36,7 +36,7 @@ public class TestListener {
     public TestListener on_log(final LogCallback cb) {
         clear_on_log();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("on_log/id/"+testId);
+        filter.addAction(testId + "/on_log");
         this.onLogReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -52,7 +52,7 @@ public class TestListener {
     public TestListener on_entry(final EntryCallback cb) {
         clear_on_entry();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("on_entry/id/"+testId);
+        filter.addAction(testId + "/on_entry");
         this.onEntryReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -67,7 +67,7 @@ public class TestListener {
     public TestListener on_end(final TestCompleteCallback cb) {
         clear_on_end();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("on_end/id/"+testId);
+        filter.addAction(testId + "/on_end");
         this.onEndReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
