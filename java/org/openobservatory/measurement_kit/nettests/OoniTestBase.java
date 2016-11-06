@@ -18,11 +18,6 @@ public class OoniTestBase {
 
     private OoniTestWrapper wrapper = null;
     private Integer testId;
-    private LocalBroadcastManager lbm = null;
-
-    // List of callback to be setted before calling the run method
-    LogCallback logDelegate = null;
-    EntryCallback entryDelegate = null;
 
     public OoniTestBase(String test_name, Context context) {
         wrapper = new OoniTestWrapper(test_name);
@@ -66,16 +61,14 @@ public class OoniTestBase {
     }
 
     public OoniTestBase on_log(LogCallback delegate) {
-        this.logDelegate = delegate;
+        wrapper.on_log(delegate);
         return this;
     }
 
     public OoniTestBase on_entry(EntryCallback delegate) {
-        this.entryDelegate = delegate;
+        wrapper.on_entry(delegate);
         return this;
     }
-
-
 
     public OoniTestBase set_options(String key, String value) {
         wrapper.set_options(key, value);
@@ -83,18 +76,19 @@ public class OoniTestBase {
     }
 
     public Integer run(TestCompleteCallback callback) {
-        this.run_impl(callback);
+        wrapper.run(callback);
         return testId;
     }
 
     public Integer run() {
-        // XXX: it's actually not safe to use a blocking callback on Android
-        // If the UI Thread is not responding for more than 3 seconds the system kills the app
-        this.run_impl(null);
+        wrapper.run();
         return testId;
     }
 
-    private void run_impl(final TestCompleteCallback delegate) {
+    public Integer run(final Context ctx) {
+        // XXX if you use this method the callbacks setted with on_log and
+        //     on entry will be overridden
+        final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
         wrapper.on_log(new LogCallback() {
             @Override
             public void callback(long verbosity, String message) {
@@ -103,9 +97,6 @@ public class OoniTestBase {
                 intent.putExtra("verbosity", verbosity);
                 intent.putExtra("message", message);
                 lbm.sendBroadcast(intent);
-                if (logDelegate != null) {
-                    logDelegate.callback(verbosity, message);
-                }
             }
         });
         wrapper.on_entry(new EntryCallback() {
@@ -115,9 +106,6 @@ public class OoniTestBase {
                 intent.setAction("on_entry/id/"+testId);
                 intent.putExtra("entry", entry);
                 lbm.sendBroadcast(intent);
-                if (entryDelegate != null) {
-                    entryDelegate.callback(entry);
-                }
             }
         });
         wrapper.run(new TestCompleteCallback() {
@@ -126,11 +114,7 @@ public class OoniTestBase {
                 Intent intent = new Intent();
                 intent.setAction("on_end/id/"+testId);
                 lbm.sendBroadcast(intent);
-                if (delegate != null) {
-                    delegate.callback();
-                }
             }
         });
+        return testId;
     }
-
-}
