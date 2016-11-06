@@ -19,10 +19,9 @@ public class OoniTestBase {
     private OoniTestWrapper wrapper = null;
     private Integer testId;
 
-    public OoniTestBase(String test_name, Context context) {
+    public OoniTestBase(String test_name) {
         wrapper = new OoniTestWrapper(test_name);
 
-        lbm = LocalBroadcastManager.getInstance(context);
         // XXX Define a way to give unique id to the tests
         testId = (test_name + new Date().getTime()).hashCode();
         // Rationale: start with reasonable DNS configuration and then the user is
