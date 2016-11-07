@@ -17,13 +17,10 @@ import java.util.Date;
 public class OoniTestBase {
 
     private OoniTestWrapper wrapper = null;
-    private Integer testId;
 
     public OoniTestBase(String test_name) {
         wrapper = new OoniTestWrapper(test_name);
 
-        // XXX Define a way to give unique id to the tests
-        testId = (test_name + new Date().getTime()).hashCode();
         // Rationale: start with reasonable DNS configuration and then the user is
         // free to override it using calling again `set_options` if need be.
         set_options("dns/nameserver", DnsUtils.get_device_dns());
@@ -74,20 +71,20 @@ public class OoniTestBase {
         return this;
     }
 
-    public Integer run(TestCompleteCallback callback) {
-        wrapper.run(callback);
-        return testId;
+    public void run() {
+        wrapper.run();
     }
 
-    public Integer run() {
-        wrapper.run();
-        return testId;
+    public void run(TestCompleteCallback callback) {
+        wrapper.run(callback);
     }
 
     public Integer run(final Context ctx) {
         // XXX if you use this method the callbacks setted with on_log and
         //     on entry will be overridden
         final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
+        // XXX define a way to have a reliable id
+        Integer testId = (test_name + new Date().getTime()).hashCode();
         wrapper.on_log(new LogCallback() {
             @Override
             public void callback(long verbosity, String message) {
@@ -117,3 +114,4 @@ public class OoniTestBase {
         });
         return testId;
     }
+}
