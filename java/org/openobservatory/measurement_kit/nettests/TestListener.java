@@ -17,13 +17,12 @@ public class TestListener {
     private LocalBroadcastManager lbm;
     private Integer testId;
 
-    // When we register a BroadcastReveiver we need to unregister it
-    // when we don't need it more (like when we close the activity).
-    // To handle this case in a safer way I save the receiver created
-    // without giving it back to the caller, so it's my responsibility
-    // to keep track of it, but it remain the responsibility of the
-    // developer to call clear to unregister the listener
-
+    /*
+     * We want to allow the user to unregister callbacks. In order to do
+     * that, we could either tell users to manage the `BroadcastReceiver`
+     * objects themselves or we could store them and manage them. We
+     * chose the latter approach (as you can see :-).
+     */
     private BroadcastReceiver onLogReceiver = null;
     private BroadcastReceiver onEntryReceiver = null;
     private BroadcastReceiver onEndReceiver = null;
