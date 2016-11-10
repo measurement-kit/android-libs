@@ -66,6 +66,10 @@ public class OoniTestBase {
         return this;
     }
 
+    public void run(TestCompleteCallback callback) {
+        wrapper.run(callback);
+    }
+
     public OoniTestBase set_options(String key, String value) {
         wrapper.set_options(key, value);
         return this;
@@ -73,10 +77,6 @@ public class OoniTestBase {
 
     public void run() {
         wrapper.run();
-    }
-
-    public void run(TestCompleteCallback callback) {
-        wrapper.run(callback);
     }
 
     public Integer run(final Context ctx) {
