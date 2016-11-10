@@ -104,11 +104,10 @@ public class TestListener {
         return this;
     }
 
-    public TestListener clear_all() {
+    public void clear_all() {
         this.clear_on_log();
         this.clear_on_entry();
         this.clear_on_end();
-        return this;
     }
 
 }
