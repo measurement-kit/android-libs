@@ -17,8 +17,10 @@ import java.util.Date;
 public class OoniTestBase {
 
     private OoniTestWrapper wrapper = null;
+    private String name;
 
     public OoniTestBase(String test_name) {
+        this.name = test_name;
         wrapper = new OoniTestWrapper(test_name);
 
         // Rationale: start with reasonable DNS configuration and then the user is
@@ -84,7 +86,7 @@ public class OoniTestBase {
         //     on entry will be overridden
         final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
         // XXX define a way to have a reliable id
-        Integer testId = (test_name + new Date().getTime()).hashCode();
+        final Integer testId = (name + new Date().getTime()).hashCode();
         wrapper.on_log(new LogCallback() {
             @Override
             public void callback(long verbosity, String message) {
