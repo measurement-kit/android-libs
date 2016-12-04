@@ -2,6 +2,8 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
+#ifdef ENABLE_TRACEROUTE
+
 #include <android/log.h>
 #include <jni.h>
 #include <limits.h>
@@ -159,3 +161,5 @@ Java_org_openobservatory_measurement_1kit_sync_PortolanSyncApi_checkPort
     }
     return is_port_open;
 }
+
+#endif

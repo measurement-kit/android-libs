@@ -22,7 +22,7 @@ JavaVM *mk_jni_get_saved_jvm() {
     return java_vm;
 }
 
-extern "C" jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+extern "C" jint JNI_OnLoad(JavaVM *vm, void *) {
     java_vm = vm;
     return JNI_VERSION_1_6;
 }
