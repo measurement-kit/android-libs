@@ -17,6 +17,8 @@ class OoniTestWrapper {
             real_test_.reset(new mk::nettests::DnsInjectionTest);
         } else if (test_name == "http_invalid_request_line") {
             real_test_.reset(new mk::nettests::HttpInvalidRequestLineTest);
+        } else if (test_name == "multi_ndt") {
+            real_test_.reset(new mk::nettests::MultiNdtTest);
         } else if (test_name == "ndt") {
             real_test_.reset(new mk::nettests::NdtTest);
         } else if (test_name == "tcp_connect") {
