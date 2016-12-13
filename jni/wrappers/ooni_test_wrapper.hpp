@@ -5,7 +5,7 @@
 #define JNI_OONI_TEST_WRAPPER_HPP
 
 #include <measurement_kit/ndt.hpp>
-#include <measurement_kit/ooni.hpp>
+#include <measurement_kit/nettests.hpp>
 
 #include <android/log.h>
 #include <jni.h>
@@ -14,15 +14,15 @@ class OoniTestWrapper {
   public:
     OoniTestWrapper(std::string test_name) {
         if (test_name == "dns_injection") {
-            real_test_.reset(new mk::ooni::DnsInjection);
+            real_test_.reset(new mk::nettests::DnsInjectionTest);
         } else if (test_name == "http_invalid_request_line") {
-            real_test_.reset(new mk::ooni::HttpInvalidRequestLine);
+            real_test_.reset(new mk::nettests::HttpInvalidRequestLineTest);
         } else if (test_name == "ndt") {
-            real_test_.reset(new mk::ndt::NdtTest);
+            real_test_.reset(new mk::nettests::NdtTest);
         } else if (test_name == "tcp_connect") {
-            real_test_.reset(new mk::ooni::TcpConnect);
+            real_test_.reset(new mk::nettests::TcpConnectTest);
         } else if (test_name == "web_connectivity") {
-            real_test_.reset(new mk::ooni::WebConnectivity);
+            real_test_.reset(new mk::nettests::WebConnectivityTest);
         } else {
             throw std::runtime_error("invalid test name");
         }
@@ -80,7 +80,7 @@ class OoniTestWrapper {
     }
 
   private:
-    mk::Var<mk::NetTest> real_test_;
+    mk::Var<mk::nettests::BaseTest> real_test_;
 };
 
 #endif

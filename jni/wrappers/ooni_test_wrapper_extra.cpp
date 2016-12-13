@@ -52,7 +52,7 @@ void OoniTestWrapper::on_log(jobject delegate) {
     if (global_cb == nullptr) {
         return;
     }
-    real_test_->logger->on_eof([global_cb]() {
+    real_test_->on_logger_eof([global_cb]() {
         Environment environ; // Throws on error
         environ->DeleteGlobalRef(global_cb);
     });
@@ -86,7 +86,7 @@ void OoniTestWrapper::run(jobject callback) {
     if (global_cb == nullptr) {
         return;
     }
-    real_test_->run([global_cb]() {
+    real_test_->start([global_cb]() {
         Environment environ; // Throws on error
         jclass clazz = environ->GetObjectClass(global_cb);
         if (!clazz) {
