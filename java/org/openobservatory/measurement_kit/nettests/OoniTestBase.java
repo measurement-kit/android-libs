@@ -4,23 +4,14 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
-
 import org.openobservatory.measurement_kit.android.DnsUtils;
 import org.openobservatory.measurement_kit.common.LogCallback;
 import org.openobservatory.measurement_kit.swig.OoniTestWrapper;
 
-import java.util.Date;
-
 public class OoniTestBase {
-
     private OoniTestWrapper wrapper = null;
-    private String name;
 
-    public OoniTestBase(String test_name) {
-        this.name = test_name;
+    OoniTestBase(String test_name) {
         wrapper = new OoniTestWrapper(test_name);
 
         // Rationale: start with reasonable DNS configuration and then the user is
@@ -81,39 +72,7 @@ public class OoniTestBase {
         wrapper.run();
     }
 
-    public Integer run(final Context ctx) {
-        // XXX if you use this method the callbacks setted with on_log and
-        //     on entry will be overridden
-        final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(ctx);
-        // XXX define a way to have a reliable id
-        final Integer testId = (name + new Date().getTime()).hashCode();
-        wrapper.on_log(new LogCallback() {
-            @Override
-            public void callback(long verbosity, String message) {
-                Intent intent = new Intent();
-                intent.setAction(testId + "/on_log");
-                intent.putExtra("verbosity", verbosity);
-                intent.putExtra("message", message);
-                lbm.sendBroadcast(intent);
-            }
-        });
-        wrapper.on_entry(new EntryCallback() {
-            @Override
-            public void callback(String entry) {
-                Intent intent = new Intent();
-                intent.setAction(testId + "/on_entry");
-                intent.putExtra("entry", entry);
-                lbm.sendBroadcast(intent);
-            }
-        });
-        wrapper.run(new TestCompleteCallback() {
-            @Override
-            public void callback() {
-                Intent intent = new Intent();
-                intent.setAction(testId + "/on_end");
-                lbm.sendBroadcast(intent);
-            }
-        });
-        return testId;
+    public void start(TestCompleteCallback cb) {
+        wrapper.run(cb);
     }
 }
