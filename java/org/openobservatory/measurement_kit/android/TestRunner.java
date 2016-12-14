@@ -12,7 +12,7 @@ import org.openobservatory.measurement_kit.nettests.EntryCallback;
 import org.openobservatory.measurement_kit.nettests.OoniTestBase;
 import org.openobservatory.measurement_kit.nettests.TestCompleteCallback;
 
-public class TestRunner<T> {
+public class TestRunner {
     private OoniTestBase testBase;
     private String testId;
 
@@ -25,32 +25,32 @@ public class TestRunner<T> {
         testBase = test;
     }
 
-    public TestRunner<T> set_verbosity(long verbosity) {
+    public TestRunner set_verbosity(long verbosity) {
         testBase.set_verbosity(verbosity);
         return this;
     }
 
-    public TestRunner<T> increase_verbosity() {
+    public TestRunner increase_verbosity() {
         testBase.increase_verbosity();
         return this;
     }
 
-    public TestRunner<T> set_input_filepath(String fpath) {
+    public TestRunner set_input_filepath(String fpath) {
         testBase.set_input_filepath(fpath);
         return this;
     }
 
-    public TestRunner<T> set_output_filepath(String fpath) {
+    public TestRunner set_output_filepath(String fpath) {
         testBase.set_output_filepath(fpath);
         return this;
     }
 
-    public TestRunner<T> set_error_filepath(String fpath) {
+    public TestRunner set_error_filepath(String fpath) {
         testBase.set_error_filepath(fpath);
         return this;
     }
 
-    public TestRunner<T> set_options(String key, String value) {
+    public TestRunner set_options(String key, String value) {
         testBase.set_options(key, value);
         return this;
     }
