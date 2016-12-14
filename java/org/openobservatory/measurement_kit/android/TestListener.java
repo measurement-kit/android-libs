@@ -15,37 +15,94 @@ import org.openobservatory.measurement_kit.nettests.EntryCallback;
 import org.openobservatory.measurement_kit.nettests.TestCompleteCallback;
 
 public class TestListener {
-    private EntryCallback callback_entry;
-    private LogCallback callback_log;
-    private TestCompleteCallback callback_test_complete;
-    private LocalBroadcastManager manager;
-    private BroadcastReceiver receiver_for_entry;
-    private BroadcastReceiver receiver_for_log;
-    private BroadcastReceiver receiver_for_test_complete;
+
+    private LocalBroadcastManager lbm;
     private String testId;
 
-    public TestListener(LocalBroadcastManager inst) {
-        manager = inst;
+    /*
+     * We want to allow the user to unregister callbacks. In order to do
+     * that, we could either tell users to manage the `BroadcastReceiver`
+     * objects themselves or we could store them and manage them. We
+     * chose the latter approach (as you can see :-).
+     */
+    private BroadcastReceiver onLogReceiver = null;
+    private BroadcastReceiver onEntryReceiver = null;
+    private BroadcastReceiver onEndReceiver = null;
+
+    public TestListener(String id, LocalBroadcastManager lbm) {
+        this.lbm = lbm;
+        this.testId = id;
     }
 
-    public TestListener on_entry(EntryCallback cb) {
-        callback_entry = cb;
+    public TestListener on_log(final LogCallback cb) {
+        clear_on_log();
+        this.onLogReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                long verbosity = intent.getLongExtra("verbosity", 0);
+                String message = intent.getStringExtra("message");
+                cb.callback(verbosity, message);
+            }
+        };
+        lbm.registerReceiver(onLogReceiver, make_intent_filter("/on_log"));
         return this;
     }
 
-    public TestListener on_log(LogCallback cb) {
-        callback_log = cb;
+    public TestListener on_entry(final EntryCallback cb) {
+        clear_on_entry();
+        this.onEntryReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String entry = intent.getStringExtra("entry");
+                cb.callback(entry);
+            }
+        };
+        lbm.registerReceiver(onEntryReceiver, make_intent_filter("/on_entry"));
         return this;
     }
 
-    public TestListener on_test_complete(TestCompleteCallback cb) {
-        callback_test_complete = cb;
+    public TestListener on_end(final TestCompleteCallback cb) {
+        clear_on_end();
+        this.onEndReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                cb.callback();
+                // Make sure to remove all the callbacks when the on_end event is called
+                clear_all();
+            }
+        };
+        lbm.registerReceiver(onEndReceiver, make_intent_filter("/on_entry"));
         return this;
     }
 
-    public void start(String tid) {
-        testId = tid;
-        on_resume();
+    public TestListener clear_on_log() {
+        if (onLogReceiver != null) {
+            lbm.unregisterReceiver(onLogReceiver);
+        }
+        onLogReceiver = null;
+        return this;
+    }
+
+    public TestListener clear_on_entry() {
+        if (onEntryReceiver != null) {
+            lbm.unregisterReceiver(onEntryReceiver);
+        }
+        onEntryReceiver = null;
+        return this;
+    }
+
+    public TestListener clear_on_end() {
+        if (onEndReceiver != null) {
+            lbm.unregisterReceiver(onEndReceiver);
+        }
+        onEndReceiver = null;
+        return this;
+    }
+
+    public void clear_all() {
+        this.clear_on_log();
+        this.clear_on_entry();
+        this.clear_on_end();
     }
 
     private IntentFilter make_intent_filter(String event) {
@@ -54,83 +111,4 @@ public class TestListener {
         return filter;
     }
 
-    private void listen_for_entry() {
-        receiver_for_entry = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (callback_entry != null) {
-                    callback_entry.callback(intent.getStringExtra("entry"));
-                }
-            }
-        };
-        manager.registerReceiver(receiver_for_entry,
-            make_intent_filter("/on_entry"));
-    }
-
-    private void listen_for_log() {
-        receiver_for_log = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                long verbosity = intent.getLongExtra("verbosity", 0);
-                String message = intent.getStringExtra("message");
-                if (callback_log != null) {
-                    callback_log.callback(verbosity, message);
-                }
-            }
-        };
-        manager.registerReceiver(receiver_for_log,
-            make_intent_filter("/on_log"));
-    }
-
-    private void listen_for_test_complete() {
-        receiver_for_test_complete = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (callback_test_complete != null) {
-                    callback_test_complete.callback();
-                }
-                // Stop listening when we reach end of test
-                on_pause();
-            }
-        };
-        manager.registerReceiver(receiver_for_test_complete,
-            make_intent_filter("/on_test_complete"));
-    }
-
-    public void on_resume() {
-        on_pause();
-        listen_for_entry();
-        listen_for_log();
-        listen_for_test_complete();
-    }
-
-    private TestListener clear_on_log() {
-        if (receiver_for_log != null) {
-            manager.unregisterReceiver(receiver_for_log);
-        }
-        receiver_for_log = null;
-        return this;
-    }
-
-    private TestListener clear_on_entry() {
-        if (receiver_for_entry != null) {
-            manager.unregisterReceiver(receiver_for_entry);
-        }
-        receiver_for_entry = null;
-        return this;
-    }
-
-    private TestListener clear_on_test_complete() {
-        if (receiver_for_test_complete != null) {
-            manager.unregisterReceiver(receiver_for_test_complete);
-        }
-        receiver_for_test_complete = null;
-        return this;
-    }
-
-    public void on_pause() {
-        clear_on_entry();
-        clear_on_log();
-        clear_on_test_complete();
-    }
 }
