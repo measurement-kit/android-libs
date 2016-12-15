@@ -4,7 +4,7 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-public class NdtTest extends OoniTestBase {
+public class NdtTest extends BaseTest {
 
     public NdtTest() {
         super("ndt");

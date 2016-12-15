@@ -4,7 +4,7 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-public class HttpInvalidRequestLineTest extends OoniTestBase {
+public class HttpInvalidRequestLineTest extends BaseTest {
 
     public HttpInvalidRequestLineTest() {
         super("http_invalid_request_line");
