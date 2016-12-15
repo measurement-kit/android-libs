@@ -53,7 +53,7 @@ public class BaseTest {
     }
 
     public BaseTest on_log(final String event_id,
-                               final LocalBroadcastManager manager) {
+                           final LocalBroadcastManager manager) {
         wrapper.on_log(new LogCallback() {
             @Override
             public void callback(long verbosity, String message) {
@@ -74,7 +74,7 @@ public class BaseTest {
     }
 
     public BaseTest on_entry(final String event_id,
-                                 final LocalBroadcastManager manager) {
+                             final LocalBroadcastManager manager) {
         wrapper.on_entry(new EntryCallback() {
             @Override
             public void callback(String entry) {
