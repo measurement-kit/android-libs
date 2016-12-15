@@ -10,9 +10,10 @@ SWIG      = swig
 WGET      = wget
 
 INPUT     = android-dependencies-20161206T174433Z.tgz
-DEPS_URL  = https://github.com/measurement-kit/measurement-kit-deps/releases/download/2016-12-06/$(INPUT)
-BRANCH    = release/v0.4.0-alpha.1
-OVERSION  = v0.4.0-alpha-dev.6
+DEPS_URL  = https://github.com/measurement-kit/measurement-kit-deps/releases/download/2016-12-10/$(INPUT)
+VERSION   = v0.4.0-alpha.1
+TAG       = $(VERSION)
+OVERSION  = $(VERSION)-1
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit
 
@@ -63,7 +64,7 @@ download-and-verify: check $(INPUT) $(INPUT).asc
 
 clone-mk: check
 	rm -rf -- jni/measurement-kit
-	$(GIT) clone --single-branch --depth 1 --branch $(BRANCH)              \
+	$(GIT) clone --single-branch --depth 1 --branch $(TAG)                 \
 	  https://github.com/measurement-kit/measurement-kit.git               \
 	  jni/measurement-kit
 	rm -rf -- jni/mk-files.mk
