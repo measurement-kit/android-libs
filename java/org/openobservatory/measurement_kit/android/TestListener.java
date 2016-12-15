@@ -15,23 +15,15 @@ import org.openobservatory.measurement_kit.nettests.EntryCallback;
 import org.openobservatory.measurement_kit.nettests.TestCompleteCallback;
 
 public class TestListener {
-
     private LocalBroadcastManager lbm;
+    private BroadcastReceiver onEntryReceiver;
+    private BroadcastReceiver onLogReceiver;
+    private BroadcastReceiver onTestCompleteReceiver;
     private String testId;
 
-    /*
-     * We want to allow the user to unregister callbacks. In order to do
-     * that, we could either tell users to manage the `BroadcastReceiver`
-     * objects themselves or we could store them and manage them. We
-     * chose the latter approach (as you can see :-).
-     */
-    private BroadcastReceiver onLogReceiver = null;
-    private BroadcastReceiver onEntryReceiver = null;
-    private BroadcastReceiver onEndReceiver = null;
-
-    public TestListener(String id, LocalBroadcastManager lbm) {
-        this.lbm = lbm;
-        this.testId = id;
+    public TestListener(String id, LocalBroadcastManager m) {
+        lbm = m;
+        testId = id;
     }
 
     public TestListener on_log(final LogCallback cb) {
@@ -61,17 +53,19 @@ public class TestListener {
         return this;
     }
 
-    public TestListener on_end(final TestCompleteCallback cb) {
-        clear_on_end();
-        this.onEndReceiver = new BroadcastReceiver() {
+    public TestListener on_test_complete(final TestCompleteCallback cb) {
+        clear_on_test_complete();
+        this.onTestCompleteReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                cb.callback();
-                // Make sure to remove all the callbacks when the on_end event is called
+                // Make sure to remove all the callbacks when the
+                // on_test_complete event is called
                 clear_all();
+                cb.callback();
             }
         };
-        lbm.registerReceiver(onEndReceiver, make_intent_filter("/on_entry"));
+        lbm.registerReceiver(onTestCompleteReceiver,
+                make_intent_filter("/on_test_complete"));
         return this;
     }
 
@@ -91,18 +85,18 @@ public class TestListener {
         return this;
     }
 
-    public TestListener clear_on_end() {
-        if (onEndReceiver != null) {
-            lbm.unregisterReceiver(onEndReceiver);
+    public TestListener clear_on_test_complete() {
+        if (onTestCompleteReceiver != null) {
+            lbm.unregisterReceiver(onTestCompleteReceiver);
         }
-        onEndReceiver = null;
+        onTestCompleteReceiver = null;
         return this;
     }
 
     public void clear_all() {
-        this.clear_on_log();
         this.clear_on_entry();
-        this.clear_on_end();
+        this.clear_on_log();
+        this.clear_on_test_complete();
     }
 
     private IntentFilter make_intent_filter(String event) {
@@ -110,5 +104,4 @@ public class TestListener {
         filter.addAction(testId + event);
         return filter;
     }
-
 }
