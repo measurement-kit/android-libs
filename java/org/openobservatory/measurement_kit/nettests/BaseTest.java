@@ -68,6 +68,47 @@ public class BaseTest {
         return this;
     }
 
+    public BaseTest on_progress(ProgressCallback delegate) {
+        wrapper.on_progress(delegate);
+        return this;
+    }
+
+    public BaseTest on_progress(final String event_id,
+                                final LocalBroadcastManager manager) {
+        wrapper.on_progress(new ProgressCallback() {
+            @Override
+            public void callback(double percent, String msg) {
+                Intent intent = new Intent();
+                intent.setAction(event_id);
+                intent.putExtra("type", "on_progress");
+                intent.putExtra("percent", percent);
+                intent.putExtra("message", msg);
+                manager.sendBroadcast(intent);
+            }
+        });
+        return this;
+    }
+
+    public BaseTest on_event(EventCallback delegate) {
+        wrapper.on_event(delegate);
+        return this;
+    }
+
+    public BaseTest on_event(final String event_id,
+                             final LocalBroadcastManager manager) {
+        wrapper.on_event(new EventCallback() {
+            @Override
+            public void callback(String msg) {
+                Intent intent = new Intent();
+                intent.setAction(event_id);
+                intent.putExtra("type", "on_event");
+                intent.putExtra("message", msg);
+                manager.sendBroadcast(intent);
+            }
+        });
+        return this;
+    }
+
     public BaseTest on_entry(EntryCallback delegate) {
         wrapper.on_entry(delegate);
         return this;
@@ -98,12 +139,12 @@ public class BaseTest {
     }
 
     public void start(TestCompleteCallback cb) {
-        wrapper.run(cb);
+        wrapper.start(cb);
     }
 
     public void start(final String event_id,
                       final LocalBroadcastManager manager) {
-        wrapper.run(new TestCompleteCallback() {
+        wrapper.start(new TestCompleteCallback() {
             @Override
             public void callback() {
                 Intent intent = new Intent();

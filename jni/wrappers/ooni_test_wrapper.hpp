@@ -70,8 +70,10 @@ class OoniTestWrapper {
     // XXX: currently we pass around Objects in the `swig` package, which is
     // actually not so nice but I think a little SWIG fu can help here.
     void on_log(jobject delegate);
-    void run(jobject callback);
+    void start(jobject callback);
     void on_entry(jobject delegate);
+    void on_progress(jobject delegate);
+    void on_event(jobject delegate);
 
     void set_options(std::string key, std::string value) {
         real_test_->set_options(key, value);
