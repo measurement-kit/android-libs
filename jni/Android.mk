@@ -37,7 +37,6 @@ LOCAL_STATIC_LIBRARIES := GeoIP ssl crypto event event_openssl \
                           event_pthreads
 LOCAL_MODULE := measurement_kit
 LOCAL_SRC_FILES := wrappers/common.cpp wrappers/logger_api.cpp                 \
-                   wrappers/ooni_sync_api.cpp                                  \
 		   wrappers/ooni_test_wrapper_wrap.cpp                         \
 		   wrappers/portolan_sync_api.cpp                              \
                    wrappers/saved_jvm.cpp                                      \
