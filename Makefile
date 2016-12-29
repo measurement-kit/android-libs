@@ -9,11 +9,11 @@ NDK_BUILD = # Empty: must be provided on the command line
 SWIG      = swig
 WGET      = wget
 
-INPUT     = android-dependencies-20161228T193450Z.tgz
+INPUT     = android-dependencies-20161229T142810Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/testing/$(INPUT)
 VERSION   = v0.4.0-alpha.2
-TAG       = $(VERSION)
-OVERSION  = $(VERSION)-1
+TAG       = fix/android-api-abi
+OVERSION  = $(VERSION)-2-dev
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit
 
