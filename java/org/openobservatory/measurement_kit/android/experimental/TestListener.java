@@ -11,9 +11,10 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.openobservatory.measurement_kit.common.LogCallback;
+import org.openobservatory.measurement_kit.nettests.EntryCallback;
+import org.openobservatory.measurement_kit.nettests.TestCompleteCallback;
 
 public class TestListener {
-
     private LocalBroadcastManager lbm;
     private Integer testId;
 
