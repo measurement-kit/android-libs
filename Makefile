@@ -42,7 +42,6 @@ run-swig:
 
 javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
-	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).sync.OoniSyncApi
 	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).sync.PortolanSyncApi
 	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).LoggerApi
 
