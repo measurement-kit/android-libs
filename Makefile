@@ -10,7 +10,7 @@ SWIG      = swig
 WGET      = wget
 
 INPUT     = android-dependencies-20170103T182209Z.tgz
-DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/testing/$(INPUT)
+DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/stable/$(INPUT)
 VERSION   = v0.4.0-alpha.2
 TAG       = fix/android-api-abi
 OVERSION  = $(VERSION)-6-dev
