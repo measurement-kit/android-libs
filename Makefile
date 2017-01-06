@@ -11,9 +11,9 @@ WGET      = wget
 
 INPUT     = android-dependencies-20170103T182209Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/stable/$(INPUT)
-VERSION   = v0.4.0-alpha.2
-TAG       = fix/android-api-abi
-OVERSION  = $(VERSION)-6-dev
+VERSION   = v0.4.0-alpha.3
+BRANCH_OR_TAG = $(VERSION)
+OVERSION  = $(VERSION)-1
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit
 
@@ -63,7 +63,7 @@ download-and-verify: check $(INPUT) $(INPUT).asc
 
 clone-mk: check
 	rm -rf -- jni/measurement-kit
-	$(GIT) clone --single-branch --depth 1 --branch $(TAG)                 \
+	$(GIT) clone --single-branch --depth 1 --branch $(BRANCH_OR_TAG)       \
 	  https://github.com/measurement-kit/measurement-kit.git               \
 	  jni/measurement-kit
 	rm -rf -- jni/mk-files.mk
