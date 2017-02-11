@@ -21,7 +21,7 @@ public class DnsUtils {
                 break;
             }
         }
-        return hostname + ":53";
+        return hostname;
     }
 
     private static ArrayList<String> get_dns_internal() {

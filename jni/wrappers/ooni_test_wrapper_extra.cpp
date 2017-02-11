@@ -46,13 +46,44 @@ class Environment {
     bool is_attached_ = false;
 };
 
+void OoniTestWrapper::on_progress(jobject delegate) {
+    Environment environ; // Throws on error
+    jobject global_cb = environ->NewGlobalRef(delegate); // Keep safe
+    if (global_cb == nullptr) {
+        return;
+    }
+    real_test_->on_destroy([global_cb]() {
+        Environment environ; // Throws on error
+        environ->DeleteGlobalRef(global_cb);
+    });
+    real_test_->on_progress(
+            [global_cb](double d, const char *message) {
+        Environment environ; // Throws on error
+        jdouble jd = d;
+        jstring java_message = environ->NewStringUTF(message);
+        if (!java_message) {
+            return;
+        }
+        jclass clazz = environ->GetObjectClass(global_cb);
+        if (!clazz) {
+            return;
+        }
+        jmethodID meth_id = environ->GetMethodID(clazz, "callback",
+                "(DLjava/lang/String;)V");
+        if (!meth_id) {
+            return;
+        }
+        environ->CallVoidMethod(global_cb, meth_id, jd, java_message);
+    });
+}
+
 void OoniTestWrapper::on_log(jobject delegate) {
     Environment environ; // Throws on error
     jobject global_cb = environ->NewGlobalRef(delegate); // Keep safe
     if (global_cb == nullptr) {
         return;
     }
-    real_test_->logger->on_eof([global_cb]() {
+    real_test_->on_logger_eof([global_cb]() {
         Environment environ; // Throws on error
         environ->DeleteGlobalRef(global_cb);
     });
@@ -74,19 +105,45 @@ void OoniTestWrapper::on_log(jobject delegate) {
         }
         environ->CallVoidMethod(global_cb, meth_id, java_severity,
                                 java_message);
-        // Note: sure the above function could cause exceptions but
-        // my understanding is that it will be raised when we return
-        // back to Java, so I don't know what should we do here
     });
 }
 
-void OoniTestWrapper::run(jobject callback) {
+void OoniTestWrapper::on_event(jobject delegate) {
+    Environment environ; // Throws on error
+    jobject global_cb = environ->NewGlobalRef(delegate); // Keep safe
+    if (global_cb == nullptr) {
+        return;
+    }
+    real_test_->on_logger_eof([global_cb]() {
+        Environment environ; // Throws on error
+        environ->DeleteGlobalRef(global_cb);
+    });
+    real_test_->on_event([global_cb](const char *message) {
+        Environment environ; // Throws on error
+        jstring java_message = environ->NewStringUTF(message);
+        if (!java_message) {
+            return;
+        }
+        jclass clazz = environ->GetObjectClass(global_cb);
+        if (!clazz) {
+            return;
+        }
+        jmethodID meth_id = environ->GetMethodID(clazz, "callback",
+                "(Ljava/lang/String;)V");
+        if (!meth_id) {
+            return;
+        }
+        environ->CallVoidMethod(global_cb, meth_id, java_message);
+    });
+}
+
+void OoniTestWrapper::start(jobject callback) {
     Environment environ; // Throws on error
     jobject global_cb = environ->NewGlobalRef(callback); // Keep safe
     if (global_cb == nullptr) {
         return;
     }
-    real_test_->run([global_cb]() {
+    real_test_->start([global_cb]() {
         Environment environ; // Throws on error
         jclass clazz = environ->GetObjectClass(global_cb);
         if (!clazz) {
@@ -109,7 +166,7 @@ void OoniTestWrapper::on_entry(jobject delegate) {
     if (global_cb == nullptr) {
         return;
     }
-    real_test_->on_end([global_cb]() {
+    real_test_->on_destroy([global_cb]() {
         Environment environ; // Throws on error
         environ->DeleteGlobalRef(global_cb);
     });
@@ -129,8 +186,5 @@ void OoniTestWrapper::on_entry(jobject delegate) {
             return;
         }
         environ->CallVoidMethod(global_cb, meth_id, java_entry);
-        // Note: sure the above function could cause exceptions but
-        // my understanding is that it will be raised when we return
-        // back to Java, so I don't know what should we do here
     });
 }

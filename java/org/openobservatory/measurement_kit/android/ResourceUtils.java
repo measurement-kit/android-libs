@@ -16,6 +16,10 @@ public class ResourceUtils {
     private static final String GEOIP = "geoip.dat";
     private static final String GEOIP_ASNUM = "geoipasnum.dat";
 
+    /**
+     * Copies the CA bundle on the filesystem.
+     * @deprecated
+     */
     public static void copy_ca_bundle(Activity activity, int id) {
         copy_resource(activity, id, CA_BUNDLE);
     }
@@ -50,6 +54,10 @@ public class ResourceUtils {
         Log.v(LOG_TAG, "copy_resource... done");
     }
 
+    /**
+     * Get path of the CA bundle for being able to copy it.
+     * @deprecated.
+     */
     public static String get_ca_bundle_path(Activity activity) {
         return get_path(activity, CA_BUNDLE);
     }

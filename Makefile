@@ -9,11 +9,11 @@ NDK_BUILD = # Empty: must be provided on the command line
 SWIG      = swig
 WGET      = wget
 
-INPUT     = android-dependencies-20161206T174433Z.tgz
-DEPS_URL  = https://github.com/measurement-kit/measurement-kit-deps/releases/download/2016-12-06/$(INPUT)
-VERSION   = v0.3.9
-BRANCH    = $(VERSION)
-OVERSION  = $(VERSION)-2
+INPUT     = android-dependencies-20170103T182209Z.tgz
+DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/stable/$(INPUT)
+VERSION   = v0.4.0-beta.4
+BRANCH_OR_TAG = $(VERSION)
+OVERSION  = $(VERSION)-1
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit
 
@@ -42,7 +42,6 @@ run-swig:
 
 javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
-	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).sync.OoniSyncApi
 	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).sync.PortolanSyncApi
 	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).LoggerApi
 
@@ -64,7 +63,7 @@ download-and-verify: check $(INPUT) $(INPUT).asc
 
 clone-mk: check
 	rm -rf -- jni/measurement-kit
-	$(GIT) clone --single-branch --depth 1 --branch $(BRANCH)              \
+	$(GIT) clone --single-branch --depth 1 --branch $(BRANCH_OR_TAG)       \
 	  https://github.com/measurement-kit/measurement-kit.git               \
 	  jni/measurement-kit
 	rm -rf -- jni/mk-files.mk

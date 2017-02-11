@@ -4,9 +4,6 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-public class WebConnectivityTest extends BaseTest {
-
-    public WebConnectivityTest() {
-        super("web_connectivity");
-    }
+public interface ProgressCallback {
+    public void callback(double percent, String msg);
 }

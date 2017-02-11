@@ -2,7 +2,7 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit.nettests;
+package org.openobservatory.measurement_kit.android.experimental;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,9 +11,10 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.openobservatory.measurement_kit.common.LogCallback;
+import org.openobservatory.measurement_kit.nettests.EntryCallback;
+import org.openobservatory.measurement_kit.nettests.TestCompleteCallback;
 
 public class TestListener {
-
     private LocalBroadcastManager lbm;
     private Integer testId;
 

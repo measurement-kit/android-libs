@@ -4,9 +4,9 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-public class WebConnectivityTest extends BaseTest {
+public class MultiNdtTest extends BaseTest {
 
-    public WebConnectivityTest() {
-        super("web_connectivity");
+    public MultiNdtTest() {
+        super("multi_ndt");
     }
 }
