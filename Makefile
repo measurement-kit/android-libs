@@ -13,7 +13,7 @@ INPUT     = android-dependencies-20170103T182209Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/stable/$(INPUT)
 VERSION   = v0.4.0-beta.4
 BRANCH_OR_TAG = $(VERSION)
-OVERSION  = $(VERSION)-1
+OVERSION  = $(VERSION)-3
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit
 
