@@ -33,27 +33,15 @@ class Environment {
         return env_;
     }
 
-    jstring new_string_utf(const char *s) {
-        jstring js = env_->NewStringUTF(s);
-        if (js) {
-            to_unref.push_back(js);
-        }
-        return js;
-    }
-
     ~Environment() {
         // Null check here only for robustness to refactoring
         if (is_attached_ && env_ != nullptr) {
-            for (auto ref : to_unref) {
-                env_->DeleteLocalRef(ref);
-            }
             JavaVM *vm = mk_jni_get_saved_jvm(); // Throws on failure
             vm->DetachCurrentThread();
         }
     }
 
   private:
-    std::vector<jstring> to_unref;
     JNIEnv *env_ = nullptr;
     bool is_attached_ = false;
 };
@@ -72,7 +60,7 @@ void OoniTestWrapper::on_progress(jobject delegate) {
             [global_cb](double d, const char *message) {
         Environment environ; // Throws on error
         jdouble jd = d;
-        jstring java_message = environ.new_string_utf(message);
+        jstring java_message = environ->NewStringUTF(message);
         if (!java_message) {
             return;
         }
@@ -102,7 +90,7 @@ void OoniTestWrapper::on_log(jobject delegate) {
     real_test_->on_log([global_cb](uint32_t severity, const char *message) {
         Environment environ; // Throws on error
         jlong java_severity = severity;
-        jstring java_message = environ.new_string_utf(message);
+        jstring java_message = environ->NewStringUTF(message);
         if (!java_message) {
             return;
         }
@@ -132,7 +120,7 @@ void OoniTestWrapper::on_event(jobject delegate) {
     });
     real_test_->on_event([global_cb](const char *message) {
         Environment environ; // Throws on error
-        jstring java_message = environ.new_string_utf(message);
+        jstring java_message = environ->NewStringUTF(message);
         if (!java_message) {
             return;
         }
@@ -184,7 +172,7 @@ void OoniTestWrapper::on_entry(jobject delegate) {
     });
     real_test_->on_entry([global_cb](std::string entry) {
         Environment environ; // Throws on error
-        jstring java_entry = environ.new_string_utf(entry.c_str());
+        jstring java_entry = environ->NewStringUTF(entry.c_str());
         if (!java_entry) {
             return;
         }
