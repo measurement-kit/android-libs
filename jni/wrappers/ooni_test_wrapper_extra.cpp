@@ -66,14 +66,19 @@ void OoniTestWrapper::on_progress(jobject delegate) {
         }
         jclass clazz = environ->GetObjectClass(global_cb);
         if (!clazz) {
+            environ->DeleteLocalRef(java_message);
             return;
         }
         jmethodID meth_id = environ->GetMethodID(clazz, "callback",
                 "(DLjava/lang/String;)V");
         if (!meth_id) {
+            environ->DeleteLocalRef(java_message);
+            environ->DeleteLocalRef(clazz);
             return;
         }
         environ->CallVoidMethod(global_cb, meth_id, jd, java_message);
+        environ->DeleteLocalRef(java_message);
+        environ->DeleteLocalRef(clazz);
     });
 }
 
@@ -96,15 +101,20 @@ void OoniTestWrapper::on_log(jobject delegate) {
         }
         jclass clazz = environ->GetObjectClass(global_cb);
         if (!clazz) {
+            environ->DeleteLocalRef(java_message);
             return;
         }
         jmethodID meth_id = environ->GetMethodID(clazz, "callback",
                 "(JLjava/lang/String;)V");
         if (!meth_id) {
+            environ->DeleteLocalRef(java_message);
+            environ->DeleteLocalRef(clazz);
             return;
         }
         environ->CallVoidMethod(global_cb, meth_id, java_severity,
                                 java_message);
+        environ->DeleteLocalRef(java_message);
+        environ->DeleteLocalRef(clazz);
     });
 }
 
@@ -126,14 +136,19 @@ void OoniTestWrapper::on_event(jobject delegate) {
         }
         jclass clazz = environ->GetObjectClass(global_cb);
         if (!clazz) {
+            environ->DeleteLocalRef(java_message);
             return;
         }
         jmethodID meth_id = environ->GetMethodID(clazz, "callback",
                 "(Ljava/lang/String;)V");
         if (!meth_id) {
+            environ->DeleteLocalRef(java_message);
+            environ->DeleteLocalRef(clazz);
             return;
         }
         environ->CallVoidMethod(global_cb, meth_id, java_message);
+        environ->DeleteLocalRef(java_message);
+        environ->DeleteLocalRef(clazz);
     });
 }
 
@@ -178,13 +193,18 @@ void OoniTestWrapper::on_entry(jobject delegate) {
         }
         jclass clazz = environ->GetObjectClass(global_cb);
         if (!clazz) {
+            environ->DeleteLocalRef(java_entry);
             return;
         }
         jmethodID meth_id = environ->GetMethodID(clazz, "callback",
                 "(Ljava/lang/String;)V");
         if (!meth_id) {
+            environ->DeleteLocalRef(java_entry);
+            environ->DeleteLocalRef(clazz);
             return;
         }
         environ->CallVoidMethod(global_cb, meth_id, java_entry);
+        environ->DeleteLocalRef(java_entry);
+        environ->DeleteLocalRef(clazz);
     });
 }
