@@ -40,7 +40,8 @@ LOCAL_SRC_FILES := wrappers/common.cpp wrappers/logger_api.cpp                 \
 		   wrappers/ooni_test_wrapper_wrap.cpp                         \
 		   wrappers/portolan_sync_api.cpp                              \
                    wrappers/saved_jvm.cpp                                      \
-		   wrappers/ooni_test_wrapper_extra.cpp
+		   wrappers/ooni_test_wrapper_extra.cpp                        \
+		   wrappers/version.cpp
 include jni/mk-files.mk
 LOCAL_CPPFLAGS += -I jni/$(TARGET_ARCH_ABI)/include -std=c++11                 \
                   -I jni/measurement-kit/include -Wall -Wextra

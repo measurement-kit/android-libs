@@ -11,9 +11,9 @@ WGET      = wget
 
 INPUT     = android-dependencies-20170103T182209Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/stable/$(INPUT)
-VERSION   = v0.4.0-beta.4
+VERSION   = v0.4.0
 BRANCH_OR_TAG = $(VERSION)
-OVERSION  = $(VERSION)-4
+OVERSION  = $(VERSION)-1
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
 PACKAGE   = org.openobservatory.measurement_kit
 
@@ -44,6 +44,7 @@ javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
 	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).sync.PortolanSyncApi
 	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).LoggerApi
+	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).Version
 
 recompile:
 	$(NDK_BUILD) NDK_LIBS_OUT=./jniLibs
