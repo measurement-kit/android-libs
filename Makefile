@@ -11,7 +11,7 @@ WGET      = wget
 
 INPUT     = android-dependencies-20170103T182209Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/stable/$(INPUT)
-VERSION   = v0.4.2
+VERSION   = v0.4.3
 BRANCH_OR_TAG = $(VERSION)
 OVERSION  = $(VERSION)-1
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
