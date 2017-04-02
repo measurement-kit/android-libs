@@ -9,9 +9,9 @@ NDK_BUILD = # Empty: must be provided on the command line
 SWIG      = swig
 WGET      = wget
 
-INPUT     = `basename $(DEPS_URL)`
+INPUT     = android-dependencies-20170330T115408Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-03-27/android-dependencies-20170330T115408Z.tgz
-VERSION   = v0.4.3
+VERSION   = v0.5.0-dev
 BRANCH_OR_TAG = $(VERSION)
 OVERSION  = $(VERSION)-1
 OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
