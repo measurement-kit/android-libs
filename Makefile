@@ -31,7 +31,7 @@ dist: jni-libs redist
 
 redist: recompile
 	@echo "Creating $(OUTPUT)..."
-	@tar -cjf $(OUTPUT) java jniLibs
+	@cd src/main && tar -cjf ../../$(OUTPUT) java jniLibs
 	@$(GPG2) -u 738877AA6C829F26A431C5F480B691277733D95B                   \
 	         -b --armor $(OUTPUT)
 
@@ -42,12 +42,12 @@ run-swig:
 
 javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
-	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).sync.PortolanSyncApi
-	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).LoggerApi
-	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).Version
+	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).sync.PortolanSyncApi
+	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).LoggerApi
+	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).Version
 
 recompile:
-	$(NDK_BUILD) NDK_LIBS_OUT=./jniLibs
+	$(NDK_BUILD) NDK_LIBS_OUT=./src/main/jniLibs
 
 unpack: unpack-clean download-and-verify clone-mk
 	@echo "Unpack $(INPUT) inside jni"
