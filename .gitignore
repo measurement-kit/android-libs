@@ -1,7 +1,9 @@
 #mk files
-measurement_kit_android-*.tar.bz2
-measurement_kit_android-*.tar.bz2.asc
-app/src/main/java/org/openobservatory/measurement_kit/
+/android-libs-*.aar
+/android-libs-*.aar.asc
+/android-libs-*.pom
+/android-libs-*.pom.asc
+/src/main/java/org/openobservatory/measurement_kit/swig/
 
 # Built application files
 /*/build/
