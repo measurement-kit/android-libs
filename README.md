@@ -3,6 +3,62 @@
 This repository contains Measurement Kit for Android. That is, it contains
 the Java native interface (JNI) code as well as its Java counterpart.
 
+## How to integrate a release in your Android project
+
+### Using gradle
+
+Add the following line to `app/build.gradle`'s `dependencies`:
+
+```diff
+ dependencies {
++  compile "org.openobservatory.measurement_kit:android-libs:$version"
+```
+
+Where `$version` is the version you want to use (e.g. `0.4.3-aar-3`).
+
+This is the approach that we follow in the [android-example](
+https://github.com/measurement-kit/android-example) app.
+
+### Manually verifying digital signature
+
+Apparently, it's not easy to automatically verify packages signature when
+downloading packages from jcenter using gradle. If you want to verify
+dependencies, proceed as follows:
+
+1. download the latest AAR and its digital signature from our
+   [jcenter-hosted repository](https://dl.bintray.com/measurement-kit/android/org/openobservatory/measurement_kit/android-libs/)
+
+2. verify the digital signature using `gpg2 --verify <asc-file>`
+
+3. create the `libs` directory and move the AAR inside it
+
+4. to the toplevel `build.gradle` add:
+
+```diff
+ allprojects {
+   repositories {
+     jcenter()
++    flatDir {
++      dirs 'libs'
++    }
+   }
+ }
+```
+
+5. to `app/build.gradle` add:
+
+```diff
+ dependencies {
++  compile "org.openobservatory.measurement_kit:android-libs:$version"
+```
+
+Where `$version` is the version you have downloaded (e.g. `0.4.3-aar-3`).
+
+This is the approach that we follow in the [ooniprobe-android](
+https://github.com/TheTorProject/ooniprobe-android) app.
+
+## How to build a new release
+
 The `Makefile` file allows you to cross-compile JNI libs suitable for being
 used by Android applications for all target architectures.
 
