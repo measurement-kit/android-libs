@@ -125,7 +125,9 @@ A Unix environment is assumed (we mostly develop for Android using a
 macOS Sierra system). You need to have the following executables
 in your PATH:
 
+- Android studio
 - git
+- gradle
 - gpg2
 - javah
 - wget
@@ -135,9 +137,13 @@ manager (try [Homebrew](http://brew.sh/) for macOS). As regards ndk-build,
 we recommend to [install it using Android studio](
 https://developer.android.com/ndk/guides/index.html#download-ndk)
 since in our experience this is the most reliable way to get a
-working ndk-build. (This should explain why we need to pass the
+working ndk-build (this should explain why we need to pass the
 `NDK_BUILD` variable explicitly to `make`: Android studio does
-not install ndk-build in the `PATH`.) On macOS, Android studio installs
+not install ndk-build in the `PATH`). Also gradle is typically
+packaged along with Android studio (this is why we use the
+`./gradlew` gradle wrapper).
+
+On macOS, Android studio installs
 the ndk-build at `~/Library/Android/sdk/ndk-bundle/ndk-build`.
 
 Once you have built the AAR and the POM files, you should upload them to
