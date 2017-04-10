@@ -13,8 +13,9 @@ INPUT     = android-dependencies-20170103T182209Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/stable/$(INPUT)
 VERSION   = v0.4.3
 BRANCH_OR_TAG = $(VERSION)
-OVERSION  = $(VERSION)-1
-OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
+OVERSION  = $(VERSION)-aar-2
+OUTPUT    = android-libs-$(OVERSION).aar
+POM       = android-libs-$(OVERSION).pom
 PACKAGE   = org.openobservatory.measurement_kit
 
 ABIS      = arm64-v8a armeabi armeabi-v7a mips mips64 x86 x86_64
@@ -31,9 +32,13 @@ dist: jni-libs redist
 
 redist: recompile
 	@echo "Creating $(OUTPUT)..."
-	@cd src/main && tar -cjf ../../$(OUTPUT) java jniLibs
+	@ANDROID_HOME=$$(dirname $$(dirname $(NDK_BUILD))) ./gradlew :assembleDebug
+	@cp build/outputs/aar/android-libs-debug.aar $(OUTPUT)
 	@$(GPG2) -u 738877AA6C829F26A431C5F480B691277733D95B                   \
 	         -b --armor $(OUTPUT)
+	@cat template.pom | sed 's/@VERSION@/$(OVERSION)/g' > $(POM)
+	@$(GPG2) -u 738877AA6C829F26A431C5F480B691277733D95B                   \
+	         -b --armor $(POM)
 
 jni-libs: unpack javah run-swig recompile
 
