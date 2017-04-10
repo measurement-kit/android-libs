@@ -24,7 +24,7 @@ gpg --recv-keys 738877AA6C829F26A431C5F480B691277733D95B \
                 11910C85CD8CD4938DFA17F7AA09A57AECEB9D12
 ```
 
-After this step, to generate a tarball containing the Java files and the
+After this step, to generate an AAR containing the Java files and the
 corresponding compiled libraries, type:
 
 ```
@@ -50,8 +50,10 @@ This command will perform the following steps:
    wrappers (`jni/wrappers`) for all available architectures using
    the `ndk-build` command
 
-5. package the result into a tarball (which will be located in the root
+5. package the result into an AAR (which will be located in the root
    directory of the repository) and digitally sign it
+
+6. generate a minimal POM file and sign it.
 
 When developing, if you want to quickly recompile and build again the
 distribution without running all the above steps, do:
@@ -81,3 +83,14 @@ working ndk-build. (This should explain why we need to pass the
 `NDK_BUILD` variable explicitly to `make`: Android studio does
 not install ndk-build in the `PATH`.) On macOS, Android studio installs
 the ndk-build at `~/Library/Android/sdk/ndk-bundle/ndk-build`.
+
+Once you have built the AAR and the POM files, you should upload them to
+[jcenter](https://bintray.com/measurement-kit/android/android-libs). To this
+end, remember to specify the path where files need to appear, which should
+follow this pattern:
+
+```
+org/openobservatory/measurement_kit/android-libs/$version/
+```
+
+where `$version` is the version indicated in the `Makefile`.
