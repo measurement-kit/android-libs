@@ -11,10 +11,11 @@ WGET      = wget
 
 INPUT     = android-dependencies-20170404T113430Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-04-03/$(INPUT)
-VERSION   = v0.4.3
-BRANCH_OR_TAG = $(VERSION)
-OVERSION  = $(VERSION)-2
-OUTPUT    = measurement_kit_android-$(OVERSION).tar.bz2
+VERSION   = 0.6.0-beta
+BRANCH_OR_TAG = stable
+OVERSION  = $(VERSION)-aar-2
+OUTPUT    = android-libs-$(OVERSION).aar
+POM       = android-libs-$(OVERSION).pom
 PACKAGE   = org.openobservatory.measurement_kit
 
 ABIS      = arm64-v8a armeabi armeabi-v7a mips mips64 x86 x86_64
