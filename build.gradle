@@ -36,8 +36,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 25
-        versionCode 3
-        versionName "0.4.3-aar-4"
+        versionCode 5
+        versionName "0.6.0-beta-aar-2"
     }
     buildTypes {
         release {
