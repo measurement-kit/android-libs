@@ -1,12 +1,52 @@
-.DS_Store
-/measurement_kit_android-v*.tar.bz2
-/measurement_kit_android-v*.tar.bz2.asc
+#mk files
 /android-dependencies-*.tgz
 /android-dependencies-*.tgz.asc
+/android-libs-*.aar
+/android-libs-*.aar.asc
+/android-libs-*.pom
+/android-libs-*.pom.asc
 /jni/measurement-kit/
 /jni/mk-files.mk
-/jni/wrappers/org_openobservatory_measurement_kit_*.h
-/jni/conf
 /jni/spec/
-/java/org/openobservatory/measurement_kit/swig/
 /jni/wrappers/ooni_test_wrapper_wrap.cpp
+/jni/wrappers/org_openobservatory_measurement_kit_*.h
+/src/main/java/org/openobservatory/measurement_kit/swig/
+
+# Built application files
+/*/build/
+build/
+
+# Crashlytics configuations
+com_crashlytics_export_strings.xml
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Gradle generated files
+.gradle/
+
+# Signing files
+.signing/
+
+# User-specific configurations
+.idea/libraries/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/.name
+.idea/compiler.xml
+.idea/copyright/profiles_settings.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+*.iml
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

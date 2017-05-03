@@ -32,9 +32,13 @@ dist: jni-libs redist
 
 redist: recompile
 	@echo "Creating $(OUTPUT)..."
-	@tar -cjf $(OUTPUT) java jniLibs
+	@ANDROID_HOME=$$(dirname $$(dirname $(NDK_BUILD))) ./gradlew :assembleDebug
+	@cp build/outputs/aar/android-libs-debug.aar $(OUTPUT)
 	@$(GPG2) -u 738877AA6C829F26A431C5F480B691277733D95B                   \
 	         -b --armor $(OUTPUT)
+	@cat template.pom | sed 's/@VERSION@/$(OVERSION)/g' > $(POM)
+	@$(GPG2) -u 738877AA6C829F26A431C5F480B691277733D95B                   \
+	         -b --armor $(POM)
 
 jni-libs: unpack javah run-swig recompile
 
@@ -43,12 +47,12 @@ run-swig:
 
 javah:
 	@echo "Creating header files in jni using $(JAVAH)..."
-	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).sync.PortolanSyncApi
-	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).LoggerApi
-	@cd jni/wrappers && $(JAVAH) -cp ../../java $(PACKAGE).Version
+	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).sync.PortolanSyncApi
+	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).LoggerApi
+	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).Version
 
 recompile:
-	$(NDK_BUILD) NDK_LIBS_OUT=./jniLibs
+	$(NDK_BUILD) NDK_LIBS_OUT=./src/main/jniLibs
 
 unpack: unpack-clean download-and-verify clone-mk
 	@echo "Unpack $(INPUT) inside jni"
