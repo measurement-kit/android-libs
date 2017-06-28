@@ -15,8 +15,12 @@ class OoniTestWrapper {
     OoniTestWrapper(std::string test_name) {
         if (test_name == "dns_injection") {
             real_test_.reset(new mk::nettests::DnsInjectionTest);
+        } else if (test_name == "http_header_field_manipulation") {
+            real_test_.reset(new mk::nettests::HttpHeaderFieldManipulationTest);
         } else if (test_name == "http_invalid_request_line") {
             real_test_.reset(new mk::nettests::HttpInvalidRequestLineTest);
+        } else if (test_name == "meek_fronted_requests") {
+            real_test_.reset(new mk::nettests::MeekFrontedRequestsTest);
         } else if (test_name == "multi_ndt") {
             real_test_.reset(new mk::nettests::MultiNdtTest);
         } else if (test_name == "ndt") {

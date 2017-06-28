@@ -9,11 +9,11 @@ NDK_BUILD = # Empty: must be provided on the command line
 SWIG      = swig
 WGET      = wget
 
-INPUT     = android-dependencies-20170103T182209Z.tgz
-DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/stable/$(INPUT)
-VERSION   = 0.4.3
+INPUT     = android-dependencies-20170404T113430Z.tgz
+DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-04-03/$(INPUT)
+VERSION   = 0.6.4
 BRANCH_OR_TAG = v$(VERSION)
-OVERSION  = $(VERSION)-aar-3
+OVERSION  = $(VERSION)-1
 OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
 PACKAGE   = org.openobservatory.measurement_kit
@@ -73,6 +73,7 @@ clone-mk: check
 	  https://github.com/measurement-kit/measurement-kit.git               \
 	  jni/measurement-kit
 	rm -rf -- jni/mk-files.mk
+	cd jni/measurement-kit && ./autogen.sh
 	for NAME in                                                            \
 	      `cd jni && find measurement-kit/src/libmeasurement_kit -type f   \
 	        \( -name \*.c -o -name \*.cpp \)`; do                          \
