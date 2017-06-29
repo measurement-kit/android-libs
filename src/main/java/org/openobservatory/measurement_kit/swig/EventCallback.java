@@ -2,11 +2,8 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit.nettests;
+package org.openobservatory.measurement_kit.swig;
 
-public class NdtTest extends BaseTest {
-
-    public NdtTest() {
-        super("ndt");
-    }
+public interface EventCallback {
+    public void callback(String msg);
 }

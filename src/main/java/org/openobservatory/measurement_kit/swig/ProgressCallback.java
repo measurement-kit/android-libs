@@ -2,7 +2,8 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit.nettests;
+package org.openobservatory.measurement_kit.swig;
 
-public interface TestCompleteCallback
-extends org.openobservatory.measurement_kit.swig.TestCompleteCallback {}
+public interface ProgressCallback {
+    public void callback(double percent, String msg);
+}

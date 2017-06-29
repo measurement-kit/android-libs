@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+ROOTDIR=$(cd $(dirname $(dirname $0)) && pwd -P)
+cd $ROOTDIR
+
+for file in "$@"; do
+    echo "* javac -Werror -cp src/main/java \"$file\""
+    javac -Werror -cp src/main/java "$file"
+done

@@ -4,6 +4,5 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-public interface ProgressCallback {
-    public void callback(double percent, String msg);
-}
+public interface ProgressCallback
+extends org.openobservatory.measurement_kit.swig.ProgressCallback {}

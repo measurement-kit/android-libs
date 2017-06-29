@@ -2,11 +2,8 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-#ifndef MK_JNI_SAVED_JVM_HPP
-#define MK_JNI_SAVED_JVM_HPP
+package org.openobservatory.measurement_kit.swig;
 
-#include <jni.h>
-
-JavaVM *mk_jni_get_saved_jvm();
-
-#endif
+public interface OrchestrateRegisterProbeCallback {
+    public void callback(final Error error, final OrchestrateAuth auth);
+}

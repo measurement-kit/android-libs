@@ -1,18 +1,17 @@
-PHONIES += check dist download-and-verify help javah jni-libs
+PHONIES += check dist download-and-verify help jni-libs
 PHONIES += recompile redist unpack unpack-clean
 .PHONY: $(PHONIES)
 
 GIT       = git
 GPG2      = gpg2
-JAVAH     = javah
 NDK_BUILD = # Empty: must be provided on the command line
 SWIG      = swig
 WGET      = wget
 
 INPUT     = android-dependencies-20170404T113430Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-04-03/$(INPUT)
-VERSION   = 0.6.6
-BRANCH_OR_TAG = v$(VERSION)
+VERSION   = 0.7.0-alpha.2
+BRANCH_OR_TAG = integration/v0.7.0-beta
 OVERSION  = $(VERSION)-1
 OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
@@ -40,16 +39,11 @@ redist: recompile
 	@$(GPG2) -u 738877AA6C829F26A431C5F480B691277733D95B                   \
 	         -b --armor $(POM)
 
-jni-libs: unpack javah run-swig recompile
+jni-libs: unpack run-swig recompile
 
 run-swig:
-	./scripts/run-swig
-
-javah:
-	@echo "Creating header files in jni using $(JAVAH)..."
-	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).sync.PortolanSyncApi
-	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).LoggerApi
-	@cd jni/wrappers && $(JAVAH) -cp ../../src/main/java $(PACKAGE).Version
+	./scripts/m4
+	./scripts/swig
 
 recompile:
 	$(NDK_BUILD) NDK_LIBS_OUT=./src/main/jniLibs
@@ -73,10 +67,10 @@ clone-mk: check
 	  https://github.com/measurement-kit/measurement-kit.git               \
 	  jni/measurement-kit
 	rm -rf -- jni/mk-files.mk
-	cd jni/measurement-kit && ./autogen.sh
+	cd jni/measurement-kit && ./autogen.sh -n
 	for NAME in                                                            \
-	      `cd jni && find measurement-kit/src/libmeasurement_kit -type f   \
-	        \( -name \*.c -o -name \*.cpp \)`; do                          \
+	      `cd jni && find measurement-kit/src/libmeasurement_kit wrappers  \
+	        -type f \( -name \*.c -o -name \*.cpp \)`; do                  \
 	    echo "LOCAL_SRC_FILES += $$NAME" >> jni/mk-files.mk;               \
 	done
 
@@ -91,11 +85,6 @@ check:
 	  exit 1;                                                              \
 	fi
 	@echo "Using $(GPG2): $$(which $(GPG2))"
-	@if [ -z "$$(which $(JAVAH))" ]; then                                  \
-	  echo "FATAL: install $(JAVAH) or make sure it's in PATH" 1>&2;       \
-	  exit 1;                                                              \
-	fi
-	@echo "Using $(JAVAH): $$(which $(JAVAH))"
 	@if [ -z "$(NDK_BUILD)" ]; then                                        \
 	  echo "FATAL: You should provide path to NDK_BUILD yourself" 1>&2;    \
 	  echo  "E.g., make dist NDK_BUILD=~/Library/Android/sdk/ndk-bundle/ndk-build" 1>&2; \

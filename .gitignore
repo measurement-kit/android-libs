@@ -1,16 +1,26 @@
-#mk files
+# Dependencies downloaded from github
 /android-dependencies-*.tgz
 /android-dependencies-*.tgz.asc
 /android-libs-*.aar
 /android-libs-*.aar.asc
 /android-libs-*.pom
 /android-libs-*.pom.asc
-/jni/measurement-kit/
-/jni/mk-files.mk
-/jni/spec/
-/jni/wrappers/ooni_test_wrapper_wrap.cpp
-/jni/wrappers/org_openobservatory_measurement_kit_*.h
-/src/main/java/org/openobservatory/measurement_kit/swig/
+
+# Final binary when building for JDK
+/libmeasurement_kit_java.so
+/libmeasurement_kit_java.dylib
+
+# Files produced by running tests
+/*.njson
+
+# GeoIP files
+/*.dat
+
+# Orchestrator secrets
+/orchestrate_secret.json
+
+# java-compiled files
+*.class
 
 # Built application files
 /*/build/

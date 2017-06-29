@@ -2,7 +2,14 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-package org.openobservatory.measurement_kit.nettests;
+%module mk_swig_common
+%include "std_string.i"
+%include "stdint.i"
 
-public interface TestCompleteCallback
-extends org.openobservatory.measurement_kit.swig.TestCompleteCallback {}
+%{
+
+#include "common.hpp"
+
+%}
+
+%include "common.hpp"
