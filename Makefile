@@ -12,7 +12,7 @@ INPUT     = android-dependencies-20170404T113430Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-04-03/$(INPUT)
 VERSION   = 0.7.0-alpha.2
 BRANCH_OR_TAG = integration/v0.7.0-beta
-OVERSION  = $(VERSION)-1
+OVERSION  = $(VERSION)-2
 OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
 PACKAGE   = org.openobservatory.measurement_kit
@@ -39,11 +39,7 @@ redist: recompile
 	@$(GPG2) -u 738877AA6C829F26A431C5F480B691277733D95B                   \
 	         -b --armor $(POM)
 
-jni-libs: unpack run-swig recompile
-
-run-swig:
-	./scripts/m4
-	./scripts/swig
+jni-libs: unpack recompile
 
 recompile:
 	$(NDK_BUILD) NDK_LIBS_OUT=./src/main/jniLibs
@@ -67,6 +63,8 @@ clone-mk: check
 	  https://github.com/measurement-kit/measurement-kit.git               \
 	  jni/measurement-kit
 	rm -rf -- jni/mk-files.mk
+	./scripts/m4
+	./scripts/swig
 	cd jni/measurement-kit && ./autogen.sh -n
 	for NAME in                                                            \
 	      `cd jni && find measurement-kit/src/libmeasurement_kit wrappers  \
