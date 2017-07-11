@@ -33,6 +33,10 @@ class $1 {
 
     void increase_verbosity() { test_.increase_verbosity(); }
 
+    void add_input(std::string input) {
+        test_.add_input(input);
+    }
+
     void set_input_filepath(std::string fpath) {
         test_.set_input_filepath(fpath);
     }
