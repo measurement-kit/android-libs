@@ -243,15 +243,13 @@ jstring Environment::new_string_utf(const char *s) {
 }
 
 Environment::~Environment() {
-    // FIXME: trying to understand issues with Android
-/*
     if (env___ != nullptr) {
         for (auto object : globals_) {
             env___->DeleteGlobalRef(object);
         }
-        (void)env___->PopLocalFrame(nullptr);
+        // FIXME: trying to understand issues with Android
+        //(void)env___->PopLocalFrame(nullptr);
     }
-*/
     // Null check here only for robustness to refactoring
     if (is_attached_ && env___ != nullptr) {
         JavaVM *vm = get_saved_jvm(); // Throws on failure
