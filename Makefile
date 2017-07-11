@@ -10,9 +10,9 @@ WGET      = wget
 
 INPUT     = android-dependencies-20170404T113430Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-04-03/$(INPUT)
-VERSION   = 0.7.0-alpha.2
+VERSION   = 0.7.0-alpha.3
 BRANCH_OR_TAG = integration/v0.7.0-beta
-OVERSION  = $(VERSION)-2
+OVERSION  = $(VERSION)-1
 OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
 PACKAGE   = org.openobservatory.measurement_kit
