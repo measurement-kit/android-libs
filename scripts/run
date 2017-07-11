@@ -5,4 +5,4 @@ ROOTDIR=$(cd $(dirname $(dirname $0)) && pwd -P)
 cd $ROOTDIR
 
 echo "java -Djava.library.path=`pwd` -cp src/main/java:example/java \"$1\""
-java -Djava.library.path=`pwd` -cp src/main/java:example/java "$1"
+java -Djava.library.path=`pwd` -cp src/main/java:example/java -Xcheck:jni "$1"
