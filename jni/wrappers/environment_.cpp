@@ -19,8 +19,10 @@
 
 #include "environment_.hpp"
 #include <jni.h>
+#include <map>
 #include <sstream>
 #include <stdexcept>
+#include <vector>
 
 // Get saved JVM
 
@@ -41,8 +43,44 @@ static JavaVM *get_saved_jvm() {
     return mk_java_vm;
 }
 
+// Assumption: JNI_OnLoad() will be called only once by the JVM (this seems
+// very reasonable as an assumption, actually).
+
+static const std::vector<std::string> &cached_names() {
+    static std::vector<std::string> v{
+        "org/openobservatory/measurement_kit/swig/Error",
+        "org/openobservatory/measurement_kit/swig/OrchestrateAuth"
+    };
+    return v;
+}
+
+static std::map<std::string, jclass> &cached_classes() {
+    static std::map<std::string, jclass> m;
+    return m;
+}
+
 extern "C" jint JNI_OnLoad(JavaVM *vm, void *) {
     mk_java_vm = vm;
+
+    // Load and keep alive classes that we will need in callbacks because the
+    // Android JVM cannot load user defined classes from native threads.
+    //
+    // See: https://stackoverflow.com/questions/13263340
+    Environment environ;
+    for (auto &s : cached_names()) {
+        // Note: `find_class` and `new_global_ref` throw on error
+        auto local = environ.find_class(s.c_str());
+        // Note: we need to make the reference global such that the class
+        // cannot be swapped out by the JVM.
+        //
+        // Performance note: it would probably be optimal to cache much
+        // more than some classes. This is something we can do in some
+        // future refactoring effort.
+        //
+        // See: https://stackoverflow.com/questions/10617735
+        cached_classes()[s] = (jclass)environ.new_global_ref((jobject)local);
+    }
+
     return JNI_VERSION_1_6;
 }
 
@@ -133,6 +171,14 @@ jobject Environment::new_global_ref(jobject obj) {
 }
 
 jclass Environment::find_class(const char *class_name) {
+    // Search in cache first, then proceed with the normal method
+    if (cached_classes().count(class_name) != 0) {
+        return cached_classes().at(class_name);
+    }
+    // Under Android, the following will fail for non system classes that
+    // you attempt to load from native threads later attached to a JVM.
+    //
+    // The reason why this happens is documented above.
     auto env = get_jni_env();
     auto clazz = env->FindClass(class_name);
     if (clazz == nullptr) {

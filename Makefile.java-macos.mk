@@ -23,4 +23,4 @@ all:
 	./scripts/javac example/java/*.java
 	@echo ""
 	@echo "Now you can run examples like:"
-	@echo "./script/run HttpInvalidRequestLineExample"
+	@echo "./scripts/run HttpInvalidRequestLineExample"
