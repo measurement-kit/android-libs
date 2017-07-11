@@ -128,9 +128,6 @@ Environment::Environment() {
     } else {
         /* nothing */;
     }
-    if (env___->PushLocalFrame(64) != 0) {
-        std::abort();
-    }
 }
 
 JNIEnv *Environment::get_jni_env() noexcept {
@@ -139,6 +136,21 @@ JNIEnv *Environment::get_jni_env() noexcept {
         std::abort();
     }
     return env___;
+}
+
+jstring Environment::own_local(jstring object) {
+    locals_.insert((jobject)object);
+    return object;
+}
+
+jclass Environment::own_local(jclass object) {
+    locals_.insert((jobject)object);
+    return object;
+}
+
+jobject Environment::own_local(jobject object) {
+    locals_.insert(object);
+    return object;
 }
 
 void Environment::own_global(jobject object) { globals_.insert(object); }
@@ -247,8 +259,9 @@ Environment::~Environment() {
         for (auto object : globals_) {
             env___->DeleteGlobalRef(object);
         }
-        // FIXME: trying to understand issues with Android
-        //(void)env___->PopLocalFrame(nullptr);
+        for (auto object : locals_) {
+            env___->DeleteGlobalRef(object);
+        }
     }
     // Null check here only for robustness to refactoring
     if (is_attached_ && env___ != nullptr) {

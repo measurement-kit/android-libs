@@ -21,6 +21,35 @@ class Environment : public mk::NonCopyable, public mk::NonMovable {
 
     JNIEnv *get_jni_env() noexcept;
 
+    /*
+        Memory management strategy: in most cases, we don't need to care
+        about local references. Especially when we have a callback just
+        called one time when an operation is complete, we can rely on the
+        JVM to remove local references when native code returns.
+
+        Classes returned by `find_class` are also local references and
+        we mostly do not make globals out of them. Method IDs are AFAICT
+        offsets that depend on the specific class and do not need to be
+        kept alive (anyway, we do not do that).
+
+        The only case where we need to exercise care is for callbacks
+        called repeatedly. For example, the `on_log` callback bound to
+        all the nettests of MK. In that case, we need to clear the
+        arguments passed to callbacks after the callbacks return, so
+        to ensure that we don't use too many local reference slots.
+
+        For this reason, we've added `own_local`. This function however
+        should be used sparingly, as explained above it's not needed
+        in most cases.
+
+        A previous implementation used PushLocalFrame and PopLocalFrame, but
+        our usage of it was too aggressive and also cleaned up variables
+        that were meant to be passed to callbacks.
+    */
+
+    jstring own_local(jstring);
+    jclass own_local(jclass);
+    jobject own_local(jobject);
     void own_global(jobject);
 
     template <typename Callable, typename... Args>
@@ -90,6 +119,7 @@ class Environment : public mk::NonCopyable, public mk::NonMovable {
     JNIEnv *env___ = nullptr;
     bool is_attached_ = false;
     std::set<jobject> globals_;
+    std::set<jobject> locals_;
 };
 
 #endif // SWIG

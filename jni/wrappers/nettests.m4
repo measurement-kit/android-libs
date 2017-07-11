@@ -80,8 +80,10 @@ class $1 {
                 environ.trap_and_route_exceptions([global_cb, &d, &message,
                                                    &environ]() {
                     jdouble jd = d;
-                    jstring java_message = environ.new_string_utf(message);
-                    jclass clazz = environ.get_object_class(global_cb);
+                    jstring java_message = environ.own_local(
+                        environ.new_string_utf(message));
+                    jclass clazz = environ.own_local(
+                        environ.get_object_class(global_cb));
                     jmethodID meth_id = environ.get_method_id(clazz, "callback",
                                                      "(DLjava/lang/String;)V");
                     environ.call_void_method(global_cb, meth_id, jd,
@@ -104,8 +106,10 @@ class $1 {
                 environ.trap_and_route_exceptions([global_cb, &severity,
                                                    &message, &environ]() {
                     jlong java_severity = severity;
-                    jstring java_message = environ.new_string_utf(message);
-                    jclass clazz = environ.get_object_class(global_cb);
+                    jstring java_message = environ.own_local(
+                        environ.new_string_utf(message));
+                    jclass clazz = environ.own_local(
+                        environ.get_object_class(global_cb));
                     jmethodID meth_id = environ.get_method_id(clazz, "callback",
                                                      "(JLjava/lang/String;)V");
                     environ.call_void_method(global_cb, meth_id, java_severity,
@@ -127,8 +131,10 @@ class $1 {
                 Environment environ;
                 environ.trap_and_route_exceptions([global_cb, &message,
                                                    &environ]() {
-                    jstring java_message = environ.new_string_utf(message);
-                    jclass clazz = environ.get_object_class(global_cb);
+                    jstring java_message = environ.own_local(
+                        environ.new_string_utf(message));
+                    jclass clazz = environ.own_local(
+                        environ.get_object_class(global_cb));
                     jmethodID meth_id = environ.get_method_id(clazz, "callback",
                                                      "(Ljava/lang/String;)V");
                     environ.call_void_method(global_cb, meth_id, java_message);
@@ -166,8 +172,10 @@ class $1 {
                 Environment environ;
                 environ.trap_and_route_exceptions([global_cb, &entry,
                                                    &environ]() {
-                    jstring java_entry = environ.new_string_utf(entry.c_str());
-                    jclass clazz = environ.get_object_class(global_cb);
+                    jstring java_entry = environ.own_local(
+                        environ.new_string_utf(entry.c_str()));
+                    jclass clazz = environ.own_local(
+                        environ.get_object_class(global_cb));
                     jmethodID meth_id = environ.get_method_id(clazz, "callback",
                                                      "(Ljava/lang/String;)V");
                     environ.call_void_method(global_cb, meth_id, java_entry);
