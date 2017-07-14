@@ -8,11 +8,11 @@ NDK_BUILD = # Empty: must be provided on the command line
 SWIG      = swig
 WGET      = wget
 
-INPUT     = android-dependencies-20170711T135804Z.tgz
-DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-07-11/$(INPUT)
+INPUT     = android-dependencies-20170714T172439Z.tgz
+DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-07-12/$(INPUT)
 VERSION   = 0.7.0-alpha.3
 BRANCH_OR_TAG = integration/v0.7.0-beta
-OVERSION  = $(VERSION)-4
+OVERSION  = $(VERSION)-5
 OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
 PACKAGE   = org.openobservatory.measurement_kit
