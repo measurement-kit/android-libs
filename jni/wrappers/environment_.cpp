@@ -260,7 +260,7 @@ Environment::~Environment() {
             env___->DeleteGlobalRef(object);
         }
         for (auto object : locals_) {
-            env___->DeleteGlobalRef(object);
+            env___->DeleteLocalRef(object);
         }
     }
     // Null check here only for robustness to refactoring
