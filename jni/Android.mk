@@ -38,7 +38,9 @@ LOCAL_STATIC_LIBRARIES := GeoIP ssl crypto event event_openssl \
 LOCAL_MODULE := measurement_kit
 include jni/mk-files.mk
 LOCAL_CPPFLAGS += -I jni/$(TARGET_ARCH_ABI)/include -std=c++14                 \
-                  -I jni/measurement-kit/include -Wall -Wextra
+                  -I jni/measurement-kit/include -Wall -Wextra                 \
+                  -DHTTP_PARSER_STRICT=0                                       \
+                  -DHAVE_BUFFEREVENT_OPENSSL_SET_ALLOW_DIRTY_SHUTDOWN
 LOCAL_CFLAGS += -I jni/$(TARGET_ARCH_ABI)/include                              \
                 -I jni/measurement-kit/include -Wall -Wextra
 include $(BUILD_SHARED_LIBRARY)
