@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+ROOTDIR=$(cd $(dirname $(dirname $0)) && pwd -P)
+cd $ROOTDIR
+
+for iii in jni/wrappers/*.i; do
+    swig -c++ -package org.openobservatory.measurement_kit.swig -java $iii
+    package="src/main/java/org/openobservatory/measurement_kit/swig"
+    install -d $package
+    for file in jni/wrappers/*.java; do
+        mv $file $package
+    done
+    for file in jni/wrappers/*.cxx; do
+        mv $file `echo $file | sed 's/\.cxx$/.cpp/g'`
+    done
+done
+

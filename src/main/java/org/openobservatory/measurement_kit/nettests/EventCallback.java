@@ -4,6 +4,5 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-public interface EventCallback {
-    public void callback(String msg);
-}
+public interface EventCallback
+extends org.openobservatory.measurement_kit.swig.EventCallback {}

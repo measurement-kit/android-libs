@@ -1,8 +1,9 @@
-arm64-v8a/
-armeabi/
-armeabi-v7a/
-org_openobservatory_measurement_kit_jni_*.h
-mips/
-mips64/
-x86/
-x86_64/
+/arm64-v8a/
+/armeabi/
+/armeabi-v7a/
+/measurement-kit
+/mk-files.mk
+/mips/
+/mips64/
+/x86/
+/x86_64/

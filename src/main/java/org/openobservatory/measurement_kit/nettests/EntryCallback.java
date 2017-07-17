@@ -4,6 +4,5 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-public interface EntryCallback {
-    public void callback(final String entry);
-}
+public interface EntryCallback
+extends org.openobservatory.measurement_kit.swig.EntryCallback {}

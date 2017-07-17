@@ -2,13 +2,8 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-%module OoniTestWrapperSwig
-%include "std_string.i"
-%include "stdint.i"
-%{
+package org.openobservatory.measurement_kit.swig;
 
-#include "ooni_test_wrapper.hpp"
-
-%}
-
-%include "ooni_test_wrapper.hpp"
+public interface EntryCallback {
+    public void callback(final String entry);
+}

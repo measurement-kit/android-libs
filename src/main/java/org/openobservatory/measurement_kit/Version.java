@@ -4,6 +4,12 @@
 
 package org.openobservatory.measurement_kit;
 
+/**
+ * @deprecated Will be removed in a future version. You should use the
+ * namesake class in the `common` subpackage.
+ */
 public class Version {
-    public static native String getVersion();
+    public static String getVersion() {
+        return org.openobservatory.measurement_kit.swig.Version.version();
+    }
 }

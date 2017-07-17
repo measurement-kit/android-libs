@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+ROOTDIR=$(cd $(dirname $(dirname $0)) && pwd -P)
+cd $ROOTDIR
+
+package=src/main/java/org/openobservatory/measurement_kit/nettests
+
+for t in                                                                       \
+  DnsInjectionTest                                                             \
+  HttpHeaderFieldManipulationTest                                              \
+  HttpInvalidRequestLineTest                                                   \
+  MeekFrontedRequestsTest                                                      \
+  MultiNdtTest                                                                 \
+  NdtTest                                                                      \
+  TcpConnectTest                                                               \
+  WebConnectivityTest
+do
+    m4 -D MK_TEST_NAME=$t $package/BaseTest.m4 > $package/$t.java
+done
+
+m4 jni/wrappers/nettests.m4 | clang-format > jni/wrappers/nettests.hpp

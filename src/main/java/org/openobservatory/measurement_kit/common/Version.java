@@ -4,5 +4,8 @@
 
 package org.openobservatory.measurement_kit.common;
 
-public interface LogCallback
-extends org.openobservatory.measurement_kit.swig.LogCallback {}
+public class Version {
+    public static String version() {
+        return org.openobservatory.measurement_kit.swig.Version.version();
+    }
+}
