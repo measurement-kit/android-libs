@@ -6,6 +6,7 @@ cd $ROOTDIR
 package=src/main/java/org/openobservatory/measurement_kit/nettests
 
 for t in                                                                       \
+  DashTest                                                                     \
   DnsInjectionTest                                                             \
   HttpHeaderFieldManipulationTest                                              \
   HttpInvalidRequestLineTest                                                   \
