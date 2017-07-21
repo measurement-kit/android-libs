@@ -47,7 +47,7 @@ public class IntentRouter {
 
     public synchronized IntentRouter register_handler(
             final String receiver_id, final String event,
-            final org.openobservatory.ooniprobe.utils.IntentCallback cb) {
+            final IntentCallback cb) {
         IntentFilter filter = new IntentFilter();
         filter.addAction(event);
         BroadcastReceiver receiver = new BroadcastReceiver() {
