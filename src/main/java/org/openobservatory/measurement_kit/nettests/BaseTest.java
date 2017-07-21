@@ -4,8 +4,7 @@
 
 package org.openobservatory.measurement_kit.nettests;
 
-import android.support.v4.content.LocalBroadcastManager;
-
+import org.openobservatory.measurement_kit.android.IntentRouter;
 import org.openobservatory.measurement_kit.common.LogCallback;
 
 public interface BaseTest {
@@ -23,22 +22,19 @@ public interface BaseTest {
 
     BaseTest on_log(LogCallback delegate);
 
-    BaseTest on_log(final String event_id, final LocalBroadcastManager manager);
+    BaseTest on_log(final String event_id, final IntentRouter router);
 
     BaseTest on_progress(ProgressCallback delegate);
 
-    BaseTest on_progress(
-          final String event_id, final LocalBroadcastManager manager);
+    BaseTest on_progress(final String event_id, final IntentRouter router);
 
     BaseTest on_event(EventCallback delegate);
 
-    BaseTest on_event(
-          final String event_id, final LocalBroadcastManager manager);
+    BaseTest on_event(final String event_id, final IntentRouter router);
 
     BaseTest on_entry(EntryCallback delegate);
 
-    BaseTest on_entry(
-          final String event_id, final LocalBroadcastManager manager);
+    BaseTest on_entry(final String event_id, final IntentRouter router);
 
     BaseTest set_options(String key, String value);
 
@@ -46,5 +42,5 @@ public interface BaseTest {
 
     void start(TestCompleteCallback cb);
 
-    void start(final String event_id, final LocalBroadcastManager manager);
+    void start(final String event_id, final IntentRouter router);
 }
