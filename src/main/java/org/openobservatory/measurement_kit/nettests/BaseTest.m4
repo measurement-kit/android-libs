@@ -6,11 +6,11 @@ define(MK_DECLARE_TEST, `
 package org.openobservatory.measurement_kit.nettests;
 
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 
+import org.openobservatory.measurement_kit.android.IntentRouter;
 import org.openobservatory.measurement_kit.common.LogCallback;
 
-public class $1 {
+public class $1 implements BaseTest {
     private org.openobservatory.measurement_kit.swig.$1 wrapper
         = new org.openobservatory.measurement_kit.swig.$1();
 
@@ -49,8 +49,7 @@ public class $1 {
         return this;
     }
 
-    public $1 on_log(final String event_id,
-                           final LocalBroadcastManager manager) {
+    public $1 on_log(final String event_id, final IntentRouter router) {
         wrapper.on_log(new LogCallback() {
             @Override
             public void callback(long verbosity, String message) {
@@ -59,7 +58,7 @@ public class $1 {
                 intent.putExtra("type", "on_log");
                 intent.putExtra("verbosity", verbosity);
                 intent.putExtra("message", message);
-                manager.sendBroadcast(intent);
+                router.emit_intent(intent);
             }
         });
         return this;
@@ -70,8 +69,7 @@ public class $1 {
         return this;
     }
 
-    public $1 on_progress(final String event_id,
-                                final LocalBroadcastManager manager) {
+    public $1 on_progress(final String event_id, final IntentRouter router) {
         wrapper.on_progress(new ProgressCallback() {
             @Override
             public void callback(double percent, String msg) {
@@ -80,7 +78,7 @@ public class $1 {
                 intent.putExtra("type", "on_progress");
                 intent.putExtra("percent", percent);
                 intent.putExtra("message", msg);
-                manager.sendBroadcast(intent);
+                router.emit_intent(intent);
             }
         });
         return this;
@@ -91,8 +89,7 @@ public class $1 {
         return this;
     }
 
-    public $1 on_event(final String event_id,
-                             final LocalBroadcastManager manager) {
+    public $1 on_event(final String event_id, final IntentRouter router) {
         wrapper.on_event(new EventCallback() {
             @Override
             public void callback(String msg) {
@@ -100,7 +97,7 @@ public class $1 {
                 intent.setAction(event_id);
                 intent.putExtra("type", "on_event");
                 intent.putExtra("message", msg);
-                manager.sendBroadcast(intent);
+                router.emit_intent(intent);
             }
         });
         return this;
@@ -111,8 +108,7 @@ public class $1 {
         return this;
     }
 
-    public $1 on_entry(final String event_id,
-                             final LocalBroadcastManager manager) {
+    public $1 on_entry(final String event_id, final IntentRouter router) {
         wrapper.on_entry(new EntryCallback() {
             @Override
             public void callback(String entry) {
@@ -120,7 +116,7 @@ public class $1 {
                 intent.setAction(event_id);
                 intent.putExtra("type", "on_entry");
                 intent.putExtra("entry", entry);
-                manager.sendBroadcast(intent);
+                router.emit_intent(intent);
             }
         });
         return this;
@@ -139,15 +135,14 @@ public class $1 {
         wrapper.start(cb);
     }
 
-    public void start(final String event_id,
-                      final LocalBroadcastManager manager) {
+    public void start(final String event_id, final IntentRouter router) {
         wrapper.start(new TestCompleteCallback() {
             @Override
             public void callback() {
                 Intent intent = new Intent();
                 intent.setAction(event_id);
                 intent.putExtra("type", "on_test_complete");
-                manager.sendBroadcast(intent);
+                router.emit_intent(intent);
             }
         });
     }

@@ -30,11 +30,17 @@ public class IntentRouter {
         routes = new HashMap<>();
     }
 
-    public IntentRouter emit_string(String event, String message) {
+    public IntentRouter emit_intent(String event, Intent intent) {
+        // Note: no need to synchronize: `lbm` is already synchronized
+        lbm.sendBroadcast(intent);
+        return this;
+    }
+
+    public IntentRouter emit_string(String event, String key, String value) {
         // Note: no need to synchronize: `lbm` is already synchronized
         Intent intent = new Intent();
         intent.setAction(event);
-        intent.putExtra("message", message);
+        intent.putExtra(key, value);
         lbm.sendBroadcast(intent);
         return this;
     }
