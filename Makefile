@@ -3,7 +3,7 @@ PHONIES += recompile redist unpack unpack-clean
 .PHONY: $(PHONIES)
 
 GIT       = git
-GPG2      = gpg2
+GPG2      = gpg
 NDK_BUILD = # Empty: must be provided on the command line
 SWIG      = swig
 WGET      = wget
