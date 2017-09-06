@@ -12,6 +12,8 @@ public interface BaseTest {
 
     BaseTest increase_verbosity();
 
+    BaseTest add_input(String input);
+
     BaseTest set_input_filepath(String fpath);
 
     BaseTest set_output_filepath(String fpath);

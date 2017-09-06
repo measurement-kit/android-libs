@@ -24,6 +24,11 @@ public class $1 implements BaseTest {
         return this;
     }
 
+    public $1 add_input(String input) {
+        wrapper.add_input(input);
+	return this;
+    }
+
     public $1 set_input_filepath(String fpath) {
         wrapper.set_input_filepath(fpath);
         return this;
