@@ -184,8 +184,8 @@ class $1 {
         });
     }
 
-    void set_options(std::string key, std::string value) {
-        test_.set_options(key, value);
+    void set_option(std::string key, std::string value) {
+        test_.set_option(key, value);
     }
 
     void run() { test_.run(); }

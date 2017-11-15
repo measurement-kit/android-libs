@@ -29,6 +29,7 @@ public class $1 implements BaseTest {
 	return this;
     }
 
+    @Deprecated
     public $1 set_input_filepath(String fpath) {
         wrapper.set_input_filepath(fpath);
         return this;
@@ -127,8 +128,15 @@ public class $1 implements BaseTest {
         return this;
     }
 
+    // Deprecated in favour of set_option()
+    @Deprecated
     public $1 set_options(String key, String value) {
-        wrapper.set_options(key, value);
+        wrapper.set_option(key, value);
+        return this;
+    }
+
+    public $1 set_option(String key, String value) {
+        wrapper.set_option(key, value);
         return this;
     }
 

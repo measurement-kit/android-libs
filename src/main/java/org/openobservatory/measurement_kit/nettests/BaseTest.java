@@ -14,6 +14,7 @@ public interface BaseTest {
 
     BaseTest add_input(String input);
 
+    @Deprecated
     BaseTest set_input_filepath(String fpath);
 
     BaseTest set_output_filepath(String fpath);
@@ -38,7 +39,11 @@ public interface BaseTest {
 
     BaseTest on_entry(final String event_id, final IntentRouter router);
 
+    // Deprecated in favour of set_option()
+    @Deprecated
     BaseTest set_options(String key, String value);
+
+    BaseTest set_option(String key, String value);
 
     void run();
 
