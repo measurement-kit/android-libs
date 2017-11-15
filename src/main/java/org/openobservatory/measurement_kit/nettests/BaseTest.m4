@@ -29,6 +29,7 @@ public class $1 implements BaseTest {
 	return this;
     }
 
+    @Deprecated
     public $1 set_input_filepath(String fpath) {
         wrapper.set_input_filepath(fpath);
         return this;

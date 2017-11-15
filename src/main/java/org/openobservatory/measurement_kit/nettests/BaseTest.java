@@ -14,6 +14,7 @@ public interface BaseTest {
 
     BaseTest add_input(String input);
 
+    @Deprecated
     BaseTest set_input_filepath(String fpath);
 
     BaseTest set_output_filepath(String fpath);
