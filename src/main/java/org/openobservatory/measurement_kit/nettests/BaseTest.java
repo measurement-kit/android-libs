@@ -38,7 +38,11 @@ public interface BaseTest {
 
     BaseTest on_entry(final String event_id, final IntentRouter router);
 
+    // Deprecated in favour of set_option()
+    @Deprecated
     BaseTest set_options(String key, String value);
+
+    BaseTest set_option(String key, String value);
 
     void run();
 
