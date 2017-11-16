@@ -37,9 +37,16 @@ class $1 {
         test_.add_input(input);
     }
 
+    // We cannot avoid wrapping this deprecated function but we can avoid
+    // unnecessary warnings caused by using such function.
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
     void set_input_filepath(std::string fpath) {
         test_.set_input_filepath(fpath);
     }
+
+#pragma clang diagnostic pop
 
     void set_output_filepath(std::string fpath) {
         test_.set_output_filepath(fpath);
