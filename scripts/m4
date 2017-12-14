@@ -15,6 +15,9 @@ for t in                                                                       \
   NdtTest                                                                      \
   TcpConnectTest                                                               \
   WebConnectivityTest
+  WhatsAppTest
+  TelegramTest
+  FacebookMessengerTest
 do
     m4 -D MK_TEST_NAME=$t $package/BaseTest.m4 > $package/$t.java
 done
