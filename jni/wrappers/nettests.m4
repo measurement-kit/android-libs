@@ -204,12 +204,15 @@ class $1 {
 
 MK_DECLARE_TEST(DashTest);
 MK_DECLARE_TEST(DnsInjectionTest);
+MK_DECLARE_TEST(FacebookMessengerTest);
 MK_DECLARE_TEST(HttpHeaderFieldManipulationTest);
 MK_DECLARE_TEST(HttpInvalidRequestLineTest);
 MK_DECLARE_TEST(MeekFrontedRequestsTest);
 MK_DECLARE_TEST(MultiNdtTest);
 MK_DECLARE_TEST(NdtTest);
 MK_DECLARE_TEST(TcpConnectTest);
+MK_DECLARE_TEST(TelegramTest);
 MK_DECLARE_TEST(WebConnectivityTest);
+MK_DECLARE_TEST(WhatsappTest);
 
 #endif
