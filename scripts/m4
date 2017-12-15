@@ -8,13 +8,16 @@ package=src/main/java/org/openobservatory/measurement_kit/nettests
 for t in                                                                       \
   DashTest                                                                     \
   DnsInjectionTest                                                             \
+  FacebookMessengerTest                                                        \
   HttpHeaderFieldManipulationTest                                              \
   HttpInvalidRequestLineTest                                                   \
   MeekFrontedRequestsTest                                                      \
   MultiNdtTest                                                                 \
   NdtTest                                                                      \
   TcpConnectTest                                                               \
-  WebConnectivityTest
+  TelegramTest                                                                 \
+  WebConnectivityTest                                                          \
+  WhatsappTest
 do
     m4 -D MK_TEST_NAME=$t $package/BaseTest.m4 > $package/$t.java
 done

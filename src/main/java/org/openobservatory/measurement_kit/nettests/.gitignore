@@ -1,9 +1,12 @@
 /DashTest.java
 /DnsInjectionTest.java
+/FacebookMessengerTest.java
 /HttpHeaderFieldManipulationTest.java
 /HttpInvalidRequestLineTest.java
 /MeekFrontedRequestsTest.java
 /MultiNdtTest.java
 /NdtTest.java
 /TcpConnectTest.java
+/TelegramTest.java
 /WebConnectivityTest.java
+/WhatsappTest.java
