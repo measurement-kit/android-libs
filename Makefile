@@ -17,7 +17,7 @@ OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
 PACKAGE   = org.openobservatory.measurement_kit
 
-ABIS      = arm64-v8a armeabi armeabi-v7a mips mips64 x86 x86_64
+ABIS      = arm64-v8a armeabi-v7a x86 x86_64
 
 help:
 	@printf "Targets:\n"
