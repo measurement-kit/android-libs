@@ -6,13 +6,10 @@ GIT       = git
 GPG2      = gpg
 NDK_BUILD = # Empty: must be provided on the command line
 SWIG      = swig
-WGET      = wget
 
-INPUT     = android-dependencies-20170714T172439Z.tgz
-DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2017-07-12/$(INPUT)
-VERSION   = 0.8.1
-BRANCH_OR_TAG = v$(VERSION)
-OVERSION  = $(VERSION)-2
+VERSION   = 0.9.0-dev
+BRANCH_OR_TAG = cleanup/build_system
+OVERSION  = $(VERSION)-2-dev
 OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
 PACKAGE   = org.openobservatory.measurement_kit
@@ -41,12 +38,13 @@ redist: recompile
 
 jni-libs: unpack recompile
 
+# TODO(bassosimone): since we're improving CMakeLists.txt, it would be
+# a great move forward to rely on CMake for cross compiling MK.
+
 recompile:
 	$(NDK_BUILD) NDK_LIBS_OUT=./src/main/jniLibs
 
 unpack: unpack-clean download-and-verify clone-mk
-	@echo "Unpack $(INPUT) inside jni"
-	@tar xf $(INPUT)
 
 unpack-clean:
 	@echo "Cleanup jni dirs: $(ABIS)"
@@ -54,8 +52,8 @@ unpack-clean:
 	  rm -rf jni/$$ABI/*;                                                  \
 	done
 
-download-and-verify: check $(INPUT) $(INPUT).asc
-	$(GPG2) --verify $(INPUT).asc
+download-and-verify: clone-mk
+	./jni/measurement-kit/script/build/android-fetch-deps
 
 clone-mk: check
 	rm -rf -- jni/measurement-kit
@@ -94,14 +92,3 @@ check:
 	  exit 1;                                                              \
 	fi
 	@echo "Using $(SWIG): $$(which $(SWIG))"
-	@if [ -z "$$(which $(WGET))" ]; then                                   \
-	  echo "FATAL: install $(WGET) or make sure it's in PATH" 1>&2;        \
-	  exit 1;                                                              \
-	fi
-	@echo "Using $(WGET): $$(which $(WGET))"
-
-$(INPUT):
-	$(WGET) $(DEPS_URL)
-
-$(INPUT).asc:
-	$(WGET) $(DEPS_URL).asc
