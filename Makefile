@@ -24,7 +24,9 @@ help:
 	  fi;                                                                  \
 	done
 
-dist: jni-libs redist
+dist:
+	$(MAKE) -f Makefile jni-libs
+	$(MAKE) -f Makefile redist
 
 redist: recompile
 	@echo "Creating $(OUTPUT)..."
@@ -36,7 +38,10 @@ redist: recompile
 	@$(GPG2) -u 738877AA6C829F26A431C5F480B691277733D95B                   \
 	         -b --armor $(POM)
 
-jni-libs: unpack recompile
+jni-libs:
+	$(MAKE) -f Makefile unpack
+	$(MAKE) -f Makefile download-and-verify
+	$(MAKE) -f Makefile recompile
 
 # TODO(bassosimone): since we're improving CMakeLists.txt, it would be
 # a great move forward to rely on CMake for cross compiling MK.
@@ -44,7 +49,10 @@ jni-libs: unpack recompile
 recompile:
 	$(NDK_BUILD) NDK_LIBS_OUT=./src/main/jniLibs
 
-unpack: unpack-clean download-and-verify clone-mk
+unpack:
+	$(MAKE) -f Makefile unpack-clean
+	$(MAKE) -f Makefile download-and-verify
+	$(MAKE) -f Makefile clone-mk
 
 unpack-clean:
 	@echo "Cleanup jni dirs: $(ABIS)"

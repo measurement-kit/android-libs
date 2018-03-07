@@ -84,11 +84,8 @@ After this step, to generate an AAR containing the Java files and the
 corresponding compiled libraries, type:
 
 ```
-make -j1 dist NDK_BUILD=/path/to/ndk-build
+make dist NDK_BUILD=/path/to/ndk-build
 ```
-
-(Unfortunately `-j1` is required because there is some issue with the
-dependencies that lead to malfunction if parallelism is used.)
 
 Note that you *MUST* explicitly provide the path to ndk-build on your
 system. See below for more information on this point.
