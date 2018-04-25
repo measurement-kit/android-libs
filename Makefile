@@ -10,7 +10,7 @@ WGET      = wget
 
 INPUT     = android-dependencies-20180326T123005Z.tgz
 DEPS_URL  = https://github.com/measurement-kit/dependencies/releases/download/2018-03-26/$(INPUT)
-VERSION   = 0.8.2
+VERSION   = 0.8.3
 BRANCH_OR_TAG = v$(VERSION)
 OVERSION  = $(VERSION)-1
 OUTPUT    = android-libs-$(OVERSION).aar
