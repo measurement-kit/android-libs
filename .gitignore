@@ -5,6 +5,7 @@
 /android-libs-*.aar.asc
 /android-libs-*.pom
 /android-libs-*.pom.asc
+/MK_DIST
 
 # Final binary when building for JDK
 /libmeasurement_kit_java.so

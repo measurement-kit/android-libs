@@ -1,9 +1,10 @@
 #!/bin/sh
 set -e
-ROOTDIR=$(cd $(dirname $(dirname $0)) && pwd -P)
+ROOTDIR=$(cd $(dirname $0)/../ && pwd -P)
 cd $ROOTDIR
 
 package=src/main/java/org/openobservatory/measurement_kit/nettests
+now=`date -u +%Y-%m-%d-T%H:%M:%SZ`
 
 for t in                                                                       \
   DashTest                                                                     \
@@ -19,7 +20,11 @@ for t in                                                                       \
   WebConnectivityTest                                                          \
   WhatsappTest
 do
-    m4 -D MK_TEST_NAME=$t $package/BaseTest.m4 > $package/$t.java
+  set -x
+  m4 -D MK_TEST_NAME=$t -D "MK_NOW=$now" $package/BaseTest.m4 > $package/$t.java
+  set +x
 done
 
-m4 jni/wrappers/nettests.m4 | clang-format > jni/wrappers/nettests.hpp
+set -x
+m4 -D "MK_NOW=$now" jni/wrappers/nettests.m4 | clang-format                    \
+  > jni/wrappers/nettests.hpp
