@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-if [ ! -x ./pkgbuild/script/install/install ]; then
+if [ ! -x ./script/build/unix/install ]; then
   set -x
   git submodule update --init
   set +x
@@ -9,10 +9,12 @@ fi
 
 rm -rf MK_DIST/
 
-# x86_64
-./pkgbuild/script/install/install testing/android-x86_64-geoip-1.6.12-2
-./pkgbuild/script/install/install testing/android-x86_64-libevent-2.1.8-2
-./pkgbuild/script/install/install testing/android-x86_64-libressl-2.6.4-2
-./pkgbuild/script/install/install testing/android-x86_64-measurement_kit-0.9.0-alpha-3
+GEOIP_VERSION=1.6.12-2
+LIBEVENT_VERSION=2.1.8-2
+LIBRESSL_VERSION=2.6.4-2
+MK_VERSION=0.9.0-alpha-2
 
-# TODO(bassosimone): download more archives
+./script/build/unix/install android-geoip-api-c-$GEOIP_VERSION
+./script/build/unix/install android-libevent-$LIBEVENT_VERSION
+./script/build/unix/install android-libressl-$LIBRESSL_VERSION
+./script/build/unix/install android-measurement-kit-$MK_VERSION
