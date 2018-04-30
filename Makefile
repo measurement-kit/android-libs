@@ -9,8 +9,8 @@ OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
 
 dist:
-	./scripts/m4
-	./scripts/swig
-	./scripts/android/download
-	./scripts/android/build
-	./scripts/android/archive $(OUTPUT) $(POM) $(OVERSION)
+	./script/m4
+	./script/swig
+	./script/android/download
+	./script/android/build
+	./script/android/archive $(OUTPUT) $(POM) $(OVERSION)
