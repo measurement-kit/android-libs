@@ -60,3 +60,6 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Tarballs downloaded by ./script/build/unix
+*.tar.gz
