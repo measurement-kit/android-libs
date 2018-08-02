@@ -2,35 +2,35 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libGeoIP
-LOCAL_SRC_FILES := ../MK_DIST/android/geoip-api-c/1.6.12-2/$(TARGET_ARCH_ABI)/lib/libGeoIP.a
+LOCAL_SRC_FILES := ../MK_DIST/android/geoip-api-c/1.6.12-4/$(TARGET_ARCH_ABI)/lib/libGeoIP.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libcrypto
-LOCAL_SRC_FILES := ../MK_DIST/android/libressl/2.6.4-2/$(TARGET_ARCH_ABI)/lib/libcrypto.a
+LOCAL_SRC_FILES := ../MK_DIST/android/libressl/2.7.4-1/$(TARGET_ARCH_ABI)/lib/libcrypto.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libevent
-LOCAL_SRC_FILES := ../MK_DIST/android/libevent/2.1.8-2/$(TARGET_ARCH_ABI)/lib/libevent.a
+LOCAL_SRC_FILES := ../MK_DIST/android/libevent/2.1.8-7/$(TARGET_ARCH_ABI)/lib/libevent.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libevent_openssl
-LOCAL_SRC_FILES := ../MK_DIST/android/libevent/2.1.8-2/$(TARGET_ARCH_ABI)/lib/libevent_openssl.a
+LOCAL_SRC_FILES := ../MK_DIST/android/libevent/2.1.8-7/$(TARGET_ARCH_ABI)/lib/libevent_openssl.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libevent_pthreads
-LOCAL_SRC_FILES := ../MK_DIST/android/libevent/2.1.8-2/$(TARGET_ARCH_ABI)/lib/libevent_pthreads.a
+LOCAL_SRC_FILES := ../MK_DIST/android/libevent/2.1.8-7/$(TARGET_ARCH_ABI)/lib/libevent_pthreads.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libssl
-LOCAL_SRC_FILES := ../MK_DIST/android/libressl/2.6.4-2/$(TARGET_ARCH_ABI)/lib/libssl.a
+LOCAL_SRC_FILES := ../MK_DIST/android/libressl/2.7.4-1/$(TARGET_ARCH_ABI)/lib/libssl.a
 include $(PREBUILT_STATIC_LIBRARY)
 
-MK_DIR=../MK_DIST/android/measurement-kit/0.9.0-alpha-2/$(TARGET_ARCH_ABI)/
+MK_DIR=../MK_DIST/android/measurement-kit/0.9.0-alpha.4-1/$(TARGET_ARCH_ABI)/
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libmeasurement_kit_static # another name to avoid conflict
