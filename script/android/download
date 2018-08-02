@@ -9,10 +9,10 @@ fi
 
 rm -rf MK_DIST/
 
-GEOIP_VERSION=1.6.12-2
-LIBEVENT_VERSION=2.1.8-2
-LIBRESSL_VERSION=2.6.4-2
-MK_VERSION=0.9.0-alpha-2
+GEOIP_VERSION=1.6.12-4
+LIBEVENT_VERSION=2.1.8-7
+LIBRESSL_VERSION=2.7.4-1
+MK_VERSION=0.9.0-alpha.3-1
 
 ./script/build/unix/install android-geoip-api-c-$GEOIP_VERSION
 ./script/build/unix/install android-libevent-$LIBEVENT_VERSION

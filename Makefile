@@ -12,5 +12,6 @@ dist:
 	./script/m4
 	./script/swig
 	./script/android/download
+	./script/swig-nettest
 	./script/android/build
 	./script/android/archive $(OUTPUT) $(POM) $(OVERSION)
