@@ -12,6 +12,5 @@ dist:
 	./script/m4
 	./script/swig
 	./script/android/download
-	./script/swig-nettest  # must be after ./script/android/download
 	./script/android/build
 	./script/android/archive $(OUTPUT) $(POM) $(OVERSION)

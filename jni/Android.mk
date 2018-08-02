@@ -40,13 +40,13 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_LDLIBS := -llog -latomic
 # Note to self: the order of libraries matters
-LOCAL_STATIC_LIBRARIES := measurement_kit_static GeoIP ssl crypto event        \
-                          event_openssl event_pthreads
+LOCAL_STATIC_LIBRARIES := measurement_kit_static GeoIP event_openssl ssl       \
+                          crypto event event_pthreads
 LOCAL_MODULE := measurement_kit
 LOCAL_CPPFLAGS += -I jni/$(MK_DIR)/include                                     \
                   -std=c++14                                                   \
-		  -Wall                                                        \
-		  -Wextra
+                  -Wall                                                        \
+                  -Wextra
 LOCAL_SRC_FILES += wrappers/common_wrap.cpp wrappers/environment_.cpp          \
                    wrappers/nettests_wrap.cpp wrappers/ooni_wrap.cpp
 include $(BUILD_SHARED_LIBRARY)
