@@ -5,6 +5,7 @@
 /android-libs-*.aar.asc
 /android-libs-*.pom
 /android-libs-*.pom.asc
+/MK_DIST
 
 # Final binary when building for JDK
 /libmeasurement_kit_java.so
@@ -23,8 +24,7 @@
 *.class
 
 # Built application files
-/*/build/
-build/
+/build/
 
 # Crashlytics configuations
 com_crashlytics_export_strings.xml
@@ -60,3 +60,6 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Tarballs downloaded by ./script/build/unix
+*.tar.gz

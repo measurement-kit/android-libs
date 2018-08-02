@@ -10,10 +10,11 @@
 #include <exception>
 #include <functional> // IWYU pragma: keep
 #include <jni.h>
-#include <measurement_kit/common/non_copyable.hpp>
-#include <measurement_kit/common/non_movable.hpp>
 #include <set>
 #include <stdexcept>
+
+#include "non_copyable.hpp"
+#include "non_movable.hpp"
 
 class Environment : public mk::NonCopyable, public mk::NonMovable {
   public:

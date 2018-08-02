@@ -11,17 +11,17 @@
 PACKAGE = src/main/java/org/openobservatory/measurement_kit/swig
 
 all:
-	./scripts/geoip
+	./script/geoip
 	@echo ""
-	./scripts/m4
+	./script/m4
 	@echo ""
-	./scripts/swig
+	./script/swig
 	@echo ""
-	./scripts/zesty-gcc
+	./script/zesty-gcc
 	@echo ""
-	./scripts/javac $(PACKAGE)/*.java
+	./script/javac $(PACKAGE)/*.java
 	@echo ""
-	./scripts/javac example/java/*.java
+	./script/javac example/java/*.java
 	@echo ""
 	@echo "Now you can run examples like:"
-	@echo "./scripts/run HttpInvalidRequestLineExample"
+	@echo "./script/run HttpInvalidRequestLineExample"
