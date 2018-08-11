@@ -49,5 +49,5 @@ LOCAL_CPPFLAGS += -I jni/$(MK_DIR)/include                                     \
                   -Wextra -DMK_NETTESTS_INTERNAL
 LOCAL_SRC_FILES += wrappers/common_wrap.cpp wrappers/environment_.cpp          \
                    wrappers/nettests_wrap.cpp wrappers/ooni_wrap.cpp           \
-                   wrappers/nettest_wrap.cpp
+                   wrappers/FFI.cpp
 include $(BUILD_SHARED_LIBRARY)
