@@ -4,11 +4,10 @@ ROOTDIR=$(cd $(dirname $0)/../ && pwd -P)
 cd $ROOTDIR
 package=src/main/java/io/ooni/mk/nettest/swig
 rm -rf $package
-# Note: the atch doesn't matter: nettest.hpp is machine independent
-swig -IMK_DIST/android/measurement-kit/0.9.0-alpha.4-1/armeabi-v7a/include/    \
+# Note: the arch doesn't matter: nettest.hpp is machine independent
+swig -IMK_DIST/android/measurement-kit/0.9.0-alpha.6-1/armeabi-v7a/include/    \
      -c++ -package io.ooni.mk.nettest.swig -java jni/wrappers/nettest.i
 install -d $package
-rm jni/wrappers/SWIGTYPE_*.java
 for file in jni/wrappers/*.java; do
   mv $file $package
 done

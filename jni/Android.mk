@@ -30,7 +30,7 @@ LOCAL_MODULE := libssl
 LOCAL_SRC_FILES := ../MK_DIST/android/libressl/2.7.4-1/$(TARGET_ARCH_ABI)/lib/libssl.a
 include $(PREBUILT_STATIC_LIBRARY)
 
-MK_DIR=../MK_DIST/android/measurement-kit/0.9.0-alpha.4-1/$(TARGET_ARCH_ABI)/
+MK_DIR=../MK_DIST/android/measurement-kit/0.9.0-alpha.6-1/$(TARGET_ARCH_ABI)/
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libmeasurement_kit_static # another name to avoid conflict
@@ -46,7 +46,8 @@ LOCAL_MODULE := measurement_kit
 LOCAL_CPPFLAGS += -I jni/$(MK_DIR)/include                                     \
                   -std=c++14                                                   \
                   -Wall                                                        \
-                  -Wextra
+                  -Wextra -DMK_NETTESTS_INTERNAL
 LOCAL_SRC_FILES += wrappers/common_wrap.cpp wrappers/environment_.cpp          \
-                   wrappers/nettests_wrap.cpp wrappers/ooni_wrap.cpp
+                   wrappers/nettests_wrap.cpp wrappers/ooni_wrap.cpp           \
+                   wrappers/nettest_wrap.cpp
 include $(BUILD_SHARED_LIBRARY)
