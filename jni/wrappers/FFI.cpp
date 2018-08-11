@@ -8,29 +8,29 @@ JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1start(JNIEnv *env,
     jlong rv = 0;
     const char *s = env->GetStringUTFChars(str, nullptr);
     if (s != nullptr) {
-        rv = (jlong)mk_task_start(s);
+        rv = (jlong)mk_nettest_start(s);
         env->ReleaseStringUTFChars(str, s);
     }
     return rv;
 }
 
 JNIEXPORT jboolean JNICALL
-Java_io_ooni_mk_FFI_mk_1nettest_1is_1done(JNIEnv *, jclass, jlong nt) {
+Java_io_ooni_mk_FFI_mk_1task_1is_1done(JNIEnv *, jclass, jlong nt) {
     return mk_task_is_done((mk_task_t *)nt) ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1wait_1for_1next_1event(
+JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1task_1wait_1for_1next_1event(
         JNIEnv *, jclass, jlong nt) {
     return (jlong)mk_task_wait_for_next_event((mk_task_t *)nt);
 }
 
-JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1interrupt(JNIEnv *,
+JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1task_1interrupt(JNIEnv *,
                                                                   jclass,
                                                                   jlong nt) {
     mk_task_interrupt((mk_task_t *)nt);
 }
 
-JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1destroy(JNIEnv *,
+JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1task_1destroy(JNIEnv *,
                                                                 jclass,
                                                                 jlong nt) {
     mk_task_destroy((mk_task_t *)nt);

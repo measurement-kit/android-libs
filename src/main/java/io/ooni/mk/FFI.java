@@ -6,10 +6,10 @@ package io.ooni.mk;
 
 public class FFI {
     public final static native long mk_nettest_start(String settings);
-    public final static native boolean mk_nettest_is_done(long nt);
-    public final static native long mk_nettest_wait_for_next_event(long nt);
-    public final static native void mk_nettest_interrupt(long nt);
-    public final static native void mk_nettest_destroy(long nt);
+    public final static native boolean mk_task_is_done(long task);
+    public final static native long mk_task_wait_for_next_event(long task);
+    public final static native void mk_task_interrupt(long task);
+    public final static native void mk_task_destroy(long task);
     public final static native String mk_event_serialize(long event);
     public final static native void mk_event_destroy(long event);
 }
