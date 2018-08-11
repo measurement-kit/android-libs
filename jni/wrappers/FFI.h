@@ -7,59 +7,25 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     io_ooni_mk_FFI
- * Method:    mk_nettest_start
- * Signature: (Ljava/lang/String;)J
- */
+
 JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1start
   (JNIEnv *, jclass, jstring);
 
-/*
- * Class:     io_ooni_mk_FFI
- * Method:    mk_nettest_is_done
- * Signature: (J)Z
- */
-JNIEXPORT jboolean JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1is_1done
+JNIEXPORT jboolean JNICALL Java_io_ooni_mk_FFI_mk_1task_1is_1done
   (JNIEnv *, jclass, jlong);
 
-/*
- * Class:     io_ooni_mk_FFI
- * Method:    mk_nettest_wait_for_next_event
- * Signature: (J)J
- */
-JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1wait_1for_1next_1event
+JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1task_1wait_1for_1next_1event
   (JNIEnv *, jclass, jlong);
 
-/*
- * Class:     io_ooni_mk_FFI
- * Method:    mk_nettest_interrupt
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1interrupt
+JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1task_1interrupt
   (JNIEnv *, jclass, jlong);
 
-/*
- * Class:     io_ooni_mk_FFI
- * Method:    mk_nettest_destroy
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1destroy
+JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1task_1destroy
   (JNIEnv *, jclass, jlong);
 
-/*
- * Class:     io_ooni_mk_FFI
- * Method:    mk_event_serialize
- * Signature: (J)Ljava/lang/String;
- */
 JNIEXPORT jstring JNICALL Java_io_ooni_mk_FFI_mk_1event_1serialize
   (JNIEnv *, jclass, jlong);
 
-/*
- * Class:     io_ooni_mk_FFI
- * Method:    mk_event_destroy
- * Signature: (J)V
- */
 JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1event_1destroy
   (JNIEnv *, jclass, jlong);
 
