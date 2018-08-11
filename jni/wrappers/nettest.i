@@ -14,7 +14,6 @@
 
 %feature("director");
 
-/*%ignore mk::nettest::common::Nettest::dispatch_event;*/
 %ignore mk::nettest::Settings::annotations;
 %ignore mk::nettest::Settings::inputs;
 %ignore mk::nettest::Settings::input_filepaths;
@@ -33,13 +32,5 @@
 
 %rename("%(lowercamelcase)s", %$isfunction) "";
 %rename("%(lowercamelcase)s", %$isvariable) "";
-/*%rename("%(regex:/([A-Za-z]+)(.*)Event/Event\\1/)s") "";
-%rename("%(regex:/([A-Za-z]+)(.*)Nettest/Nettest\\1/)s") "";
-%rename("%(regex:/([A-Za-z]+)(.*)Settings/Settings\\1/)s") "";
-%rename("%(regex:/^Settings$/SettingsBase/)s") "";
-%rename("%(regex:/^Nettest$/NettestBase/)s") "";
-%rename("%(regex:/^PerformanceNettest$/NettestBasePerformance/)s") "";
-%rename("%(regex:/^WebsitesNettest$/NettestBaseWebsites/)s") "";
-%rename("%(regex:/^NeedsInputSettings$/SettingsBaseNeedsInput/)s") "";*/
 
 %include <measurement_kit/nettest.hpp>
