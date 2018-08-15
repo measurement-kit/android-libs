@@ -30,7 +30,7 @@ LOCAL_MODULE := libssl
 LOCAL_SRC_FILES := ../MK_DIST/android/libressl/2.7.4-1/$(TARGET_ARCH_ABI)/lib/libssl.a
 include $(PREBUILT_STATIC_LIBRARY)
 
-MK_DIR=../MK_DIST/android/measurement-kit/0.9.0-alpha.8-1/$(TARGET_ARCH_ABI)/
+MK_DIR=../MK_DIST/android/measurement-kit/0.9.0-alpha.9-1/$(TARGET_ARCH_ABI)/
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libmeasurement_kit_static # another name to avoid conflict
