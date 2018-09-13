@@ -4,7 +4,7 @@ PHONIES += dist
 GPG2      = gpg
 
 VERSION   = 0.9.0-alpha.9-1
-OVERSION  = $(VERSION)-android.1
+OVERSION  = $(VERSION)-android.2
 OUTPUT    = android-libs-$(OVERSION).aar
 POM       = android-libs-$(OVERSION).pom
 
