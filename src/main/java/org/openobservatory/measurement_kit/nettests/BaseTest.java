@@ -10,6 +10,8 @@ import org.openobservatory.measurement_kit.common.LogCallback;
 public interface BaseTest {
     BaseTest set_verbosity(long verbosity);
 
+    BaseTest add_annotation(String key, String value);
+
     BaseTest increase_verbosity();
 
     BaseTest add_input(String input);
