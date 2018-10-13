@@ -29,6 +29,10 @@ class $1 {
   public:
     $1() {}
 
+    void add_annotation(std::string key, std::string value) {
+        test_.add_annotation(key, value);
+    }
+
     void set_verbosity(uint32_t verbosity) { test_.set_verbosity(verbosity); }
 
     void increase_verbosity() { test_.increase_verbosity(); }

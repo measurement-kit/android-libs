@@ -14,6 +14,11 @@ public class $1 implements BaseTest {
     private org.openobservatory.measurement_kit.swig.$1 wrapper
         = new org.openobservatory.measurement_kit.swig.$1();
 
+    public $1 add_annotation(String key, String value) {
+        wrapper.add_annotation(key, value);
+        return this;
+    }
+
     public $1 set_verbosity(long verbosity) {
         wrapper.set_verbosity(verbosity);
         return this;
@@ -26,7 +31,7 @@ public class $1 implements BaseTest {
 
     public $1 add_input(String input) {
         wrapper.add_input(input);
-	return this;
+        return this;
     }
 
     @Deprecated
