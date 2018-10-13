@@ -33,8 +33,8 @@ include $(PREBUILT_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_LDLIBS := -llog -latomic
 # Note to self: the order of libraries matters
-LOCAL_STATIC_LIBRARIES := GeoIP ssl crypto event event_openssl \
-                          event_pthreads
+LOCAL_STATIC_LIBRARIES := GeoIP ssl event event_openssl \
+                          event_pthreads crypto
 LOCAL_MODULE := measurement_kit
 include jni/mk-files.mk
 LOCAL_CPPFLAGS += -I jni/$(TARGET_ARCH_ABI)/include -std=c++14                 \
