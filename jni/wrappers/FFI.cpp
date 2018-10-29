@@ -6,6 +6,7 @@ JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1start(JNIEnv *env,
                                                                jclass,
                                                                jstring str) {
     jlong rv = 0;
+    if (env == nullptr || str == nullptr) return rv;
     const char *s = env->GetStringUTFChars(str, nullptr);
     if (s != nullptr) {
         rv = (jlong)mk_nettest_start(s);
@@ -40,6 +41,7 @@ JNIEXPORT jstring JNICALL Java_io_ooni_mk_FFI_mk_1event_1serialize(JNIEnv *env,
                                                                    jclass,
                                                                    jlong ev) {
     jstring rv = nullptr;
+    if (env == nullptr || ev == 0) return rv;
     const char *s = mk_event_serialize((mk_event_t *)ev);
     if (s != nullptr) {
         rv = env->NewStringUTF(s);
