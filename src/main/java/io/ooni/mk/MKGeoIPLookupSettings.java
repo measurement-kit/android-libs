@@ -43,7 +43,7 @@ public class MKGeoIPLookupSettings {
     Delete(handle);
   }
 
-  MKGeoIPLookupResults perform() {
+  public MKGeoIPLookupResults perform() {
     long results = Perform(handle);
     if (results == 0) {
       throw new RuntimeException("MKGeoIPLookupSettings.Perform failed");
