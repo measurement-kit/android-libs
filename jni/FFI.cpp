@@ -1,56 +1,24 @@
+// Part of measurement-kit <https://measurement-kit.github.io/>.
+// Measurement-kit is free software. See AUTHORS and LICENSE for more
+// information on the copying conditions.
+
 #include "mk-jni-api.h"
+#include "mk-jni-util.hpp"
 
 #include "measurement_kit/ffi.h"
 
-JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1nettest_1start(JNIEnv *env,
-                                                               jclass,
-                                                               jstring str) {
-    jlong rv = 0;
-    if (env == nullptr || str == nullptr) return rv;
-    const char *s = env->GetStringUTFChars(str, nullptr);
-    if (s != nullptr) {
-        rv = (jlong)mk_nettest_start(s);
-        env->ReleaseStringUTFChars(str, s);
-    }
-    return rv;
-}
+MKJNI_NEW_WITH_STRING_ARGUMENT(Task_StartNettest, mk_nettest_start)
 
-JNIEXPORT jboolean JNICALL
-Java_io_ooni_mk_FFI_mk_1task_1is_1done(JNIEnv *, jclass, jlong nt) {
-    return mk_task_is_done((mk_task_t *)nt) ? JNI_TRUE : JNI_FALSE;
-}
+MKJNI_GET_BOOLEAN(Task_IsDone, mk_task_is_done, mk_task_t)
 
-JNIEXPORT jlong JNICALL Java_io_ooni_mk_FFI_mk_1task_1wait_1for_1next_1event(
-        JNIEnv *, jclass, jlong nt) {
-    return (jlong)mk_task_wait_for_next_event((mk_task_t *)nt);
-}
+MKJNI_GET_POINTER(Task_WaitForNextEvent,
+                  mk_task_wait_for_next_event,
+                  mk_task_t)
 
-JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1task_1interrupt(JNIEnv *,
-                                                                  jclass,
-                                                                  jlong nt) {
-    mk_task_interrupt((mk_task_t *)nt);
-}
+MKJNI_CALL(Task_Interrupt, mk_task_interrupt, mk_task_t)
 
-JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1task_1destroy(JNIEnv *,
-                                                                jclass,
-                                                                jlong nt) {
-    mk_task_destroy((mk_task_t *)nt);
-}
+MKJNI_DELETE(Task_Destroy, mk_task_destroy, mk_task_t)
 
-JNIEXPORT jstring JNICALL Java_io_ooni_mk_FFI_mk_1event_1serialize(JNIEnv *env,
-                                                                   jclass,
-                                                                   jlong ev) {
-    jstring rv = nullptr;
-    if (env == nullptr || ev == 0) return rv;
-    const char *s = mk_event_serialize((mk_event_t *)ev);
-    if (s != nullptr) {
-        rv = env->NewStringUTF(s);
-    }
-    return rv;
-}
+MKJNI_GET_STRING(Event_Serialize, mk_event_serialize, mk_event_t)
 
-JNIEXPORT void JNICALL Java_io_ooni_mk_FFI_mk_1event_1destroy(JNIEnv *,
-                                                              jclass,
-                                                              jlong ev) {
-    mk_event_destroy((mk_event_t *)ev);
-}
+MKJNI_DELETE(Event_Destroy, mk_event_destroy, mk_event_t)

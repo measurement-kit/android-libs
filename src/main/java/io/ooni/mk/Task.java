@@ -4,36 +4,49 @@
 
 package io.ooni.mk;
 
-import io.ooni.mk.FFI;
-
 public class Task {
-    public static Task startNettest(String conf) {
-        long task = FFI.mk_nettest_start(conf);
-        return (task != 0) ? new Task(task) : null;
+    long handle = 0;
+
+    final static native long StartNettest(String settings);
+
+    final static native boolean IsDone(long handle);
+
+    final static native long WaitForNextEvent(long handle);
+
+    final static native void Interrupt(long handle);
+
+    final static native void Destroy(long handle);
+
+    Task(long n) {
+        handle = n;
+    }
+
+    public static Task startNettest(String settings) {
+        long handle = StartNettest(settings);
+        if (handle == 0) {
+          throw new RuntimeException("Task.startNettest failed");
+        }
+        return new Task(handle);
     }
 
     public boolean isDone() {
-        return FFI.mk_task_is_done(handle);
+        return IsDone(handle);
     }
 
     public Event waitForNextEvent() {
-        long event = FFI.mk_task_wait_for_next_event(handle);
-        return (event != 0) ? new Event(event) : null;
+        long event = WaitForNextEvent(handle);
+        if (event == 0) {
+          throw new RuntimeException("Task.WaitForNextEvent failed");
+        }
+        return new Event(handle);
     }
 
     public void interrupt() {
-        FFI.mk_task_interrupt(handle);
+        Interrupt(handle);
     }
 
     @Override
     public synchronized void finalize() {
-        FFI.mk_task_destroy(handle);
-        handle = 0;
+        Destroy(handle);
     }
-
-    private Task(long handle) {
-        this.handle = handle;
-    }
-
-    private long handle = 0;
 }

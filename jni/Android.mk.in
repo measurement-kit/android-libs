@@ -58,5 +58,5 @@ LOCAL_CPPFLAGS += -I jni/$(MK_DIR)/include                                     \
                   -std=c++14                                                   \
                   -Wall                                                        \
                   -Wextra
-LOCAL_SRC_FILES += FFI.cpp MKGeoIPLookup.cpp
+LOCAL_SRC_FILES += FFI.cpp MKGeoIPLookup.cpp MKOrchestra.cpp
 include $(BUILD_SHARED_LIBRARY)

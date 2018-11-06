@@ -4,22 +4,23 @@
 
 package io.ooni.mk;
 
-import io.ooni.mk.FFI;
-
 public class Event {
+    long handle = 0;
+
+    final static native String Serialize(long handle);
+
+    final static native void Destroy(long handle);
+
+    protected Event(long n) {
+        handle = n;
+    }
+
     public String serialize() {
-        return FFI.mk_event_serialize(handle);
+        return Serialize(handle);
     }
 
     @Override
     public synchronized void finalize() {
-        FFI.mk_event_destroy(handle);
-        handle = 0;
+        Destroy(handle);
     }
-
-    protected Event(long handle) {
-        this.handle = handle;
-    }
-
-    private long handle = 0;
 }

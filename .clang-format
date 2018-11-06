@@ -1,6 +1,4 @@
----
-BasedOnStyle: LLVM
+BasedOnStyle: Google
+ColumnLimit: 0
 AllowShortIfStatementsOnASingleLine: true
-IndentWidth: 4
-ContinuationIndentWidth: 8
----
+AllowShortCaseLabelsOnASingleLine: true
