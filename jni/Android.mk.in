@@ -6,8 +6,13 @@ LOCAL_SRC_FILES := ../MK_DIST/android/libressl/@libressl_version@/$(TARGET_ARCH_
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := libevent
-LOCAL_SRC_FILES := ../MK_DIST/android/libevent/@libevent_version@/$(TARGET_ARCH_ABI)/lib/libevent.a
+LOCAL_MODULE := libevent_core
+LOCAL_SRC_FILES := ../MK_DIST/android/libevent/@libevent_version@/$(TARGET_ARCH_ABI)/lib/libevent_core.a
+include $(PREBUILT_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := libevent_extra
+LOCAL_SRC_FILES := ../MK_DIST/android/libevent/@libevent_version@/$(TARGET_ARCH_ABI)/lib/libevent_extra.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -46,7 +51,8 @@ include $(CLEAR_VARS)
 LOCAL_LDLIBS := -llog -latomic
 # Note to self: the order of libraries matters
 LOCAL_STATIC_LIBRARIES := measurement_kit_static libmaxminddb libcurl          \
-                          event_openssl ssl crypto event event_pthreads
+                          event_openssl ssl crypto event_core event_extra      \
+                          event_pthreads
 LOCAL_MODULE := measurement_kit
 LOCAL_CPPFLAGS += -I jni/$(MK_DIR)/include                                     \
                   -std=c++14                                                   \
