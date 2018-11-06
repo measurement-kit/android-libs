@@ -8,6 +8,6 @@ fi
 
 ./gradlew :assembleDebug
 cp build/outputs/aar/android-libs-debug.aar $1
-gpg -u 738877AA6C829F26A431C5F480B691277733D95B  -b --armor $1
+gpg -u 738877AA6C829F26A431C5F480B691277733D95B -b --armor $1
 cat template.pom | sed "s/@VERSION@/$3/g" > $2
 gpg -u 738877AA6C829F26A431C5F480B691277733D95B -b --armor $2
