@@ -56,8 +56,6 @@ LOCAL_MODULE := measurement_kit
 LOCAL_CPPFLAGS += -I jni/$(MK_DIR)/include                                     \
                   -std=c++14                                                   \
                   -Wall                                                        \
-                  -Wextra -DMK_NETTESTS_INTERNAL
-LOCAL_SRC_FILES += wrappers/common_wrap.cpp wrappers/environment_.cpp          \
-                   wrappers/nettests_wrap.cpp wrappers/ooni_wrap.cpp           \
-                   wrappers/FFI.cpp wrappers/MKGeoIPLookup.cpp
+                  -Wextra
+LOCAL_SRC_FILES += FFI.cpp MKGeoIPLookup.cpp
 include $(BUILD_SHARED_LIBRARY)
