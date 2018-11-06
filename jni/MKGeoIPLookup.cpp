@@ -1,6 +1,6 @@
-#include "MKGeoIPLookup.h"
+#include "mk-jni-api.h"
 
-#include <measurement_kit/vendor/mkgeoip.h>
+#include "measurement_kit/vendor/mkgeoip.h"
 
 JNIEXPORT jboolean JNICALL
 Java_io_ooni_mk_MKGeoIPLookupResults_Good(JNIEnv *, jclass, jlong handle) {

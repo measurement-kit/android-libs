@@ -1,4 +1,4 @@
-#include "FFI.h"
+#include "mk-jni-api.h"
 
 #include "measurement_kit/ffi.h"
 

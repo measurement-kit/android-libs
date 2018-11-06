@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+echo "* Regenerating JNI include headers"
+javac -Werror -cp src/main/java src/main/java/io/ooni/mk/*.java
+classes=""
+for name in `cd src/main/java && find io/ooni/mk -type f -name \*.class`; do
+  name=`echo $name | sed 's/\.class$//g' | tr '/' '.'`
+  classes="$name $classes"
+done
+javah -cp src/main/java -o jni/mk-jni-api.h $classes
+find src/main/java -type f -name \*.class -exec rm -f {} \;
