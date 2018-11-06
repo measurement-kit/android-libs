@@ -4,7 +4,7 @@
 
 package io.ooni.mk;
 
-public class Task {
+public class MKTask {
     long handle = 0;
 
     final static native long StartNettest(String settings);
@@ -17,28 +17,28 @@ public class Task {
 
     final static native void Destroy(long handle);
 
-    Task(long n) {
+    MKTask(long n) {
         handle = n;
     }
 
-    public static Task startNettest(String settings) {
+    public static MKTask startNettest(String settings) {
         long handle = StartNettest(settings);
         if (handle == 0) {
-          throw new RuntimeException("Task.startNettest failed");
+          throw new RuntimeException("MKTask.startNettest failed");
         }
-        return new Task(handle);
+        return new MKTask(handle);
     }
 
     public boolean isDone() {
         return IsDone(handle);
     }
 
-    public Event waitForNextEvent() {
+    public MKEvent waitForNextEvent() {
         long event = WaitForNextEvent(handle);
         if (event == 0) {
-          throw new RuntimeException("Task.WaitForNextEvent failed");
+          throw new RuntimeException("MKTask.WaitForNextEvent failed");
         }
-        return new Event(handle);
+        return new MKEvent(handle);
     }
 
     public void interrupt() {

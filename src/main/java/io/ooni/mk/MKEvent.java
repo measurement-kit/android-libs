@@ -4,14 +4,14 @@
 
 package io.ooni.mk;
 
-public class Event {
+public class MKEvent {
     long handle = 0;
 
     final static native String Serialize(long handle);
 
     final static native void Destroy(long handle);
 
-    protected Event(long n) {
+    protected MKEvent(long n) {
         handle = n;
     }
 
