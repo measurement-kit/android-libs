@@ -64,3 +64,5 @@ Thumbs.db
 
 # Tarballs downloaded by ./script/build/unix
 *.tar.gz
+
+/build.gradle
