@@ -4,21 +4,21 @@
 
 JNIEXPORT jboolean JNICALL
 Java_io_ooni_mk_MKGeoIPLookupResults_Good(JNIEnv *, jclass, jlong handle) {
-  return (handle != 0) ? mkgeoip_lookup_results_good(
+  return (handle != 0) ? mkgeoip_lookup_results_good_v2(
       (mkgeoip_lookup_results_t *)handle) : JNI_FALSE;
 }
 
 JNIEXPORT jdouble JNICALL
 Java_io_ooni_mk_MKGeoIPLookupResults_GetBytesSent(
     JNIEnv *, jclass, jlong handle) {
-  return (handle != 0) ? mkgeoip_lookup_results_get_bytes_sent(
+  return (handle != 0) ? mkgeoip_lookup_results_get_bytes_sent_v2(
       (mkgeoip_lookup_results_t *)handle) : 0.0;
 }
 
 JNIEXPORT jdouble JNICALL
 Java_io_ooni_mk_MKGeoIPLookupResults_GetBytesRecv(
     JNIEnv *, jclass, jlong handle) {
-  return (handle != 0) ? mkgeoip_lookup_results_get_bytes_recv(
+  return (handle != 0) ? mkgeoip_lookup_results_get_bytes_recv_v2(
       (mkgeoip_lookup_results_t *)handle) : 0.0;
 }
 
@@ -26,7 +26,7 @@ JNIEXPORT jstring JNICALL
 Java_io_ooni_mk_MKGeoIPLookupResults_GetProbeIP(
     JNIEnv *env, jclass, jlong handle) {
   if (env == nullptr || handle == 0) return nullptr;
-  const char *s = mkgeoip_lookup_results_get_probe_ip(
+  const char *s = mkgeoip_lookup_results_get_probe_ip_v2(
       (mkgeoip_lookup_results_t *)handle);
   return (s != nullptr) ? env->NewStringUTF(s) : nullptr;
 }
@@ -34,7 +34,7 @@ Java_io_ooni_mk_MKGeoIPLookupResults_GetProbeIP(
 JNIEXPORT jlong JNICALL
 Java_io_ooni_mk_MKGeoIPLookupResults_GetProbeASN(
     JNIEnv *, jclass, jlong handle) {
-  return (handle != 0) ? mkgeoip_lookup_results_get_probe_asn(
+  return (handle != 0) ? mkgeoip_lookup_results_get_probe_asn_v2(
       (mkgeoip_lookup_results_t *)handle) : 0;
 }
 
@@ -42,7 +42,7 @@ JNIEXPORT jstring JNICALL
 Java_io_ooni_mk_MKGeoIPLookupResults_GetProbeCC(
     JNIEnv *env, jclass, jlong handle) {
   if (env == nullptr || handle == 0) return nullptr;
-  const char *s = mkgeoip_lookup_results_get_probe_cc(
+  const char *s = mkgeoip_lookup_results_get_probe_cc_v2(
       (mkgeoip_lookup_results_t *)handle);
   return (s != nullptr) ? env->NewStringUTF(s) : nullptr;
 }
@@ -51,7 +51,7 @@ JNIEXPORT jstring JNICALL
 Java_io_ooni_mk_MKGeoIPLookupResults_GetProbeOrg(
     JNIEnv *env, jclass, jlong handle) {
   if (env == nullptr || handle == 0) return nullptr;
-  const char *s = mkgeoip_lookup_results_get_probe_org(
+  const char *s = mkgeoip_lookup_results_get_probe_org_v2(
       (mkgeoip_lookup_results_t *)handle);
   return (s != nullptr) ? env->NewStringUTF(s) : nullptr;
 }
@@ -63,9 +63,9 @@ Java_io_ooni_mk_MKGeoIPLookupResults_GetLogs(
   const uint8_t *base = nullptr;
   size_t count = 0;
   // Implementation note: both in Java and Android jsize is jint
-  if (!mkgeoip_lookup_results_get_logs_binary(
-        (mkgeoip_lookup_results_t *)handle, &base, &count)
-      || base == nullptr || count <= 0 || count > INT_MAX) {
+  mkgeoip_lookup_results_get_logs_binary_v2(
+      (mkgeoip_lookup_results_t *)handle, &base, &count);
+  if (base == nullptr || count <= 0 || count > INT_MAX) {
     return nullptr;
   }
   jbyteArray array = env->NewByteArray((jsize)count);
@@ -81,14 +81,14 @@ Java_io_ooni_mk_MKGeoIPLookupResults_Delete(JNIEnv *, jclass, jlong handle) {
 
 JNIEXPORT jlong JNICALL
 Java_io_ooni_mk_MKGeoIPLookupSettings_New(JNIEnv *, jclass) {
-  return (jlong)mkgeoip_lookup_settings_new();
+  return (jlong)mkgeoip_lookup_settings_new_nonnull();
 }
 
 JNIEXPORT void JNICALL
 Java_io_ooni_mk_MKGeoIPLookupSettings_SetTimeout(
     JNIEnv *, jclass, jlong handle, jlong timeout) {
   if (handle != 0 && timeout >= 0) {
-      mkgeoip_lookup_settings_set_timeout(
+      mkgeoip_lookup_settings_set_timeout_v2(
         (mkgeoip_lookup_settings_t *)handle, timeout);
   }
 }
@@ -99,7 +99,7 @@ Java_io_ooni_mk_MKGeoIPLookupSettings_SetCountryDBPath(
   if (env != nullptr && handle != 0 && str != nullptr) {
     const char *s = env->GetStringUTFChars(str, nullptr);
     if (s != nullptr) {
-      mkgeoip_lookup_settings_set_country_db_path(
+      mkgeoip_lookup_settings_set_country_db_path_v2(
         (mkgeoip_lookup_settings_t *)handle, s);
       env->ReleaseStringUTFChars(str, s);
     }
@@ -112,7 +112,7 @@ Java_io_ooni_mk_MKGeoIPLookupSettings_SetASNDBPath(
   if (env != nullptr && handle != 0 && str != nullptr) {
     const char *s = env->GetStringUTFChars(str, nullptr);
     if (s != nullptr) {
-      mkgeoip_lookup_settings_set_asn_db_path(
+      mkgeoip_lookup_settings_set_asn_db_path_v2(
         (mkgeoip_lookup_settings_t *)handle, s);
       env->ReleaseStringUTFChars(str, s);
     }
@@ -125,7 +125,7 @@ Java_io_ooni_mk_MKGeoIPLookupSettings_SetCABundlePath(
   if (env != nullptr && handle != 0 && str != nullptr) {
     const char *s = env->GetStringUTFChars(str, nullptr);
     if (s != nullptr) {
-      mkgeoip_lookup_settings_set_ca_bundle_path(
+      mkgeoip_lookup_settings_set_ca_bundle_path_v2(
         (mkgeoip_lookup_settings_t *)handle, s);
       env->ReleaseStringUTFChars(str, s);
     }
@@ -134,7 +134,7 @@ Java_io_ooni_mk_MKGeoIPLookupSettings_SetCABundlePath(
 
 JNIEXPORT jlong JNICALL
 Java_io_ooni_mk_MKGeoIPLookupSettings_Perform(JNIEnv *, jclass, jlong handle) {
-  return (jlong)mkgeoip_lookup_settings_perform(
+  return (jlong)mkgeoip_lookup_settings_perform_nonnull(
       (mkgeoip_lookup_settings_t *)handle);
 }
 
