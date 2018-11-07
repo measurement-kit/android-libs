@@ -8,7 +8,7 @@
 /mips/
 /mips64/
 /mk-files.mk
-/mk-jni-api.h
+/mkall.h
 /mkall_util.h
 /orchestra.cpp
 /version.cpp
