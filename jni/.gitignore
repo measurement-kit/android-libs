@@ -2,10 +2,15 @@
 /arm64-v8a/
 /armeabi-v7a/
 /armeabi/
+/ffi.cpp
+/geoiplookup.cpp
 /measurement-kit
 /mips/
 /mips64/
 /mk-files.mk
 /mk-jni-api.h
+/mkall_util.h
+/orchestra.cpp
+/version.cpp
 /x86/
 /x86_64/

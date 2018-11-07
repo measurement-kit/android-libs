@@ -24,6 +24,12 @@ for name in `ls MK_DIST/android`; do
   sed "s|@$name_adjusted@|$version|g" jni/Android.mk > jni/Android.mk.tmp
   mv jni/Android.mk.tmp jni/Android.mk
 done
+sources=""
+for name in `cd jni && ls *.cpp`; do
+  sources="$sources $name"
+done
+sed "s|@sources@|$sources|g" jni/Android.mk > jni/Android.mk.tmp
+mv jni/Android.mk.tmp jni/Android.mk
 echo "Configured jni/Android.mk"
 sed -e "s|@version_code@|$version_code|g"                                      \
     -e "s|@version_name@|$version_name|g"                                      \

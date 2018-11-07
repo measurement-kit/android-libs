@@ -7,5 +7,5 @@ for name in `cd src/main/java && find io/ooni/mk -type f -name \*.class`; do
   name=`echo $name | sed 's/\.class$//g' | tr '/' '.'`
   classes="$name $classes"
 done
-javah -cp src/main/java -o jni/mk-jni-api.h $classes
+javah -cp src/main/java -o jni/mkall.h $classes
 find src/main/java -type f -name \*.class -exec rm -f {} \;
