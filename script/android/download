@@ -1,24 +1,8 @@
 #!/bin/sh
 set -e
-
 if [ ! -x ./script/build/unix/install ]; then
-  set -x
   git submodule update --init
-  set +x
 fi
-
 rm -rf MK_DIST/
-
-CURL_VERSION=7.61.1-9
-GEOIP_VERSION=1.6.12-9
-LIBEVENT_VERSION=2.1.8-9
-LIBMAXMINDDB_VERSION=1.3.2-9
-LIBRESSL_VERSION=2.7.4-9
-MK_VERSION=0.9.0-alpha.11-9
-
-./script/build/unix/install android-curl-$CURL_VERSION
-./script/build/unix/install android-geoip-api-c-$GEOIP_VERSION
-./script/build/unix/install android-libevent-$LIBEVENT_VERSION
-./script/build/unix/install android-libmaxminddb-$LIBMAXMINDDB_VERSION
-./script/build/unix/install android-libressl-$LIBRESSL_VERSION
-./script/build/unix/install android-measurement-kit-$MK_VERSION
+./script/build/unix/install `./script/build/unix/all-deps.sh android-`         \
+                            android-measurement-kit

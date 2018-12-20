@@ -1,0 +1,37 @@
+#!/bin/bash
+set -e
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <version-code> <version-name>" 1>&2
+  exit 1
+fi
+version_code=$1
+version_name=$2
+if [ ! -d MK_DIST ]; then
+  echo "FATAL: you must download dependencies first" 1>&2
+  exit 1
+fi
+cp jni/Android.mk.in jni/Android.mk
+for name in `ls MK_DIST/android`; do
+  count=0
+  for version in `ls MK_DIST/android/$name`; do
+    count=$(($count + 1))
+  done
+  if [ $count -ne 1 ]; then
+    echo "FATAL: expectly exactly one version of $name" 1>&2
+    exit 1
+  fi
+  name_adjusted=`echo $name | tr '-' '_'`_version
+  sed "s|@$name_adjusted@|$version|g" jni/Android.mk > jni/Android.mk.tmp
+  mv jni/Android.mk.tmp jni/Android.mk
+done
+sources=""
+for name in `cd jni && ls *.cpp`; do
+  sources="$sources $name"
+done
+sed "s|@sources@|$sources|g" jni/Android.mk > jni/Android.mk.tmp
+mv jni/Android.mk.tmp jni/Android.mk
+echo "Configured jni/Android.mk"
+sed -e "s|@version_code@|$version_code|g"                                      \
+    -e "s|@version_name@|$version_name|g"                                      \
+    build.gradle.in > build.gradle
+echo "Configured build.gradle"

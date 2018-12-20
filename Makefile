@@ -1,16 +1,17 @@
 PHONIES += dist
 .PHONY: $(PHONIES)
 
-GPG2      = gpg
-
-VERSION   = 0.9.0-alpha.11-9
-OVERSION  = $(VERSION)-android
-OUTPUT    = android-libs-$(OVERSION).aar
-POM       = android-libs-$(OVERSION).pom
+UPSTREAM     = 0.9.0-beta
+OURS         = 4
+VERSION_CODE = 34
+VERSION_NAME = $(UPSTREAM)-android.$(OURS)
+OUTPUT       = android-libs-$(VERSION_NAME).aar
+POM          = android-libs-$(VERSION_NAME).pom
 
 dist:
-	./script/m4
-	./script/swig
+	./script/common/copy-sources
+	./script/common/javah
 	./script/android/download
+	./script/android/configure $(VERSION_CODE) $(VERSION_NAME)
 	./script/android/build
-	./script/android/archive $(OUTPUT) $(POM) $(OVERSION)
+	./script/android/archive $(OUTPUT) $(POM) $(VERSION_NAME)
