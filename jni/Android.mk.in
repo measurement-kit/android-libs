@@ -2,59 +2,57 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libcrypto
-LOCAL_SRC_FILES := ../MK_DIST/android/libressl/@libressl_version@/$(TARGET_ARCH_ABI)/lib/libcrypto.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libcrypto.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libevent_core
-LOCAL_SRC_FILES := ../MK_DIST/android/libevent/@libevent_version@/$(TARGET_ARCH_ABI)/lib/libevent_core.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libevent_core.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libevent_extra
-LOCAL_SRC_FILES := ../MK_DIST/android/libevent/@libevent_version@/$(TARGET_ARCH_ABI)/lib/libevent_extra.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libevent_extra.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libevent_openssl
-LOCAL_SRC_FILES := ../MK_DIST/android/libevent/@libevent_version@/$(TARGET_ARCH_ABI)/lib/libevent_openssl.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libevent_openssl.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libevent_pthreads
-LOCAL_SRC_FILES := ../MK_DIST/android/libevent/@libevent_version@/$(TARGET_ARCH_ABI)/lib/libevent_pthreads.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libevent_pthreads.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libssl
-LOCAL_SRC_FILES := ../MK_DIST/android/libressl/@libressl_version@/$(TARGET_ARCH_ABI)/lib/libssl.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libssl.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libcurl
-LOCAL_SRC_FILES := ../MK_DIST/android/curl/@curl_version@/$(TARGET_ARCH_ABI)/lib/libcurl.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libcurl.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libmaxminddb
-LOCAL_SRC_FILES := ../MK_DIST/android/libmaxminddb/@libmaxminddb_version@/$(TARGET_ARCH_ABI)/lib/libmaxminddb.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libmaxminddb.a
 include $(PREBUILT_STATIC_LIBRARY)
-
-MK_DIR=../MK_DIST/android/measurement-kit/@measurement_kit_version@/$(TARGET_ARCH_ABI)/
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := libmeasurement_kit_static # another name to avoid conflict
-LOCAL_SRC_FILES := $(MK_DIR)/lib/libmeasurement_kit.a
+LOCAL_SRC_FILES := ../MK_DIST/$(TARGET_ARCH_ABI)/lib/libmeasurement_kit.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_LDLIBS := -llog -latomic
+LOCAL_LDLIBS := -llog -lz
 # Note to self: the order of libraries matters
 LOCAL_STATIC_LIBRARIES := measurement_kit_static libmaxminddb libcurl          \
                           event_openssl ssl crypto event_core event_extra      \
                           event_pthreads
 LOCAL_MODULE := measurement_kit
-LOCAL_CPPFLAGS += -I jni/$(MK_DIR)/include                                     \
+LOCAL_CPPFLAGS += -I jni/../MK_DIST/$(TARGET_ARCH_ABI)/include                 \
                   -std=c++14                                                   \
                   -Wall                                                        \
                   -Wextra

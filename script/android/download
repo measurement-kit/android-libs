@@ -1,8 +1,16 @@
-#!/bin/sh
-set -e
-if [ ! -x ./script/build/unix/install ]; then
-  git submodule update --init
-fi
-rm -rf MK_DIST/
-./script/build/unix/install `./script/build/unix/all-deps.sh android-`         \
-                            android-measurement-kit
+#!/bin/sh -e
+baseurl="https://github.com/measurement-kit/script-build-android/releases/"
+v="0.9.2+1"
+tarball="measurement-kit-android-$v.tar.gz"
+sha256="9a97ef83c35b9291d56e2e252ede11a7360a31785af74aa37acda0783afcb02d"
+o=MK_DIST
+set -x
+curl -fsSLO $baseurl/download/v$v/$tarball
+[ "$sha256" = "`shasum -a 256 $tarball | awk '{print $1}'`" ]
+rm -rf $o
+install -d $o
+(
+ set -x
+ cd $o
+ tar -xzf ../$tarball
+)

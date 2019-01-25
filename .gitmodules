@@ -1,6 +1,3 @@
-[submodule "script/build/unix"]
-	path = script/build/unix
-	url = git@github.com:measurement-kit/script-build-unix
 [submodule "mkall-java"]
 	path = mkall-java
 	url = https://github.com/measurement-kit/mkall-java

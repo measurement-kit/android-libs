@@ -11,7 +11,7 @@ Add the following line to `app/build.gradle`'s `dependencies`:
 
 ```diff
  dependencies {
-+  compile "org.openobservatory.measurement_kit:android-libs:$version"
++  api "org.openobservatory.measurement_kit:android-libs:$version"
 ```
 
 Where `$version` is the version you want to use (e.g. `0.4.3-aar-3`).
@@ -28,7 +28,7 @@ dependencies, proceed as follows:
 1. download the latest AAR and its digital signature from our
    [jcenter-hosted repository](https://dl.bintray.com/measurement-kit/android/org/openobservatory/measurement_kit/android-libs/)
 
-2. verify the digital signature using `gpg2 --verify <asc-file>`
+2. verify the digital signature using `gpg --verify <asc-file>`
 
 3. create the `libs` directory and move the AAR inside it
 
@@ -49,110 +49,56 @@ dependencies, proceed as follows:
 
 ```diff
  dependencies {
-+  compile "org.openobservatory.measurement_kit:android-libs:$version"
++  api "org.openobservatory.measurement_kit:android-libs:$version"
 ```
 
 Where `$version` is the version you have downloaded (e.g. `0.4.3-aar-3`).
 
-This is the approach that we follow in the [ooniprobe-android](
-https://github.com/TheTorProject/ooniprobe-android) app.
-
 ## How to build a new release
 
-The `Makefile` file allows you to cross-compile JNI libs suitable for being
-used by Android applications for all target architectures.
+Make sure you export `ANDROID_HOME` (`$HOME/Library/Android/sdk` on
+macOS with Android Studio installed) and `ANDROID_NDK_ROOT`
+(`$ANDROID_HOME/ndk-bundle` on macOS with Android Studio installed).
 
-To see all the available targets, just type:
+A Unix environment is assumed. The following tools need to be
+installed on your system:
 
-```
-make
-```
-
-The Makefile will verify all downloaded binaries using GnuPG. Binaries are
-digitally signed by Simone Basso
-(PGP key: `7388 77AA 6C82 9F26 A431 C5F4 80B6 9127 7733 D95B`) or
-by Lorenzo Primiterra
-(PGP key: `1191 0C85 CD8C D493 8DFA  17F7 AA09 A57A ECEB 9D12`). You can
-fetch this key using gpg using the following command:
-
-```bash
-gpg --recv-keys 738877AA6C829F26A431C5F480B691277733D95B \
-                11910C85CD8CD4938DFA17F7AA09A57AECEB9D12
-```
-
-After this step, to generate an AAR containing the Java files and the
-corresponding compiled libraries, type:
-
-```
-make dist NDK_BUILD=/path/to/ndk-build
-```
-
-Note that you *MUST* explicitly provide the path to ndk-build on your
-system. See below for more information on this point.
-
-This command will perform the following steps:
-
-1. download the latest prebuilt MeasurementKit dependencies from GitHub
-   and verify their digital signature
-
-2. clone MeasurementKit sources in `jni/measurement-kit`, check out a
-   specific version, and generate the list of files to be compiled that
-   will be passed to `ndk-build`
-
-3. Use javah and/or SWIG to automatically generate bits of Java code
-   and/or C wrappers exposing a JNI API
-
-4. cross compile MeasurementKit (`jni/measurement-kit`) and its JNI
-   wrappers (`jni/wrappers`) for all available architectures using
-   the `ndk-build` command
-
-5. package the result into an AAR (which will be located in the root
-   directory of the repository) and digitally sign it
-
-6. generate a minimal POM file and sign it.
-
-When developing, if you want to quickly recompile and build again the
-distribution without running all the above steps, do:
-
-```
-make redist NDK_BUILD=/path/to/ndk-build
-```
-
-This will only run steps 4 and 5 above and, since ndk-build uses `make`,
-it will be much quicker because only changed files will be compiled.
-
-A Unix environment is assumed (we mostly develop for Android using a
-macOS Sierra system). You need to have the following executables
-in your PATH:
-
-- Android studio
+- Android Studio
+- ndk-build
 - git
 - gradle
 - gpg2
 - javah
 - wget
 
-Most of these could be installed using your distributions package
-manager (try [Homebrew](http://brew.sh/) for macOS). As regards ndk-build,
-we recommend to [install it using Android studio](
-https://developer.android.com/ndk/guides/index.html#download-ndk)
-since in our experience this is the most reliable way to get a
-working ndk-build (this should explain why we need to pass the
-`NDK_BUILD` variable explicitly to `make`: Android studio does
-not install ndk-build in the `PATH`). Also gradle is typically
-packaged along with Android studio (this is why we use the
-`./gradlew` gradle wrapper).
+We recommend installing NDK via Android Studio.
 
-On macOS, Android studio installs
-the ndk-build at `~/Library/Android/sdk/ndk-bundle/ndk-build`.
+When you're all set, then
+
+```sh
+make
+```
+
+will build the `aar` and the `pom` files.
+
+There is an optional step,
+
+```sh
+make sign
+```
+
+that unfortunately currently only works if you are Simone Basso, because
+it his hardcoding his PGP key.
+
+The Makefile is very short and self explanatory. By reading it, you should
+be able to understand in what order the scripts in the `./script` are
+called. Also the scripts are quite simple and easy to follow.
+
+It is worth mentioning that we currently use [another repository](
+https://github.com/measurement-kit/mkall-java) as the place we pull
+the sources from. This is done because sometimes it's easier to
+debug JNI issues with Java rather than using Android. However, this
+is currently an implementation detail that _may_ change.
 
 Once you have built the AAR and the POM files, you should upload them to
-[jcenter](https://bintray.com/measurement-kit/android/android-libs). To this
-end, remember to specify the path where files need to appear, which should
-follow this pattern:
-
-```
-org/openobservatory/measurement_kit/android-libs/$version/
-```
-
-where `$version` is the version indicated in the `Makefile`.
+[jcenter](https://bintray.com/measurement-kit/android/android-libs).
