@@ -15,3 +15,6 @@ dist:
 	./script/android/configure $(VERSION_CODE) $(VERSION_NAME)
 	./script/android/build
 	./script/android/archive $(OUTPUT) $(POM) $(VERSION_NAME)
+
+sign:
+	./script/android/sign $(OUTPUT) $(POM)
