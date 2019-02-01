@@ -2,8 +2,8 @@ PHONIES += dist
 .PHONY: $(PHONIES)
 
 UPSTREAM     = 0.9.2
-OURS         = -android-no-thread-getaddrinfo.3
-VERSION_CODE = 38
+OURS         = -android-debug-crash.5
+VERSION_CODE = 39
 VERSION_NAME = $(UPSTREAM)$(OURS)
 OUTPUT       = android-libs-$(VERSION_NAME).aar
 POM          = android-libs-$(VERSION_NAME).pom
@@ -16,5 +16,5 @@ dist:
 	./script/android/build
 	./script/android/archive $(OUTPUT) $(POM) $(VERSION_NAME)
 
-sign:
+sign: dist
 	./script/android/sign $(OUTPUT) $(POM)
