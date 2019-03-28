@@ -1,8 +1,10 @@
 /MKEvent.java
+/MKCollectorResubmitResults.java
+/MKCollectorResubmitSettings.java
 /MKGeoIPLookupResults.java
 /MKGeoIPLookupSettings.java
 /MKLibrary.java
-/MKOrchestraClient.java
-/MKOrchestraResult.java
+/MKOrchestraResults.java
+/MKOrchestraSettings.java
 /MKTask.java
 /MKVersion.java

@@ -1,8 +1,8 @@
 #!/bin/sh -e
 baseurl="https://github.com/measurement-kit/script-build-android/releases/"
-v="0.9.4-1"
+v="0.10.1-1"
 tarball="measurement-kit-android-$v.tar.gz"
-sha256="2f96b267b27d218a194d092321a8dc298dc848fc122eb90c1b43662796942211"
+sha256="bc5d82a7951a0778b9d8eef1fbd518d9a9deb4b6bc3ef3141f343ac8b6a0079b"
 o=MK_DIST
 set -x
 curl -fsSLO $baseurl/download/v$v/$tarball
