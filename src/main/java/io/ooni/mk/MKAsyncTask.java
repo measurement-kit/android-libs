@@ -3,8 +3,8 @@
 // information on the copying conditions.
 package io.ooni.mk;
 
-/** MKTask is a task that Measurement Kit is running. */
-public class MKTask {
+/** MKAsyncTask is a task that Measurement Kit is running. */
+public class MKAsyncTask {
     long handle = 0;
 
     final static native long Start(String settings);
@@ -17,18 +17,18 @@ public class MKTask {
 
     final static native void Destroy(long handle);
 
-    MKTask(long n) {
+    MKAsyncTask(long n) {
         handle = n;
     }
 
     /** start starts a new task with the specified settings that must
      * be a valid serialized JSON string. */
-    public static MKTask start(String settings) {
+    public static MKAsyncTask start(String settings) {
         long handle = Start(settings);
         if (handle == 0) {
-            throw new RuntimeException("MKTask.start failed");
+            throw new RuntimeException("MKAsyncTask.start failed");
         }
-        return new MKTask(handle);
+        return new MKAsyncTask(handle);
     }
 
     /** isDone returns true when the task is done. */
@@ -41,7 +41,7 @@ public class MKTask {
     public String waitForNextEvent() {
         long event = WaitForNextEvent(handle);
         if (event == 0) {
-            throw new RuntimeException("MKTask.WaitForNextEvent failed");
+            throw new RuntimeException("MKAsyncTask.WaitForNextEvent failed");
         }
         return new MKEvent(event).serialize();
     }
