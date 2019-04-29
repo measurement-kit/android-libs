@@ -9,6 +9,14 @@ android {
         targetSdkVersion 28
         versionCode @version_code@
         versionName "@version_name@"
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON",
+                          "-DANDROID_CPP_FEATURES=rtti exceptions",
+                          "-DANDROID_PLATFORM=android-16"
+            }
+        }
     }
 
     buildTypes {
