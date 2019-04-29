@@ -20,13 +20,14 @@ public class MKCollectorResubmitTask {
 
     final static native void Delete(long handle);
 
-    /** MKCollectorResubmitTask constructs new, default settings. */
-    public MKCollectorResubmitTask() {
+    /** MKCollectorResubmitTask creates a new resubmit task. */
+    MKCollectorResubmitTask(String measurement) {
         handle = New();
         if (handle == 0) {
             throw new RuntimeException(
                     "MKCollectorResubmitTask.New failed");
         }
+        setSerializedMeasurement(measurement);
     }
 
     /** setTimeout sets the number of seconds after which pending
@@ -40,9 +41,7 @@ public class MKCollectorResubmitTask {
         SetCABundlePath(handle, path);
     }
 
-    /** setSerializedMeasurement sets the serialized measurement that
-     * you want to resubmit to the OONI collector. */
-    public void setSerializedMeasurement(String measurement) {
+    void setSerializedMeasurement(String measurement) {
         SetContent(handle, measurement);
     }
 
