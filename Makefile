@@ -1,4 +1,4 @@
-PHONIES += dist
+PHONIES += dist sign
 .PHONY: $(PHONIES)
 
 UPSTREAM     = 0.10.1-1
