@@ -4,4 +4,4 @@ if [ "$ANDROID_NDK_ROOT" = "" ]; then
   echo "FATAL: please 'export ANDROID_NDK_ROOT=/path/to/NDK'" 1>&2
   exit 1
 fi
-${ANDROID_NDK_ROOT}/ndk-build NDK_LIBS_OUT=./src/main/jniLibs "$@"
+${ANDROID_NDK_ROOT}/ndk-build NDK_LIBS_OUT=./android-libs/src/main/jniLibs "$@"

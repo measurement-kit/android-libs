@@ -6,6 +6,6 @@ if [ "$ANDROID_HOME" = "" ]; then
   exit 1
 fi
 
-./gradlew :assembleDebug
-cp build/outputs/aar/android-libs-debug.aar $1
+./gradlew :android-libs:assembleRelease
+cp android-libs/build/outputs/aar/android-libs-release.aar $1
 cat template.pom | sed "s/@VERSION@/$3/g" > $2

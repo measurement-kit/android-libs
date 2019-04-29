@@ -1,11 +1,11 @@
 #!/bin/sh
 set -e
 echo "* Regenerating JNI include headers"
-javac -Werror -cp src/main/java src/main/java/io/ooni/mk/*.java
+javac -Werror -cp android-libs/src/main/java android-libs/src/main/java/io/ooni/mk/*.java
 classes=""
-for name in `cd src/main/java && find io/ooni/mk -type f -name \*.class`; do
+for name in `cd android-libs/src/main/java && find io/ooni/mk -type f -name \*.class`; do
   name=`echo $name | sed 's/\.class$//g' | tr '/' '.'`
   classes="$name $classes"
 done
-javah -cp src/main/java -o jni/mkall.h $classes
-find src/main/java -type f -name \*.class -exec rm -f {} \;
+javah -cp android-libs/src/main/java -o jni/mkall.h $classes
+find android-libs/src/main/java -type f -name \*.class -exec rm -f {} \;

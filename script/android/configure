@@ -18,5 +18,5 @@ sed "s|@sources@|$sources|g" jni/Android.mk.in > jni/Android.mk
 echo "Configured jni/Android.mk"
 sed -e "s|@version_code@|$version_code|g"                                      \
     -e "s|@version_name@|$version_name|g"                                      \
-    build.gradle.in > build.gradle
+    android-libs/build.gradle.in > android-libs/build.gradle
 echo "Configured build.gradle"

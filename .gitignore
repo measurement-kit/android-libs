@@ -23,9 +23,6 @@
 # java-compiled files
 *.class
 
-# Built application files
-/build/
-
 # Crashlytics configuations
 com_crashlytics_export_strings.xml
 
@@ -54,4 +51,4 @@ Thumbs.db
 # Tarballs downloaded by ./script/build/unix
 *.tar.gz
 
-/build.gradle
+/.idea
