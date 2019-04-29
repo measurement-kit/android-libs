@@ -10,13 +10,7 @@ if [ ! -d MK_DIST ]; then
   echo "FATAL: you must download dependencies first" 1>&2
   exit 1
 fi
-sources=""
-for name in `cd jni && ls *.cpp`; do
-  sources="$sources $name"
-done
-sed "s|@sources@|$sources|g" jni/Android.mk.in > jni/Android.mk
-echo "Configured jni/Android.mk"
 sed -e "s|@version_code@|$version_code|g"                                      \
     -e "s|@version_name@|$version_name|g"                                      \
     android-libs/build.gradle.in > android-libs/build.gradle
-echo "Configured build.gradle"
+echo "Configured android-libs/build.gradle"

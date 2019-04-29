@@ -1,11 +1,4 @@
 #!/bin/sh
 set -e
-
-if [ "$ANDROID_HOME" = "" ]; then
-  echo "Please, set the ANDROID_HOME environment variable" 1>&2
-  exit 1
-fi
-
-./gradlew :android-libs:assembleRelease
 cp android-libs/build/outputs/aar/android-libs-release.aar $1
 cat template.pom | sed "s/@VERSION@/$3/g" > $2

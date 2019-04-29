@@ -1,7 +1,9 @@
 #!/bin/sh
 set -e
-if [ "$ANDROID_NDK_ROOT" = "" ]; then
-  echo "FATAL: please 'export ANDROID_NDK_ROOT=/path/to/NDK'" 1>&2
+
+if [ "$ANDROID_HOME" = "" ]; then
+  echo "Please, set the ANDROID_HOME environment variable" 1>&2
   exit 1
 fi
-${ANDROID_NDK_ROOT}/ndk-build NDK_LIBS_OUT=./android-libs/src/main/jniLibs "$@"
+
+./gradlew :android-libs:assembleRelease

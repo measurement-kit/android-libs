@@ -1,2 +1,3 @@
+/.externalNativeBuild/
+/build/
 /build.gradle
-/build
