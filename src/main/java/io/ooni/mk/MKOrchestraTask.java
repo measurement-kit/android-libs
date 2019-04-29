@@ -3,6 +3,9 @@
 // and LICENSE for more information on the copying conditions.
 package io.ooni.mk;
 
+import java.util.Iterator;
+import java.util.Vector;
+
 /** MKOrchestraTask is a sync task for performing OONI orchestra operations. */
 public class MKOrchestraTask {
     long handle = 0;
@@ -50,10 +53,20 @@ public class MKOrchestraTask {
     final static native void Delete(long handle);
 
     /** MKOrchestraTask creates a new orchestra task. */
-    public MKOrchestraTask() {
+    public MKOrchestraTask(String softwareName, String softwareVersion,
+                           Vector<String> supportedTests,
+                           String deviceToken, String secretsFile) {
         if ((handle = New()) == 0) {
             throw new RuntimeException("MKOrchestraClient.New failed");
         }
+        setSoftwareName(softwareName);
+        setSoftwareVersion(softwareVersion);
+        for (Iterator<String> iterator = supportedTests.iterator();
+             iterator.hasNext();) {
+            addSupportedTest(iterator.next());
+        }
+        setDeviceToken(deviceToken);
+        setSecretsFile(secretsFile);
     }
 
     /** setAvailableBandwidth sets the bandwidth that a probe is
@@ -62,9 +75,7 @@ public class MKOrchestraTask {
         SetAvailableBandwidth(handle, value);
     }
 
-    /** setDeviceToken sets the token to be later used to send
-     * push notifications to the device. */
-    public void setDeviceToken(String value) {
+    void setDeviceToken(String value) {
         SetDeviceToken(handle, value);
     }
 
@@ -123,24 +134,19 @@ public class MKOrchestraTask {
         SetRegistryURL(handle, value);
     }
 
-    /** setSecretsFile sets the path of the file where to store
-     * orchestra related secrets. */
-    public void setSecretsFile(String value) {
+    void setSecretsFile(String value) {
         SetSecretsFile(handle, value);
     }
 
-    /** setSoftwareName sets the name of the app. */
-    public void setSoftwareName(String value) {
+    void setSoftwareName(String value) {
         SetSoftwareName(handle, value);
     }
 
-    /** setSoftwareVersion sets the version of the app. */
-    public void setSoftwareVersion(String value) {
+    void setSoftwareVersion(String value) {
         SetSoftwareVersion(handle, value);
     }
 
-    /** addSupportedTest adds a test to the set of supported tests. */
-    public void addSupportedTest(String value) {
+    void addSupportedTest(String value) {
         AddSupportedTest(handle, value);
     }
 
