@@ -9,7 +9,6 @@ OUTPUT       = android-libs-$(VERSION_NAME).aar
 POM          = android-libs-$(VERSION_NAME).pom
 
 dist:
-	./script/common/copy-sources
 	./script/common/javah
 	./script/android/download
 	./script/android/configure $(VERSION_CODE) $(VERSION_NAME)
