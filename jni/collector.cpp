@@ -29,24 +29,24 @@ MKALL_DELETE(MKCollectorResubmitResults_Delete,
              mk_collector_resubmit_response_delete,
              mk_collector_resubmit_response_t)
 
-MKALL_NEW(MKCollectorResubmitSettings_New, mk_collector_resubmit_request_new)
+MKALL_NEW(MKCollectorResubmitTask_New, mk_collector_resubmit_request_new)
 
-MKALL_SET_LONG(MKCollectorResubmitSettings_SetTimeout,
+MKALL_SET_LONG(MKCollectorResubmitTask_SetTimeout,
                mk_collector_resubmit_request_set_timeout,
                mk_collector_resubmit_request_t)
 
-MKALL_SET_STRING(MKCollectorResubmitSettings_SetCABundlePath,
+MKALL_SET_STRING(MKCollectorResubmitTask_SetCABundlePath,
                  mk_collector_resubmit_request_set_ca_bundle_path,
                  mk_collector_resubmit_request_t)
 
-MKALL_SET_STRING(MKCollectorResubmitSettings_SetContent,
+MKALL_SET_STRING(MKCollectorResubmitTask_SetContent,
                  mk_collector_resubmit_request_set_content,
                  mk_collector_resubmit_request_t)
 
-MKALL_GET_POINTER(MKCollectorResubmitSettings_Perform,
+MKALL_GET_POINTER(MKCollectorResubmitTask_Perform,
                   mk_collector_resubmit,
                   mk_collector_resubmit_request_t)
 
-MKALL_DELETE(MKCollectorResubmitSettings_Delete,
+MKALL_DELETE(MKCollectorResubmitTask_Delete,
              mk_collector_resubmit_request_delete,
              mk_collector_resubmit_request_t)

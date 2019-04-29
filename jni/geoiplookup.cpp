@@ -39,28 +39,28 @@ MKALL_DELETE(MKGeoIPLookupResults_Delete,
              mk_geoiplookup_response_delete,
              mk_geoiplookup_response_t)
 
-MKALL_NEW(MKGeoIPLookupSettings_New, mk_geoiplookup_request_new)
+MKALL_NEW(MKGeoIPLookupTask_New, mk_geoiplookup_request_new)
 
-MKALL_SET_LONG(MKGeoIPLookupSettings_SetTimeout,
+MKALL_SET_LONG(MKGeoIPLookupTask_SetTimeout,
                mk_geoiplookup_request_set_timeout,
                mk_geoiplookup_request_t)
 
-MKALL_SET_STRING(MKGeoIPLookupSettings_SetCountryDBPath,
+MKALL_SET_STRING(MKGeoIPLookupTask_SetCountryDBPath,
                  mk_geoiplookup_request_set_country_db_path,
                  mk_geoiplookup_request_t)
 
-MKALL_SET_STRING(MKGeoIPLookupSettings_SetASNDBPath,
+MKALL_SET_STRING(MKGeoIPLookupTask_SetASNDBPath,
                  mk_geoiplookup_request_set_asn_db_path,
                  mk_geoiplookup_request_t)
 
-MKALL_SET_STRING(MKGeoIPLookupSettings_SetCABundlePath,
+MKALL_SET_STRING(MKGeoIPLookupTask_SetCABundlePath,
                  mk_geoiplookup_request_set_ca_bundle_path,
                  mk_geoiplookup_request_t)
 
-MKALL_GET_POINTER(MKGeoIPLookupSettings_Perform,
+MKALL_GET_POINTER(MKGeoIPLookupTask_Perform,
                   mk_geoiplookup_perform,
                   mk_geoiplookup_request_t)
 
-MKALL_DELETE(MKGeoIPLookupSettings_Delete,
+MKALL_DELETE(MKGeoIPLookupTask_Delete,
              mk_geoiplookup_request_delete,
              mk_geoiplookup_request_t)

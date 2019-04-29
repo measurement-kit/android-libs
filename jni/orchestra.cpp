@@ -22,85 +22,85 @@ MKALL_DELETE(MKOrchestraResults_Delete,
              mkapi_orchestra_result_delete,
              mkapi_orchestra_result_t)
 
-MKALL_NEW(MKOrchestraSettings_New,
+MKALL_NEW(MKOrchestraTask_New,
           mkapi_orchestra_client_new)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetAvailableBandwidth,
+MKALL_SET_STRING(MKOrchestraTask_SetAvailableBandwidth,
                  mkapi_orchestra_client_set_available_bandwidth,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetDeviceToken,
+MKALL_SET_STRING(MKOrchestraTask_SetDeviceToken,
                  mkapi_orchestra_client_set_device_token,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetCABundlePath,
+MKALL_SET_STRING(MKOrchestraTask_SetCABundlePath,
                  mkapi_orchestra_client_set_ca_bundle_path,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetGeoIPCountryPath,
+MKALL_SET_STRING(MKOrchestraTask_SetGeoIPCountryPath,
                  mkapi_orchestra_client_set_geoip_country_path,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetGeoIPASNPath,
+MKALL_SET_STRING(MKOrchestraTask_SetGeoIPASNPath,
                  mkapi_orchestra_client_set_geoip_asn_path,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetLanguage,
+MKALL_SET_STRING(MKOrchestraTask_SetLanguage,
                  mkapi_orchestra_client_set_language,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetNetworkType,
+MKALL_SET_STRING(MKOrchestraTask_SetNetworkType,
                  mkapi_orchestra_client_set_network_type,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetPlatform,
+MKALL_SET_STRING(MKOrchestraTask_SetPlatform,
                  mkapi_orchestra_client_set_platform,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetProbeASN,
+MKALL_SET_STRING(MKOrchestraTask_SetProbeASN,
                  mkapi_orchestra_client_set_probe_asn,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetProbeCC,
+MKALL_SET_STRING(MKOrchestraTask_SetProbeCC,
                  mkapi_orchestra_client_set_probe_cc,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetProbeFamily,
+MKALL_SET_STRING(MKOrchestraTask_SetProbeFamily,
                  mkapi_orchestra_client_set_probe_family,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetProbeTimezone,
+MKALL_SET_STRING(MKOrchestraTask_SetProbeTimezone,
                  mkapi_orchestra_client_set_probe_timezone,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetRegistryURL,
+MKALL_SET_STRING(MKOrchestraTask_SetRegistryURL,
                  mkapi_orchestra_client_set_registry_url,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetSecretsFile,
+MKALL_SET_STRING(MKOrchestraTask_SetSecretsFile,
                  mkapi_orchestra_client_set_secrets_file,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetSoftwareName,
+MKALL_SET_STRING(MKOrchestraTask_SetSoftwareName,
                  mkapi_orchestra_client_set_software_name,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_SetSoftwareVersion,
+MKALL_SET_STRING(MKOrchestraTask_SetSoftwareVersion,
                  mkapi_orchestra_client_set_software_version,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_STRING(MKOrchestraSettings_AddSupportedTest,
+MKALL_SET_STRING(MKOrchestraTask_AddSupportedTest,
                  mkapi_orchestra_client_add_supported_test,
                  mkapi_orchestra_client_t)
 
-MKALL_SET_LONG(MKOrchestraSettings_SetTimeout,
+MKALL_SET_LONG(MKOrchestraTask_SetTimeout,
                mkapi_orchestra_client_set_timeout,
                mkapi_orchestra_client_t)
 
-MKALL_GET_POINTER(MKOrchestraSettings_Sync,
+MKALL_GET_POINTER(MKOrchestraTask_Sync,
                   mkapi_orchestra_client_sync,
                   mkapi_orchestra_client_t)
 
-MKALL_DELETE(MKOrchestraSettings_Delete,
+MKALL_DELETE(MKOrchestraTask_Delete,
              mkapi_orchestra_client_delete,
              mkapi_orchestra_client_t)

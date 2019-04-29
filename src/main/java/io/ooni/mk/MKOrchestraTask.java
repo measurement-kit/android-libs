@@ -3,8 +3,8 @@
 // and LICENSE for more information on the copying conditions.
 package io.ooni.mk;
 
-/** MKOrchestraSettings contains the orchestra settings. */
-public class MKOrchestraSettings {
+/** MKOrchestraTask is a sync task for performing OONI orchestra operations. */
+public class MKOrchestraTask {
     long handle = 0;
 
     final static native long New();
@@ -49,8 +49,8 @@ public class MKOrchestraSettings {
 
     final static native void Delete(long handle);
 
-    /** MKOrchestraSettings creates new, default settings. */
-    public MKOrchestraSettings() {
+    /** MKOrchestraTask creates a new orchestra task. */
+    public MKOrchestraTask() {
         if ((handle = New()) == 0) {
             throw new RuntimeException("MKOrchestraClient.New failed");
         }
