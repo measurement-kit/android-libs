@@ -2,8 +2,8 @@ PHONIES += dist
 .PHONY: $(PHONIES)
 
 UPSTREAM     = 0.10.2-1
-OURS         = -android.1
-VERSION_CODE = 44
+OURS         = -android.2
+VERSION_CODE = 45
 VERSION_NAME = $(UPSTREAM)$(OURS)
 OUTPUT       = android-libs-$(VERSION_NAME).aar
 POM          = android-libs-$(VERSION_NAME).pom
