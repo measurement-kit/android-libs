@@ -2,7 +2,7 @@
 set -e
 
 if [ "$ANDROID_HOME" = "" ]; then
-  export ANDROID_HOME=/usr/local/Caskroom/android-sdk/4333796/
+  export ANDROID_HOME=/usr/local/Caskroom/android-sdk/4333796/ # undocumented perk
 fi
 
 ./gradlew :android-libs:assembleRelease
