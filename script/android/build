@@ -2,8 +2,7 @@
 set -e
 
 if [ "$ANDROID_HOME" = "" ]; then
-  echo "Please, set the ANDROID_HOME environment variable" 1>&2
-  exit 1
+  export ANDROID_HOME=/usr/local/Caskroom/android-sdk/4333796/ # undocumented perk
 fi
 
 ./gradlew :android-libs:assembleRelease

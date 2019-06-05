@@ -54,51 +54,78 @@ dependencies, proceed as follows:
 
 Where `$version` is the version you have downloaded (e.g. `0.4.3-aar-3`).
 
-## How to build a new release
+## Building the distribution
 
-Make sure you export `ANDROID_HOME` (`$HOME/Library/Android/sdk` on
-macOS with Android Studio installed) and `ANDROID_NDK_ROOT`
-(`$ANDROID_HOME/ndk-bundle` on macOS with Android Studio installed).
+We currently only support building from macOS.
 
-A Unix environment is assumed. The following tools need to be
-installed on your system:
+### Installing dependencies
 
-- Android Studio
-- ndk-build
-- git
-- gradle
-- gpg2
-- javah
-- wget
+1. add our tap
 
-We recommend installing NDK via Android Studio.
-
-When you're all set, then
-
-```sh
-make
+```
+brew tap measurement-kit/measurement-kit
 ```
 
-will build the `aar` and the `pom` files.
+2. install dependencies with brew
 
-There is an optional step,
-
-```sh
-make sign
+```
+brew install android-measurement-kit android-sdk generic-assets
 ```
 
-that unfortunately currently only works if you are Simone Basso, because
-it his hardcoding his PGP key.
+3. install Android-platform components
+
+```
+sdkmanager --install ndk 'build-tools;28.0.3' 'platforms;android-28'
+```
+
+### Updating dependencies
+
+Upgrade dependencies installed using brew:
+
+```
+brew upgrade
+```
+
+Upgrade the Android platform:
+
+```
+sdkmanager --update
+```
+
+### Environment variables
+
+```
+export ANDROID_HOME=/usr/local/Caskroom/android-sdk/<version>
+```
+
+### Makefile targets
 
 The Makefile is very short and self explanatory. By reading it, you should
 be able to understand in what order the scripts in the `./script` are
 called. Also the scripts are quite simple and easy to follow.
 
-It is worth mentioning that we currently use [another repository](
-https://github.com/measurement-kit/mkall-java) as the place we pull
-the sources from. This is done because sometimes it's easier to
-debug JNI issues with Java rather than using Android. However, this
-is currently an implementation detail that _may_ change.
+#### Preparing the repository
+
+```
+make configure
+```
+
+#### Creating the distribution
+
+```
+make dist
+```
+
+#### Signing the distribution
+
+```
+make sign
+```
+
+This is an optional step that unfortunately currently only works if you are
+Simone Basso, because it his hardcoding his PGP key.
+
+## Publishing the distribution
 
 Once you have built the AAR and the POM files, you should upload them to
 [jcenter](https://bintray.com/measurement-kit/android/android-libs).
