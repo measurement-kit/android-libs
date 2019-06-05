@@ -96,7 +96,6 @@ sdkmanager --update
 
 ```
 export ANDROID_HOME=/usr/local/Caskroom/android-sdk/<version>
-export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk-bundle
 ```
 
 ### Makefile targets
