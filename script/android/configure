@@ -6,10 +6,6 @@ if [ $# -ne 2 ]; then
 fi
 version_code=$1
 version_name=$2
-if [ ! -d MK_DIST ]; then
-  echo "FATAL: you must download dependencies first" 1>&2
-  exit 1
-fi
 sed -e "s|@version_code@|$version_code|g"                                      \
     -e "s|@version_name@|$version_name|g"                                      \
     android-libs/build.gradle.in > android-libs/build.gradle
