@@ -27,7 +27,7 @@ public class MKCollectorResubmitTask {
     /**
      * MKCollectorResubmitTask constructs a new default resubmit task.
      *
-     * @deprecated Use the constructor with a measurement argument.
+     * @deprecated Use the constructor with arguments.
      */
     public MKCollectorResubmitTask() {
         this("", "", "");
