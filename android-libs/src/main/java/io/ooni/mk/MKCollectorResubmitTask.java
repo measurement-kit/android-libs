@@ -16,18 +16,34 @@ public class MKCollectorResubmitTask {
 
     final static native void SetContent(long handle, String content);
 
+    final static native void SetSoftwareName(long handle, String name);
+
+    final static native void SetSoftwareVersion(long handle, String version);
+
     final static native long Perform(long handle);
 
     final static native void Delete(long handle);
 
+    /**
+     * MKCollectorResubmitTask constructs a new default resubmit task.
+     *
+     * @deprecated Use the constructor with arguments.
+     */
+    public MKCollectorResubmitTask() {
+        this("", "", "");
+    }
+
     /** MKCollectorResubmitTask creates a new resubmit task. */
-    MKCollectorResubmitTask(String measurement) {
+    MKCollectorResubmitTask(String measurement, String softwareName,
+                            String softwareVersion) {
         handle = New();
         if (handle == 0) {
             throw new RuntimeException(
                     "MKCollectorResubmitTask.New failed");
         }
         setSerializedMeasurement(measurement);
+        setSoftwareName(softwareName);
+        setSoftwareVersion(softwareVersion);
     }
 
     /** setTimeout sets the number of seconds after which pending
@@ -41,8 +57,20 @@ public class MKCollectorResubmitTask {
         SetCABundlePath(handle, path);
     }
 
-    void setSerializedMeasurement(String measurement) {
+    /** setSerializedMeasurement sets the serialized measurement that
+     * you want to resubmit to the OONI collector. */
+    public void setSerializedMeasurement(String measurement) {
         SetContent(handle, measurement);
+    }
+
+    /** setSoftwareName sets the name of the app submitting the report. */
+    public void setSoftwareName(String name) {
+        SetSoftwareName(handle, name);
+    }
+
+    /** setSoftwareVersion sets the version of the app submitting the report. */
+    public void setSoftwareVersion(String version) {
+        SetSoftwareVersion(handle, version);
     }
 
     @Override public synchronized void finalize() {

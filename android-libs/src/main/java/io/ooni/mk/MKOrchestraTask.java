@@ -52,6 +52,14 @@ public class MKOrchestraTask {
 
     final static native void Delete(long handle);
 
+    /** MKOrchestraSettings creates new empty task.
+     *
+     * @deprecated Use the constructor with arguments.
+     */
+    public MKOrchestraTask() {
+        this("", "", new Vector<String>(), "", "");
+    }
+
     /** MKOrchestraTask creates a new orchestra task. */
     public MKOrchestraTask(String softwareName, String softwareVersion,
                            Vector<String> supportedTests,
@@ -75,7 +83,9 @@ public class MKOrchestraTask {
         SetAvailableBandwidth(handle, value);
     }
 
-    void setDeviceToken(String value) {
+    /** setDeviceToken sets the token to be later used to send
+     * push notifications to the device. */
+    public void setDeviceToken(String value) {
         SetDeviceToken(handle, value);
     }
 
@@ -134,19 +144,24 @@ public class MKOrchestraTask {
         SetRegistryURL(handle, value);
     }
 
-    void setSecretsFile(String value) {
+    /** setSecretsFile sets the path of the file where to store
+     * orchestra related secrets. */
+    public void setSecretsFile(String value) {
         SetSecretsFile(handle, value);
     }
 
-    void setSoftwareName(String value) {
+    /** setSoftwareName sets the name of the app. */
+    public void setSoftwareName(String value) {
         SetSoftwareName(handle, value);
     }
 
-    void setSoftwareVersion(String value) {
+    /** setSoftwareVersion sets the version of the app. */
+    public void setSoftwareVersion(String value) {
         SetSoftwareVersion(handle, value);
     }
 
-    void addSupportedTest(String value) {
+    /** addSupportedTest adds a test to the set of supported tests. */
+    public void addSupportedTest(String value) {
         AddSupportedTest(handle, value);
     }
 
