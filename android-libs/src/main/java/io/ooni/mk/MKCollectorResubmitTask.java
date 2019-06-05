@@ -34,8 +34,8 @@ public class MKCollectorResubmitTask {
     }
 
     /** MKCollectorResubmitTask creates a new resubmit task. */
-    MKCollectorResubmitTask(String measurement, String softwareName,
-                            String softwareVersion) {
+    public MKCollectorResubmitTask(String measurement, String softwareName,
+                                   String softwareVersion) {
         handle = New();
         if (handle == 0) {
             throw new RuntimeException(
