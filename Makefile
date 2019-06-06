@@ -2,8 +2,8 @@ PHONIES += all configure dist sign
 .PHONY: $(PHONIES)
 
 UPSTREAM     = `ls /usr/local/Cellar/android-measurement-kit/|tail -n1|tr '_' '-'`
-OURS         = -android.2
-VERSION_CODE = 45
+OURS         = -android.3
+VERSION_CODE = 46
 VERSION_NAME = $(UPSTREAM)$(OURS)
 OUTPUT       = android-libs-$(VERSION_NAME).aar
 POM          = android-libs-$(VERSION_NAME).pom
