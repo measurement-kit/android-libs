@@ -54,7 +54,7 @@ dependencies, proceed as follows:
 
 Where `$version` is the version you have downloaded (e.g. `0.4.3-aar-3`).
 
-## Building the distribution
+## Development and preparing releases
 
 We currently only support building from macOS.
 
@@ -104,28 +104,27 @@ The Makefile is very short and self explanatory. By reading it, you should
 be able to understand in what order the scripts in the `./script` are
 called. Also the scripts are quite simple and easy to follow.
 
-#### Preparing the repository
+### Preparing the repository
 
 ```
 make configure
 ```
 
-#### Creating the distribution
+### Doing local development in Android studio
+
+After this step is complete, you can do local development by opening
+this project as a Gradle project using Android studio.
+
+### Creating the distribution
 
 ```
 make dist
 ```
 
-#### Signing the distribution
+This will re-run `make configure` for you and then proceed at
+building the AAR and the POM files for JCenter.
 
-```
-make sign
-```
-
-This is an optional step that unfortunately currently only works if you are
-Simone Basso, because it his hardcoding his PGP key.
-
-## Publishing the distribution
+## Publishing a new release
 
 Once you have built the AAR and the POM files, you should upload them to
-[jcenter](https://bintray.com/measurement-kit/android/android-libs).
+[JCenter](https://bintray.com/measurement-kit/android/android-libs).

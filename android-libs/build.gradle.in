@@ -10,6 +10,8 @@ android {
         versionCode @version_code@
         versionName "@version_name@"
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         externalNativeBuild {
             cmake {
                 arguments "-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON",
@@ -36,4 +38,9 @@ android {
 
 dependencies {
     api 'com.android.support:appcompat-v7:28.0.0'
+    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.google.truth:truth:0.42'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation 'androidx.test:core:1.1.0'
 }
