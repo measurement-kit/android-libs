@@ -17,6 +17,8 @@ import io.ooni.mk.MKVersion;
     }
 
     @Test public void perform() {
-        Truth.assertThat(MKVersion.getVersionMK()).isEqualTo("0.10.4");
+        String version = MKVersion.getVersionMK();
+        Truth.assertThat(version).isNotNull();
+        Truth.assertThat(version.length()).isGreaterThan(0);
     }
 }

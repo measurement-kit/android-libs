@@ -4,9 +4,8 @@
 package io.ooni.mk.androidTest;
 
 import org.junit.Test;
-
 import androidx.test.filters.SmallTest;
-
+import com.google.gson.Gson;
 import io.ooni.mk.MKAsyncTask;
 
 @SmallTest public class MKNDTTest {
@@ -15,19 +14,14 @@ import io.ooni.mk.MKAsyncTask;
     }
 
     @Test public void perform() {
-        String settings = "";
-        {
-            settings += "{\n";
-            settings += "  \"name\": \"Ndt\",\n";
-            settings += "  \"log_level\": \"INFO\",\n";
-            settings += "  \"options\": {\n";
-            settings += "    \"net/ca_bundle_path\": \"cacert.pem\",\n";
-            settings += "    \"geoip_country_path\": \"country.mmdb\",\n";
-            settings += "    \"geoip_asn_path\": \"asn.mmdb\"\n";
-            settings += "  }\n";
-            settings += "}\n";
-        }
-        MKAsyncTask task = MKAsyncTask.start(settings);
+        MKSettings settings = new MKSettings();
+        Gson gson = new Gson();
+        settings.name = "Ndt";
+        settings.log_level = "INFO";
+        settings.options.ca_bundle_path = "cacert.pem";
+        settings.options.geoip_asn_path = "asn.mmdb";
+        settings.options.geoip_country_path = "country.mmdb";
+        MKAsyncTask task = MKAsyncTask.start(gson.toJson(settings));
         while (!task.isDone()) {
             System.out.println(task.waitForNextEvent());
         }
