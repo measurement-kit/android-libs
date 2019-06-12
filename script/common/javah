@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 echo "* Regenerating JNI include headers"
-javac -Werror -cp android-libs/src/main/java android-libs/src/main/java/io/ooni/mk/*.java
+javac -Werror -cp android-libs/src/main/java                                   \
+  `find android-libs/src/main/java/io/ooni/mk -type f -name \*.java|grep -v MKResources`
 classes=""
 for name in `cd android-libs/src/main/java && find io/ooni/mk -type f -name \*.class`; do
   name=`echo $name | sed 's/\.class$//g' | tr '/' '.'`

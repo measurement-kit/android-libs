@@ -1,12 +1,23 @@
 #!/bin/bash
 set -e
-if [ $# -ne 2 ]; then
-  echo "Usage: $0 <version-code> <version-name>" 1>&2
+if [ $# -ne 3 ]; then
+  echo "Usage: $0 <version-code> <version-name> <generic-assets-dir>" 1>&2
   exit 1
 fi
 version_code=$1
 version_name=$2
+generic_assets_dir=$3
+if [ ! -d $generic_assets_dir ]; then
+  echo 'FATAL: generic-assets not installed' 1>&2
+  exit 1
+fi
 sed -e "s|@version_code@|$version_code|g"                                      \
     -e "s|@version_name@|$version_name|g"                                      \
     android-libs/build.gradle.in > android-libs/build.gradle
 echo "Configured android-libs/build.gradle"
+assets_dir=android-libs/src/main/assets
+cp $generic_assets_dir/asn.mmdb $assets_dir
+cp $generic_assets_dir/ca-bundle.pem $assets_dir/cabundle.pem # Note: the `-` is not allowed in Android resources
+cp $generic_assets_dir/country.mmdb $assets_dir
+jq '.source.versions.stable|tonumber' $generic_assets_dir/INSTALL_RECEIPT.json \
+    > $assets_dir/version.json
