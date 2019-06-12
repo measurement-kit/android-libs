@@ -3,6 +3,8 @@
 // information on the copying conditions.
 package io.ooni.mk.androidTest;
 
+import android.content.Context;
+
 import org.junit.Test;
 
 import androidx.test.core.app.ApplicationProvider;
@@ -19,19 +21,20 @@ import io.ooni.mk.MKResourcesManager;
     }
 
     @Test public void perform() {
-        boolean okay = MKResourcesManager.maybeUpdateResources(ApplicationProvider.getApplicationContext());
+        Context context = ApplicationProvider.getApplicationContext();
+        boolean okay = MKResourcesManager.maybeUpdateResources(context);
         Truth.assertThat(okay).isTrue();
         MKGeoIPLookupTask task = new MKGeoIPLookupTask();
         task.setTimeout(14);
-        task.setASNDBPath(MKResourcesManager.getASNDBPath(ApplicationProvider.getApplicationContext()));
-        task.setCountryDBPath(MKResourcesManager.getCountryDBPath(ApplicationProvider.getApplicationContext()));
-        task.setCABundlePath(MKResourcesManager.getCABundlePath(ApplicationProvider.getApplicationContext()));
+        task.setASNDBPath(MKResourcesManager.getASNDBPath(context));
+        task.setCountryDBPath(MKResourcesManager.getCountryDBPath(context));
+        task.setCABundlePath(MKResourcesManager.getCABundlePath(context));
         MKGeoIPLookupResults results = task.perform();
         System.out.print(results.getLogs());
-        Truth.assertThat(results.isGood()).isTrue();
         System.out.println("Probe IP  : " + results.getProbeIP());
         System.out.println("Probe ASN : " + results.getProbeASN());
         System.out.println("Probe CC  : " + results.getProbeCC());
         System.out.println("Probe Org : " + results.getProbeOrg());
+        Truth.assertThat(results.isGood()).isTrue();
     }
 }
