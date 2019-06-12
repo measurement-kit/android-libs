@@ -17,7 +17,7 @@ sed -e "s|@version_code@|$version_code|g"                                      \
 echo "Configured android-libs/build.gradle"
 assets_dir=android-libs/src/main/assets
 cp $generic_assets_dir/asn.mmdb $assets_dir
-cp $generic_assets_dir/ca-bundle.pem $assets_dir/cabundle.pem # Note: the `-` is not allowed in Android resources
+cp $generic_assets_dir/ca-bundle.pem $assets_dir
 cp $generic_assets_dir/country.mmdb $assets_dir
 jq '.source.versions.stable|tonumber' $generic_assets_dir/INSTALL_RECEIPT.json \
     > $assets_dir/version.json

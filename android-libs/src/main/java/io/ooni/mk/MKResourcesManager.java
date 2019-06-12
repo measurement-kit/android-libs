@@ -15,7 +15,7 @@ import android.util.Log;
 // to update resources is described in the documentation of maybeUpdateResources.
 public class MKResourcesManager {
     static final String ASN_DB = "asn.mmdb";
-    static final String CA_BUNDLE = "cabundle.pem";
+    static final String CA_BUNDLE = "ca-bundle.pem";
     static final String COUNTRY_DB = "country.mmdb";
     static final String LOG_TAG = "MKResourcesManager";
     static final String VERSION_JSON = "version.json";
