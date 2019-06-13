@@ -5,74 +5,54 @@ package io.ooni.mk;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 // MKResourcesManager allows to keep resources required by C/C++ code up to date. The policy used
 // to update resources is described in the documentation of maybeUpdateResources.
 public class MKResourcesManager {
-    static final String ASN_DB = "asn.mmdb";
-    static final String CA_BUNDLE = "ca-bundle.pem";
-    static final String COUNTRY_DB = "country.mmdb";
-    static final String LOG_TAG = "MKResourcesManager";
-    static final String VERSION_JSON = "version.json";
+    static private final String ASN_DB = "asn.mmdb";             // The MMDB ASN database name
+    static private final String CA_BUNDLE = "ca-bundle.pem";     // The CA bundle name
+    static private final String COUNTRY_DB = "country.mmdb";     // The country database name
+    static private final String LOG_TAG = "MKResourcesManager";  // Tag used for logging
+    static private final String VERSION_JSON = "version.json";   // The version manifest file name
 
-    static void copy(@NonNull InputStream source, @NonNull String dest) throws java.io.IOException {
-        org.apache.commons.io.FileUtils.copyToFile(source, new File(dest));
-    }
+    // RESOURCES contains a list of resources managed by this class
+    static private final String[] RESOURCES = new String[]{
+            ASN_DB, CA_BUNDLE, COUNTRY_DB, VERSION_JSON,
+    };
 
-    static boolean copySingleResource(@NonNull Context context, @NonNull String filename) {
-        String destPath = getPath(context, filename);
-        String logMsg = "Copy resource " + filename + " to " + destPath;
-        Log.v(LOG_TAG, logMsg + "...");
-        try {
-            copy(context.getAssets().open(filename), destPath);
-        } catch (java.io.IOException err) {
-            Log.e(LOG_TAG, logMsg, err);
-            return false; // something bad happened
-        }
-        Log.v(LOG_TAG, logMsg + "... done");
-        return true; // all good
-    }
-
-    static boolean copyResources(@NonNull Context context) {
-        if (!copySingleResource(context, ASN_DB)) {
-            return false; // cannot copy
-        }
-        if (!copySingleResource(context, CA_BUNDLE)) {
-            return false; // cannot copy
-        }
-        if (!copySingleResource(context, COUNTRY_DB)) {
-            return false; // cannot copy
-        }
-        if (!copySingleResource(context, VERSION_JSON)) {
-            return false; // cannot copy
-        }
-        return true; // all good
-    }
-
-    static byte[] readAll(@NonNull InputStream inputstream) throws java.io.IOException {
-        return org.apache.commons.io.IOUtils.toByteArray(inputstream);
-    }
-
-    static boolean weNeedToCopy(@NonNull Context context) {
-        try {
-            byte[] bundleVersion;
-            byte[] fsVersion;
-            // Implementation note: we assume that the version.json file is small
-            bundleVersion = readAll(context.getAssets().open(VERSION_JSON));
-            fsVersion = readAll(new FileInputStream(getVersionJSONPath(context)));
-            if (java.util.Arrays.equals(bundleVersion, fsVersion)) {
-                return false; // Nope
+    // copyResources copies all the resources from the assets to a location where C/C++ code
+    // should be able to access them. Returns whether we succeeded in copying.
+    static private boolean copyResources(@NonNull Context context) {
+        for (String resource : RESOURCES) {
+            try {
+                FileUtils.copyToFile(context.getAssets().open(resource),
+                        getResourceAsFile(context, resource));
+            } catch (java.io.IOException err) {
+                Log.e(LOG_TAG, "cannot copy resource", err);
+                return false;
             }
-        } catch (java.io.IOException err) {
-            Log.e(LOG_TAG, "Cannot verify whether we need to update resources", err);
-            // FALLTHROUGH
         }
-        return true; // Yep
+        return true;
+    }
+
+    // equals returns true if the content of file equals the content of resource and returns
+    // false otherwise (including in the definition of otherwise any error case).
+    static private boolean
+    equals(@NonNull File file, @NonNull Context context, @NonNull String resource) {
+        try {
+            return IOUtils.contentEquals(new FileInputStream(file),
+                    context.getAssets().open(resource));
+        } catch (java.io.IOException err) {
+            Log.e(LOG_TAG, "cannot compare file and resource", err);
+            return false;
+        }
     }
 
     // maybeUpdateResources ensures that the resources copied in the storage accessible by C/C++
@@ -80,22 +60,33 @@ public class MKResourcesManager {
     // the resources current by copying them from the assets folder. The mechanism used to decide
     // whether we need to copy resources over relies on a small file named version.json that is
     // keeping tracks of the assets version. Whenever the copy of this file saved into the storage
-    // is different from the resources in the AAR, we copy resources over. Every new release of
-    // this AAR will possibly cause a bump in the resources version. This function returns true
-    // if all is good and false in case of error. See the logcat in such case.
+    // is different from the resources in the AAR, we copy resources over. We also perform the
+    // copy if any required file is missing. Every new release of this AAR will possibly cause a
+    // bump in the resources version. This function returns true if all is good and false in
+    // case of error. See the logcat in the latter case to understand what was wrong.
     public static boolean maybeUpdateResources(@NonNull Context context) {
-        if (!weNeedToCopy(context)) {
-            return true; // No error occurred
+        for (String resource : RESOURCES) {
+            File file = getResourceAsFile(context, resource);
+            if (!file.exists() ||
+                    (resource.compareTo(VERSION_JSON) == 0 && !equals(file, context, resource))) {
+                return copyResources(context);
+            }
         }
-        return copyResources(context);
+        return true; // Doing nothing did not cause any error
     }
 
-    @NonNull static String getPath(@NonNull Context context, @NonNull String string) {
-        return context.getFilesDir() + "/" + string;
+    // maybeCleanResources will clean the resources if they are installed. This method
+    // is mainly useful when running integration tests.
+    public static void maybeCleanResources(@NonNull Context context) {
+        for (String resource : RESOURCES) {
+            getResourceAsFile(context, resource).delete();
+        }
     }
 
-    @NonNull static String getVersionJSONPath(@NonNull Context context) {
-        return getPath(context, VERSION_JSON);
+    // getResourceAsFile returns the resource identified by string as a File.
+    @NonNull private static File
+    getResourceAsFile(@NonNull Context context, @NonNull String string) {
+        return new File(context.getCacheDir(), string);
     }
 
     // getCABundlePath returns the path where the CA bundle to be used by the nettests
@@ -103,16 +94,16 @@ public class MKResourcesManager {
     // context.getFileDir(). Because of the transient nature of such directory, you
     // SHOULD NOT cache the value returned by this function.
     @NonNull public static String getCABundlePath(@NonNull Context context) {
-        return getPath(context, CA_BUNDLE);
+        return getResourceAsFile(context, CA_BUNDLE).toString();
     }
 
     // getCountryDBPath is like getCABundlePath but for the MMDB country DB path.
     @NonNull public static String getCountryDBPath(@NonNull Context context) {
-        return getPath(context, COUNTRY_DB);
+        return getResourceAsFile(context, COUNTRY_DB).toString();
     }
 
     // getASNDBPath is like getCABundlePath but for the MMDB country DB path.
     @NonNull public static String getASNDBPath(@NonNull Context context) {
-        return getPath(context, ASN_DB);
+        return getResourceAsFile(context, ASN_DB).toString();
     }
 }
