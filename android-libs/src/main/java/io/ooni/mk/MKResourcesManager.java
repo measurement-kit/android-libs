@@ -59,7 +59,7 @@ public class MKResourcesManager {
     // code are current, and otherwise makes them current. The current implementation will make
     // the resources current by copying them from the assets folder. The mechanism used to decide
     // whether we need to copy resources over relies on a small file named version.json that is
-    // keeping tracks of the assets version. Whenever the copy of this file saved into the storage
+    // keeping track of the assets version. Whenever the copy of this file saved into the storage
     // is different from the resources in the AAR, we copy resources over. We also perform the
     // copy if any required file is missing. Every new release of this AAR will possibly cause a
     // bump in the resources version. This function returns true if all is good and false in
