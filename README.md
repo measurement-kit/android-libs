@@ -69,7 +69,7 @@ brew tap measurement-kit/measurement-kit
 2. install dependencies with brew
 
 ```
-brew install android-measurement-kit android-sdk generic-assets
+brew install android-measurement-kit android-sdk generic-assets jq
 ```
 
 3. install Android-platform components

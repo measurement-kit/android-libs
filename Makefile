@@ -1,18 +1,20 @@
 PHONIES += all configure dist sign
 .PHONY: $(PHONIES)
 
-UPSTREAM     = `ls /usr/local/Cellar/android-measurement-kit/|tail -n1|tr '_' '-'`
-OURS         = -android.3
-VERSION_CODE = 46
-VERSION_NAME = $(UPSTREAM)$(OURS)
-OUTPUT       = android-libs-$(VERSION_NAME).aar
-POM          = android-libs-$(VERSION_NAME).pom
+CELLAR         = /usr/local/Cellar
+GENERIC_ASSETS = /usr/local/opt/generic-assets
+UPSTREAM       = `ls $(CELLAR)/android-measurement-kit/|tail -n1|tr '_' '-'`
+OURS           = -android.4
+VERSION_CODE   = 47
+VERSION_NAME   = $(UPSTREAM)$(OURS)
+OUTPUT         = android-libs-$(VERSION_NAME).aar
+POM            = android-libs-$(VERSION_NAME).pom
 
 all: dist
 
 configure:
 	./script/common/javah
-	./script/android/configure $(VERSION_CODE) $(VERSION_NAME)
+	./script/android/configure $(VERSION_CODE) $(VERSION_NAME) $(GENERIC_ASSETS)
 
 dist: configure
 	./script/android/build
