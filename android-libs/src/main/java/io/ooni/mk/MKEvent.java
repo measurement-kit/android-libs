@@ -18,8 +18,8 @@ class MKEvent {
         return Serialize(handle);
     }
 
-    @Override
-    public synchronized void finalize() {
+    @SuppressWarnings("deprecation")
+    @Override public synchronized void finalize() {
         Destroy(handle);
     }
 }

@@ -56,6 +56,7 @@ public class MKOrchestraTask {
      *
      * @deprecated Use the constructor with arguments.
      */
+    @Deprecated
     public MKOrchestraTask() {
         this("", "", new Vector<String>(), "", "");
     }
@@ -183,6 +184,7 @@ public class MKOrchestraTask {
         return new MKOrchestraResults(result);
     }
 
+    @SuppressWarnings("deprecation")
     @Override public synchronized void finalize() {
         Delete(handle);
     }

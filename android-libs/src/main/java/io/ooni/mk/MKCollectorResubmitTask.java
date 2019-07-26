@@ -29,6 +29,7 @@ public class MKCollectorResubmitTask {
      *
      * @deprecated Use the constructor with arguments.
      */
+    @Deprecated
     public MKCollectorResubmitTask() {
         this("", "", "");
     }
@@ -73,6 +74,7 @@ public class MKCollectorResubmitTask {
         SetSoftwareVersion(handle, version);
     }
 
+    @SuppressWarnings("deprecation")
     @Override public synchronized void finalize() {
         Delete(handle);
     }

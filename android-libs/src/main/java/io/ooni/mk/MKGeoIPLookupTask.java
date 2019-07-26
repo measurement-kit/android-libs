@@ -52,6 +52,7 @@ public class MKGeoIPLookupTask {
         SetASNDBPath(handle, path);
     }
 
+    @SuppressWarnings("deprecation")
     @Override public synchronized void finalize() {
         Delete(handle);
     }

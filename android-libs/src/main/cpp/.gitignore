@@ -6,6 +6,6 @@
 /mips/
 /mips64/
 /mk-files.mk
-/mkall.h
+/io_ooni_mk_MK*.h
 /x86/
 /x86_64/

@@ -46,6 +46,7 @@ public class MKCollectorResubmitResults {
         return Logs(handle);
     }
 
+    @SuppressWarnings("deprecation")
     @Override public synchronized void finalize() {
         Delete(handle);
     }
