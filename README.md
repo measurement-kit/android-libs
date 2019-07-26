@@ -110,10 +110,28 @@ called. Also the scripts are quite simple and easy to follow.
 make configure
 ```
 
-### Doing local development in Android studio
+### Doing local development
 
-After this step is complete, you can do local development by opening
-this project as a Gradle project using Android studio.
+Assuming you have a running emulator, you can run all instrumented functional
+tests on such emulator using:
+
+```
+gradle connectedAndroidTest
+```
+
+You can run a specific functional test using:
+
+```
+gradle connectedAndroidTest \
+ -Pandroid.testInstrumentationRunnerArguments.class=io.android.mk.androidTests.<ClassName>
+```
+
+You can see the logcat of these tests with:
+
+```
+$ANDROID_SDK/platform-tools/adb logcat -c  # clean the logcat
+$ANDROID_SDK/platform-tools/adb logcat     # show new logs
+```
 
 ### Creating the distribution
 
