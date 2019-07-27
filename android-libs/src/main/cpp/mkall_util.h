@@ -152,6 +152,9 @@
     {                                                                  \
       std::string encoded = mk::data::base64_encode(s);                \
       (void)__android_log_print(                                       \
+          ANDROID_LOG_WARN, "mkall", "String in base64 length: %llu",  \
+            (unsigned long long)encoded.size());                       \
+      (void)__android_log_print(                                       \
           ANDROID_LOG_WARN, "mkall", "String in base64: %s",           \
           encoded.c_str());                                            \
     }                                                                  \
