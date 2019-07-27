@@ -4,7 +4,8 @@
 #ifndef SRC_MKALL_HEADERS_MKALL_UTIL_H
 #define SRC_MKALL_HEADERS_MKALL_UTIL_H
 
-#include <iostream>
+#include <android/log.h>
+
 #include <sstream>
 #include <string>
 
@@ -150,7 +151,9 @@
     auto retval = env->NewStringUTF(s);                                \
     if (retval == nullptr) {                                           \
       std::string encoded = mk::data::base64_encode(s);                \
-      std::clog << "Offending string in base64: " << encoded << "\n";  \
+      (void)__android_log_print(                                       \
+          ANDROID_LOG_WARN, "mkall", "Offending string in base64: %s", \
+          encoded.c_str());                                            \
       /* Fallthrough and let the exception unwind */                   \
     }                                                                  \
     return retval;                                                     \
