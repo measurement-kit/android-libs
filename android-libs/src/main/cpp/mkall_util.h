@@ -4,6 +4,7 @@
 #ifndef SRC_MKALL_HEADERS_MKALL_UTIL_H
 #define SRC_MKALL_HEADERS_MKALL_UTIL_H
 
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -146,7 +147,13 @@
       MKALL_THROW_EINTERNAL;                                           \
       return nullptr;                                                  \
     }                                                                  \
-    return env->NewStringUTF(s);                                       \
+    auto retval = env->NewStringUTF(s);                                \
+    if (retval == nullptr) {                                           \
+      std::string encoded = mk::data::base64_encode(s);                \
+      std::clog << "Offending string in base64: " << encoded << "\n";  \
+      /* Fallthrough and let the exception unwind */                   \
+    }                                                                  \
+    return retval;                                                     \
   }
 
 /// MKALL_NEW returns a new instance of a type.
