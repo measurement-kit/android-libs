@@ -58,7 +58,7 @@ JNIEXPORT jlong JNICALL Java_io_ooni_mk_MKReporterTask_Submit(
   }
   mk::collector::Reporter::Stats stats;
   auto r = reinterpret_cast<mk::collector::Reporter *>(handle);
-  results->good = r->submit_with_stats(
+  results->good = r->maybe_discover_and_submit_with_stats(
       results->measurement, results->logs, uploadTimeout, stats);
   results->report_id = r->report_id();
   {

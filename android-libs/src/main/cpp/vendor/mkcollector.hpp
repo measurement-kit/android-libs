@@ -208,21 +208,24 @@ class Reporter {
 #undef XX
   };
 
-  // submit_with_stats is like submit_with_timeout but stores stats in @p stats.
-  bool submit_with_stats(
+  // maybe_discover_and_submit_with_stats is like
+  // maybe_discover_and_submit_with_timeout but stores stats in @p stats.
+  bool maybe_discover_and_submit_with_stats(
       std::string &measurement, std::vector<std::string> &logs,
       int64_t upload_timeout, Stats &stats) noexcept;
 
-  /// submit with timeout is like submit but enforces @p upload_timeout as the
-  /// number of seconds after which the HTTP upload is aborted.
-  bool submit_with_timeout(
+  /// maybe_discover_and_submit_with_timeout is like submit but enforces @p
+  /// upload_timeout as the / number of seconds after which the HTTP
+  /// upload is aborted.
+  bool maybe_discover_and_submit_with_timeout(
       std::string &measurement, std::vector<std::string> &logs,
       int64_t upload_timeout) noexcept;
 
-  /// submit submits @p measurement to the configured collector. The @p
-  /// measurement string is modified in place to point to the correct report
-  /// ID as part of the submission. This function implements the following
-  /// algorithm to auto-manage the report lifecycle:
+  /// maybe_discover_and_submit submits @p measurement to the configured
+  /// collector. If no collector is configured, this function will discover
+  /// a suitable collector. The @p measurement string is modified in place to
+  /// point to the correct report / ID as part of the submission. This
+  /// function implements the following algorithm:
   ///
   /// 0. if no base_url_ is configured, the bouncer is used
   /// to discover the base URL that should be used;
@@ -249,7 +252,7 @@ class Reporter {
   ///
   /// @return true on success and false on failure. Consult the @p logs
   /// argument for more information on what has happened.
-  bool submit(
+  bool maybe_discover_and_submit(
       std::string &measurement, std::vector<std::string> &logs) noexcept;
 
   /// report_id contains the currently used report ID.
@@ -564,7 +567,7 @@ Reporter::Stats::Stats(std::initializer_list<std::string> list) noexcept {
 #undef XX
 }
 
-bool Reporter::submit_with_stats(
+bool Reporter::maybe_discover_and_submit_with_stats(
     std::string &measurement, std::vector<std::string> &logs,
     int64_t upload_timeout, Stats &stats) noexcept {
   // step 0 (see description of the algorithm above) - maybe discover bouncer
@@ -700,16 +703,17 @@ bool Reporter::submit_with_stats(
   return true;
 }
 
-bool Reporter::submit_with_timeout(
+bool Reporter::maybe_discover_and_submit_with_timeout(
     std::string &measurement, std::vector<std::string> &logs,
     int64_t upload_timeout) noexcept {
   Stats stats;
-  return submit_with_stats(measurement, logs, upload_timeout, stats);
+  return maybe_discover_and_submit_with_stats(
+      measurement, logs, upload_timeout, stats);
 }
 
-bool Reporter::submit(
+bool Reporter::maybe_discover_and_submit(
     std::string &measurement, std::vector<std::string> &logs) noexcept {
-  return submit_with_timeout(measurement, logs, 0);
+  return maybe_discover_and_submit_with_timeout(measurement, logs, 0);
 }
 
 const std::string &Reporter::report_id() const noexcept {

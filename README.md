@@ -104,6 +104,11 @@ The Makefile is very short and self explanatory. By reading it, you should
 be able to understand in what order the scripts in the `./script` are
 called. Also the scripts are quite simple and easy to follow.
 
+### Updating vendored dependencies
+
+Make sure that the vendored dependencies (`./android-libs/src/main/cpp/vendor`)
+are all updated to the latest stable version.
+
 ### Preparing the repository
 
 ```

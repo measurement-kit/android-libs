@@ -29,7 +29,8 @@ public class MKReporterTask {
         SetCABundlePath(handle, caBundlePath);
     }
 
-    /** submit submites a measurement and returns the results. */
+    /** submit submites a measurement and returns the results. This method will
+     * automatically discover a collector, if none is specified. */
     public MKReporterResults submit(String measurement, long timeout) {
         long results = Submit(handle, measurement, timeout);
         if (results == 0) {
