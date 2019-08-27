@@ -34,6 +34,7 @@ import io.ooni.mk.MKResourcesManager;
         settings.inputs.add("https://www.torproject.org/");
         settings.inputs.add("https://x.org/");
         settings.inputs.add("https://slashdot.org/");
+        settings.inputs.add("https://www.fanfiction.net/");
 
         Gson gson = new Gson();
         MKAsyncTask task = MKAsyncTask.start(gson.toJson(settings));
@@ -54,9 +55,9 @@ import io.ooni.mk.MKResourcesManager;
             Truth.assertThat(e.getKey().startsWith("failure.")).isFalse();
         }
 
-        Truth.assertThat(keys.get("status.measurement_done")).isEqualTo(3);
-        Truth.assertThat(keys.get("status.measurement_submission")).isEqualTo(3);
-        Truth.assertThat(keys.get("status.measurement_start")).isEqualTo(3);
+        Truth.assertThat(keys.get("status.measurement_done")).isEqualTo(4);
+        Truth.assertThat(keys.get("status.measurement_submission")).isEqualTo(4);
+        Truth.assertThat(keys.get("status.measurement_start")).isEqualTo(4);
         Truth.assertThat(keys.get("status.started")).isEqualTo(1);
         Truth.assertThat(keys.get("status.end")).isEqualTo(1);
         Truth.assertThat(keys.get("status.update.websites")).isGreaterThan(5);
@@ -64,7 +65,7 @@ import io.ooni.mk.MKResourcesManager;
         Truth.assertThat(keys.get("status.queued")).isEqualTo(1);
         Truth.assertThat(keys.get("log")).isGreaterThan(10);
         Truth.assertThat(keys.get("status.report_create")).isEqualTo(1);
-        Truth.assertThat(keys.get("measurement")).isEqualTo(3);
+        Truth.assertThat(keys.get("measurement")).isEqualTo(4);
         Truth.assertThat(keys.get("status.geoip_lookup")).isEqualTo(1);
     }
 }
