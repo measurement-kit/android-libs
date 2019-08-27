@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class MKSettings {
+class MKTSettings {
     @SerializedName("inputs")
     public List<String> inputs;
 

@@ -21,7 +21,7 @@ import io.ooni.mk.MKResourcesManager;
         boolean okay = MKResourcesManager.maybeUpdateResources(context);
         Truth.assertThat(okay).isTrue();
 
-        MKSettings settings = new MKSettings();
+        MKTSettings settings = new MKTSettings();
         settings.name = "WebConnectivity";
         settings.log_level = "INFO";
         settings.options.ca_bundle_path = MKResourcesManager.getCABundlePath(context);
