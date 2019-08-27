@@ -20,8 +20,8 @@ import io.ooni.mk.MKResourcesManager;
         Context context = ApplicationProvider.getApplicationContext();
         boolean okay = MKResourcesManager.maybeUpdateResources(context);
         Truth.assertThat(okay).isTrue();
+
         MKSettings settings = new MKSettings();
-        Gson gson = new Gson();
         settings.name = "WebConnectivity";
         settings.log_level = "INFO";
         settings.options.ca_bundle_path = MKResourcesManager.getCABundlePath(context);
@@ -31,7 +31,8 @@ import io.ooni.mk.MKResourcesManager;
         settings.inputs.add("https://www.torproject.org/");
         settings.inputs.add("https://x.org/");
         settings.inputs.add("https://slashdot.org/");
-        MKAsyncTask task = MKAsyncTask.start(gson.toJson(settings));
+
+        MKAsyncTask task = MKAsyncTask.start(new Gson().toJson(settings));
         while (!task.isDone()) {
             System.out.println(task.waitForNextEvent());
         }

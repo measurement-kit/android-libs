@@ -22,14 +22,15 @@ import io.ooni.mk.MKResourcesManager;
         Context context = ApplicationProvider.getApplicationContext();
         boolean okay = MKResourcesManager.maybeUpdateResources(context);
         Truth.assertThat(okay).isTrue();
+
         MKSettings settings = new MKSettings();
-        Gson gson = new Gson();
         settings.name = "Ndt";
         settings.log_level = "INFO";
         settings.options.ca_bundle_path = MKResourcesManager.getCABundlePath(context);
         settings.options.geoip_asn_path = MKResourcesManager.getASNDBPath(context);
         settings.options.geoip_country_path = MKResourcesManager.getCountryDBPath(context);
-        MKAsyncTask task = MKAsyncTask.start(gson.toJson(settings));
+
+        MKAsyncTask task = MKAsyncTask.start(new Gson().toJson(settings));
         while (!task.isDone()) {
             System.out.println(task.waitForNextEvent());
         }
