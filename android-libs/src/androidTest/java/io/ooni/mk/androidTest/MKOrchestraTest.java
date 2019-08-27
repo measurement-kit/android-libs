@@ -5,10 +5,14 @@ package io.ooni.mk.androidTest;
 
 import org.junit.Test;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.SmallTest;
 
+import android.content.Context;
+import com.google.common.truth.Truth;
 import io.ooni.mk.MKOrchestraResults;
 import io.ooni.mk.MKOrchestraTask;
+import io.ooni.mk.MKResourcesManager;
 
 @SmallTest public class MKOrchestraTest {
     static {
@@ -16,12 +20,15 @@ import io.ooni.mk.MKOrchestraTask;
     }
 
     @Test public void perform() {
+        Context context = ApplicationProvider.getApplicationContext();
+        boolean okay = MKResourcesManager.maybeUpdateResources(context);
+        Truth.assertThat(okay).isTrue();
         MKOrchestraTask task = new MKOrchestraTask();
         task.setAvailableBandwidth("10110111");
         task.setDeviceToken("5f2c761f-2e98-43aa-b9ea-3d34cceaab15");
-        task.setCABundlePath("cacert.pem");
-        task.setGeoIPCountryPath("country.mmdb");
-        task.setGeoIPASNPath("asn.mmdb");
+        task.setCABundlePath(MKResourcesManager.getCABundlePath(context));
+        task.setGeoIPCountryPath(MKResourcesManager.getCountryDBPath(context));
+        task.setGeoIPASNPath(MKResourcesManager.getASNDBPath(context));
         task.setLanguage("it_IT");
         task.setNetworkType("wifi");
         task.setPlatform("macos");

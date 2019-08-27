@@ -3,10 +3,14 @@
 // information on the copying conditions.
 package io.ooni.mk.androidTest;
 
+import androidx.test.core.app.ApplicationProvider;
+import android.content.Context;
+import com.google.common.truth.Truth;
 import org.junit.Test;
 import androidx.test.filters.SmallTest;
 import com.google.gson.Gson;
 import io.ooni.mk.MKAsyncTask;
+import io.ooni.mk.MKResourcesManager;
 
 @SmallTest public class MKNDTTest {
     static {
@@ -14,13 +18,16 @@ import io.ooni.mk.MKAsyncTask;
     }
 
     @Test public void perform() {
+        Context context = ApplicationProvider.getApplicationContext();
+        boolean okay = MKResourcesManager.maybeUpdateResources(context);
+        Truth.assertThat(okay).isTrue();
         MKSettings settings = new MKSettings();
         Gson gson = new Gson();
         settings.name = "Ndt";
         settings.log_level = "INFO";
-        settings.options.ca_bundle_path = "cacert.pem";
-        settings.options.geoip_asn_path = "asn.mmdb";
-        settings.options.geoip_country_path = "country.mmdb";
+        settings.options.ca_bundle_path = MKResourcesManager.getCABundlePath(context);
+        settings.options.geoip_asn_path = MKResourcesManager.getASNDBPath(context);
+        settings.options.geoip_country_path = MKResourcesManager.getCountryDBPath(context);
         MKAsyncTask task = MKAsyncTask.start(gson.toJson(settings));
         while (!task.isDone()) {
             System.out.println(task.waitForNextEvent());
