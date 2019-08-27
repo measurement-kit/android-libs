@@ -3,13 +3,12 @@
 // information on the copying conditions.
 package io.ooni.mk.androidTest;
 
-import org.junit.Test;
-
+import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.SmallTest;
-
-import android.content.Context;
 import com.google.common.truth.Truth;
+import org.junit.Test;
+
 import io.ooni.mk.MKOrchestraResults;
 import io.ooni.mk.MKOrchestraTask;
 import io.ooni.mk.MKResourcesManager;
@@ -30,7 +29,6 @@ import io.ooni.mk.MKResourcesManager;
         task.setGeoIPCountryPath(MKResourcesManager.getCountryDBPath(context));
         task.setGeoIPASNPath(MKResourcesManager.getASNDBPath(context));
         task.setLanguage("it_IT");
-        task.setNetworkType("wifi");
         task.setPlatform("macos");
         // Disabled so that the library will need to guess them
         //task.setProbeASN("AS30722");
@@ -45,15 +43,18 @@ import io.ooni.mk.MKResourcesManager;
         task.addSupportedTest("ndt");
         task.setTimeout(14);
         {
+            task.setNetworkType("wifi");
             MKOrchestraResults result = task.updateOrRegister();
             System.out.println("Good      : " + result.isGood());
             System.out.print(result.getLogs());
+            Thruth.assertThat(resus.isGood()).isTrue();
         }
         task.setNetworkType("mobile");
         {
             MKOrchestraResults result = task.updateOrRegister();
             System.out.println("Good      : " + result.isGood());
             System.out.print(result.getLogs());
+            Thruth.assertThat(resus.isGood()).isTrue();
         }
     }
 }

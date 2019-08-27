@@ -4,13 +4,11 @@
 package io.ooni.mk.androidTest;
 
 import android.content.Context;
-
-import org.junit.Test;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.SmallTest;
-
 import com.google.common.truth.Truth;
+import org.junit.Test;
+
 import io.ooni.mk.MKReporterResults;
 import io.ooni.mk.MKReporterTask;
 import io.ooni.mk.MKResourcesManager;

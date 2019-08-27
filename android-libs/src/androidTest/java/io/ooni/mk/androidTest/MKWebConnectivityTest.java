@@ -1,16 +1,13 @@
 package io.ooni.mk.androidTest;
 
+import android.content.Context;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.filters.SmallTest;
+import com.google.common.truth.Truth;
+import com.google.gson.Gson;
+import java.util.ArrayList;
 import org.junit.Test;
 
-import androidx.test.filters.SmallTest;
-import androidx.test.core.app.ApplicationProvider;
-
-import com.google.gson.Gson;
-
-import java.util.ArrayList;
-
-import android.content.Context;
-import com.google.common.truth.Truth;
 import io.ooni.mk.MKAsyncTask;
 import io.ooni.mk.MKResourcesManager;
 

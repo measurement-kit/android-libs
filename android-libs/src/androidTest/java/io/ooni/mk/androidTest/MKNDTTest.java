@@ -3,12 +3,13 @@
 // information on the copying conditions.
 package io.ooni.mk.androidTest;
 
-import androidx.test.core.app.ApplicationProvider;
 import android.content.Context;
-import com.google.common.truth.Truth;
-import org.junit.Test;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.SmallTest;
+import com.google.common.truth.Truth;
 import com.google.gson.Gson;
+import org.junit.Test;
+
 import io.ooni.mk.MKAsyncTask;
 import io.ooni.mk.MKResourcesManager;
 
