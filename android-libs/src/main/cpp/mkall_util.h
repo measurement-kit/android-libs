@@ -4,8 +4,6 @@
 #ifndef SRC_MKALL_HEADERS_MKALL_UTIL_H
 #define SRC_MKALL_HEADERS_MKALL_UTIL_H
 
-#include <android/log.h>
-
 #include <sstream>
 #include <string>
 
