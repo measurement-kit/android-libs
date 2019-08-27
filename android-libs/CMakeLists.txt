@@ -48,10 +48,10 @@ add_library(libmeasurement_kit_static STATIC IMPORTED)
 set_target_properties(libmeasurement_kit_static PROPERTIES IMPORTED_LOCATION
   ${MK_ANDROID_DIST}/android-measurement-kit/${ANDROID_ABI}/lib/libmeasurement_kit.a)
 
-add_library(measurement_kit SHARED ${SRCDIR}/collector.cpp ${SRCDIR}/ffi.cpp
+add_library(measurement_kit SHARED ${SRCDIR}/ffi.cpp
   ${SRCDIR}/geoiplookup.cpp ${SRCDIR}/orchestra.cpp ${SRCDIR}/reporter.cpp
   ${SRCDIR}/version.cpp ${SRCDIR}/vendor/mkbouncer.cpp
-  ${SRCDIR}/vendor/mkcollector.cpp ${SRCDIR}/vendor/mkcurl.cpp)
+  ${SRCDIR}/vendor/mkcollector.cpp)
 
 target_include_directories(measurement_kit PRIVATE
   ${MK_ANDROID_DIST}/android-measurement-kit/${ANDROID_ABI}/include
