@@ -30,7 +30,7 @@ import io.ooni.mk.MKResourcesManager;
 
     private MKReporterResults submit(MKReporterTask task, String measurement) {
         long timeout = 300;
-        MKReporterResults results = task.submit(measurement, timeout);
+        MKReporterResults results = task.maybeDiscoverAndSubmit(measurement, timeout);
         System.out.print(results.getLogs());
         System.out.println("updatedMeasurement  : " + results.getUpdatedSerializedMeasurement());
         System.out.println("updatedReportID     : " + results.getUpdatedReportID());
