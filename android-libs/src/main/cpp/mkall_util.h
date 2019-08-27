@@ -148,19 +148,6 @@
       MKALL_THROW_EINTERNAL;                                           \
       return nullptr;                                                  \
     }                                                                  \
-    /* Unconditional diagnostics: */                                   \
-    {                                                                  \
-      std::string encoded = mk::data::base64_encode(s);                \
-      (void)__android_log_print(                                       \
-          ANDROID_LOG_WARN, "mkall", "String is UTF-8? %d",            \
-          mk::data::contains_valid_utf8(s));                           \
-      (void)__android_log_print(                                       \
-          ANDROID_LOG_WARN, "mkall", "String in base64 length: %llu",  \
-            (unsigned long long)encoded.size());                       \
-      (void)__android_log_print(                                       \
-          ANDROID_LOG_WARN, "mkall", "String in base64: %s",           \
-          encoded.c_str());                                            \
-    }                                                                  \
     return env->NewStringUTF(s);                                       \
   }
 
