@@ -4,3 +4,4 @@ echo "* Regenerating JNI include headers"
 d=android-libs/src/main
 javac -Xlint:deprecation -h $d/cpp -Werror -cp $d/java                         \
   `find $d/java/io/ooni/mk -type f -name \*.java|grep -v MKResources`
+find $d/java/io/ooni/mk -type f -name \*.class -exec rm {} \;
