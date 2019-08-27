@@ -5,6 +5,7 @@
 #include "io_ooni_mk_MKReporterResults.h"
 #include "io_ooni_mk_MKReporterTask.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -51,7 +52,7 @@ JNIEXPORT jlong JNICALL Java_io_ooni_mk_MKReporterTask_Submit(
     MKALL_THROW_EINVAL;
     return 0L;
   }
-  auto results = new mk_reporter_results{};
+  std::unique_ptr<mk_reporter_results> results{new mk_reporter_results{}};
   if (!mkall_string_java2cxx(env, measurement, results->measurement)) {
     return 0L;  // Exception already pending
   }
@@ -67,7 +68,7 @@ JNIEXPORT jlong JNICALL Java_io_ooni_mk_MKReporterTask_Submit(
 #undef XX
     results->stats = doc.dump();
   }
-  return reinterpret_cast<jlong>(results);
+  return reinterpret_cast<jlong>(results.release());
 }
 
 MKALL_DELETE(
