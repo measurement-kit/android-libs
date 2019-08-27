@@ -20,14 +20,14 @@ JNIEXPORT jlong JNICALL Java_io_ooni_mk_MKReporterTask_New(
     MKALL_THROW_EINVAL;
     return 0L;
   }
-  std::string software_name;
-  std::string software_version;
-  if (!mkall_string_java2cxx(env, softwareName, software_name) ||
-      !mkall_string_java2cxx(env, softwareVersion, software_version)) {
+  std::string name;
+  std::string version;
+  if (!mkall_string_java2cxx(env, softwareName, name) ||
+      !mkall_string_java2cxx(env, softwareVersion, version)) {
     return 0L;  // Exception already pending
   }
   return reinterpret_cast<jlong>(new mk::collector::Reporter{
-      std::move(software_name), std::move(software_version)});
+      std::move(name), std::move(version)});
 }
 
 MKALL_SET_STRING(
