@@ -66,6 +66,9 @@ JNIEXPORT jlong JNICALL Java_io_ooni_mk_MKReporterTask_Submit(
 #define XX(name_) doc[#name_] = stats.name_;
     MKCOLLECTOR_REPORTER_STATS_ENUM(XX)
 #undef XX
+    // The following statement is unlikely to throw because the name is
+    // certainly JSON serializable. The values of the stats are simple
+    // int64 numbers. Therefore I don't see how it can throw.
     results->stats = doc.dump();
   }
   return reinterpret_cast<jlong>(results.release());
