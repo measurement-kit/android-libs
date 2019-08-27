@@ -26,5 +26,8 @@ class MKTSettings {
 
         @SerializedName("geoip_country_path")
         public String geoip_country_path;
+
+        @SerializedName("no_file_report")
+        public boolean no_file_report;
     }
 }
