@@ -59,11 +59,16 @@ public class MKResourcesManager {
     // code are current, and otherwise makes them current. The current implementation will make
     // the resources current by copying them from the assets folder. The mechanism used to decide
     // whether we need to copy resources over relies on a small file named version.json that is
-    // keeping track of the assets version. Whenever the copy of this file saved into the storage
+    // keeping track of the assets version [*]. Whenever the copy of this file saved into the storage
     // is different from the resources in the AAR, we copy resources over. We also perform the
     // copy if any required file is missing. Every new release of this AAR will possibly cause a
     // bump in the resources version. This function returns true if all is good and false in
     // case of error. See the logcat in the latter case to understand what was wrong.
+    //
+    // [*] This version.json file is not changed here and is not changed manually. We create
+    // a version.json file each time `make configure` is run. The version that ends up in
+    // such file is the version of the homebrew generic-assets package that is installed on
+    // the system. So, if `brew upgrade` is correctly used, we're good.
     public static boolean maybeUpdateResources(@NonNull Context context) {
         for (String resource : RESOURCES) {
             File file = getResourceAsFile(context, resource);
