@@ -56,6 +56,7 @@ public class MKGeoIPLookupResults {
         return GetLogs(handle);
     }
 
+    @SuppressWarnings("deprecation")
     @Override public synchronized void finalize() {
         Delete(handle);
     }

@@ -3,11 +3,9 @@
 // information on the copying conditions.
 package io.ooni.mk.androidTest;
 
-import com.google.common.truth.Truth;
-
-import org.junit.Test;
-
 import androidx.test.filters.SmallTest;
+import com.google.common.truth.Truth;
+import org.junit.Test;
 
 import io.ooni.mk.MKVersion;
 

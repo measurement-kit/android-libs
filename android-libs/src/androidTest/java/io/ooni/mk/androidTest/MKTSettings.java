@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-class MKSettings {
+class MKTSettings {
     @SerializedName("inputs")
     public List<String> inputs;
 
@@ -26,5 +26,8 @@ class MKSettings {
 
         @SerializedName("geoip_country_path")
         public String geoip_country_path;
+
+        @SerializedName("no_file_report")
+        public boolean no_file_report;
     }
 }

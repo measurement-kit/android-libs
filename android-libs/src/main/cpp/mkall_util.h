@@ -5,6 +5,7 @@
 #define SRC_MKALL_HEADERS_MKALL_UTIL_H
 
 #include <sstream>
+#include <string>
 
 #include <measurement_kit/internal/vendor/mkdata.hpp>
 
@@ -183,6 +184,23 @@
     }                                                   \
     cxx_func((cxx_type *)handle, value);                \
   }
+
+// mkall_string_java2cxx copies the @p in string to the @p out string.
+static inline jboolean mkall_string_java2cxx(
+    JNIEnv *env, jstring in, std::string &out) noexcept {
+  if (env == nullptr || in == nullptr) {
+    MKALL_THROW_EINVAL;
+    return JNI_FALSE;
+  }
+  const char *bytes = env->GetStringUTFChars(in, nullptr);
+  if (bytes == nullptr) {
+    // Exception should already be pending
+    return JNI_FALSE;
+  }
+  out = bytes;
+  env->ReleaseStringUTFChars(in, bytes);
+  return JNI_TRUE;
+}
 
 /// MKALL_SET_STRING sets a string value.
 #define MKALL_SET_STRING(java_func, cxx_func, cxx_type)     \

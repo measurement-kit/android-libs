@@ -27,6 +27,7 @@ public class MKOrchestraResults {
         return GetLogs(handle);
     }
 
+    @SuppressWarnings("deprecation")
     @Override public synchronized void finalize() {
         Delete(handle);
     }

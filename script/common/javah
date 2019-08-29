@@ -1,12 +1,7 @@
 #!/bin/sh
 set -e
 echo "* Regenerating JNI include headers"
-javac -Werror -cp android-libs/src/main/java                                   \
-  `find android-libs/src/main/java/io/ooni/mk -type f -name \*.java|grep -v MKResources`
-classes=""
-for name in `cd android-libs/src/main/java && find io/ooni/mk -type f -name \*.class`; do
-  name=`echo $name | sed 's/\.class$//g' | tr '/' '.'`
-  classes="$name $classes"
-done
-javah -cp android-libs/src/main/java -o android-libs/src/main/cpp/mkall.h $classes
-find android-libs/src/main/java -type f -name \*.class -exec rm -f {} \;
+d=android-libs/src/main
+javac -Xlint:deprecation -h $d/cpp -Werror -cp $d/java                         \
+  `find $d/java/io/ooni/mk -type f -name \*.java|grep -v MKResources`
+find $d/java/io/ooni/mk -type f -name \*.class -exec rm {} \;

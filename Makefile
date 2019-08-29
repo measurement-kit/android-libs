@@ -4,15 +4,19 @@ PHONIES += all configure dist sign
 CELLAR         = /usr/local/Cellar
 GENERIC_ASSETS = /usr/local/opt/generic-assets
 UPSTREAM       = `ls $(CELLAR)/android-measurement-kit/|tail -n1|tr '_' '-'`
-OURS           = -android.4
-VERSION_CODE   = 47
+EXPECTED_VER   = 0.10.6
+OURS           = -android.1
+VERSION_CODE   = 54
 VERSION_NAME   = $(UPSTREAM)$(OURS)
 OUTPUT         = android-libs-$(VERSION_NAME).aar
 POM            = android-libs-$(VERSION_NAME).pom
 
 all: dist
 
-configure:
+check:
+	test "$(UPSTREAM)" = "$(EXPECTED_VER)"
+
+configure: check
 	./script/common/javah
 	./script/android/configure $(VERSION_CODE) $(VERSION_NAME) $(GENERIC_ASSETS)
 

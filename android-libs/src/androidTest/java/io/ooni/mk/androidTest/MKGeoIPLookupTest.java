@@ -4,13 +4,11 @@
 package io.ooni.mk.androidTest;
 
 import android.content.Context;
-
-import org.junit.Test;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.SmallTest;
-
 import com.google.common.truth.Truth;
+import org.junit.Test;
+
 import io.ooni.mk.MKGeoIPLookupResults;
 import io.ooni.mk.MKGeoIPLookupTask;
 import io.ooni.mk.MKResourcesManager;
@@ -24,17 +22,25 @@ import io.ooni.mk.MKResourcesManager;
         Context context = ApplicationProvider.getApplicationContext();
         boolean okay = MKResourcesManager.maybeUpdateResources(context);
         Truth.assertThat(okay).isTrue();
+
         MKGeoIPLookupTask task = new MKGeoIPLookupTask();
         task.setTimeout(14);
         task.setASNDBPath(MKResourcesManager.getASNDBPath(context));
         task.setCountryDBPath(MKResourcesManager.getCountryDBPath(context));
         task.setCABundlePath(MKResourcesManager.getCABundlePath(context));
         MKGeoIPLookupResults results = task.perform();
+
         System.out.print(results.getLogs());
         System.out.println("Probe IP  : " + results.getProbeIP());
         System.out.println("Probe ASN : " + results.getProbeASN());
         System.out.println("Probe CC  : " + results.getProbeCC());
         System.out.println("Probe Org : " + results.getProbeOrg());
+
         Truth.assertThat(results.isGood()).isTrue();
+        Truth.assertThat(results.getProbeIP().length()).isGreaterThan(0);
+        Truth.assertThat(results.getProbeASN().length()).isGreaterThan(0);
+        Truth.assertThat(results.getProbeCC().length()).isGreaterThan(0);
+        Truth.assertThat(results.getProbeOrg().length()).isGreaterThan(0);
+        Truth.assertThat(results.getLogs().length()).isGreaterThan(0);
     }
 }

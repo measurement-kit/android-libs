@@ -2,7 +2,8 @@
 // Measurement-kit is free software. See AUTHORS and LICENSE for more
 // information on the copying conditions.
 
-#include "mkall.h"
+#include "io_ooni_mk_MKAsyncTask.h"
+#include "io_ooni_mk_MKEvent.h"
 
 #include <limits.h>
 
