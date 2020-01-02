@@ -121,13 +121,13 @@ Assuming you have a running emulator, you can run all instrumented functional
 tests on such emulator using:
 
 ```
-gradle connectedAndroidTest
+./gradlew connectedAndroidTest
 ```
 
 You can run a specific functional test using:
 
 ```
-gradle connectedAndroidTest \
+./gradlew connectedAndroidTest \
  -Pandroid.testInstrumentationRunnerArguments.class=io.android.mk.androidTests.<ClassName>
 ```
 

@@ -40,6 +40,7 @@ MKALL_SET_STRING(
 // mk_reporter_results contains the results of Submit
 struct mk_reporter_results {
   bool good = false;
+  std::string reason;
   std::vector<std::string> logs;
   std::string measurement;
   std::string report_id;
@@ -58,8 +59,9 @@ JNIEXPORT jlong JNICALL Java_io_ooni_mk_MKReporterTask_Submit(
   }
   mk::collector::Reporter::Stats stats;
   auto r = reinterpret_cast<mk::collector::Reporter *>(handle);
-  results->good = r->maybe_discover_and_submit_with_stats(
-      results->measurement, results->logs, uploadTimeout, stats);
+  results->good = r->maybe_discover_and_submit_with_stats_and_reason(
+      results->measurement, results->logs, uploadTimeout, stats,
+      results->reason);
   results->report_id = r->report_id();
   {
     nlohmann::json doc;
@@ -82,6 +84,11 @@ MKALL_DELETE(
 MKALL_GET_BOOLEAN(
     MKReporterResults_Good,
     [](mk_reporter_results *r) { return r->good; },
+    mk_reporter_results);
+
+MKALL_GET_STRING(
+    MKReporterResults_Reason,
+    [](mk_reporter_results *r) { return r->reason.c_str(); },
     mk_reporter_results);
 
 MKALL_GET_LOGS(

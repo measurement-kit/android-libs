@@ -43,6 +43,7 @@ import io.ooni.mk.MKResourcesManager;
         System.out.println("updatedMeasurement  : " + results.getUpdatedSerializedMeasurement());
         System.out.println("updatedReportID     : " + results.getUpdatedReportID());
         System.out.println("serializedStats     : " + results.getSerializedStats());
+        System.out.println("reason              : " + results.getReason());
         Truth.assertThat(results.isGood()).isTrue();
         Truth.assertThat(results.getUpdatedReportID().length()).isGreaterThan(0);
         Stats real = gson.fromJson(results.getSerializedStats(), Stats.class);

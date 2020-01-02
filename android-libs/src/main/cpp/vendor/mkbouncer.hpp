@@ -22,7 +22,7 @@
 /// public symbols exported by this library are enclosed.
 ///
 /// See <https://github.com/measurement-kit/measurement-kit/issues/1867#issuecomment-514562622>.
-#define MKBOUNCER_INLINE_NAMESPACE v0_1_1_or_greater
+#define MKBOUNCER_INLINE_NAMESPACE v0_3_0_or_greater
 
 namespace mk {
 namespace bouncer {
@@ -69,6 +69,9 @@ class Response {
   /// good indicates whether we good a good response.
   bool good = false;
 
+  /// reason contains the reason for failure.
+  std::string reason;
+
   /// collectors lists all available collectors.
   std::vector<Record> collectors;
 
@@ -91,6 +94,8 @@ Response perform(const Request &request) noexcept;
 
 #include <sstream>
 
+#include <curl/curl.h>
+
 #include "json.hpp"
 #include "mkcurl.hpp"
 #include "mkmock.hpp"
@@ -104,6 +109,22 @@ Response perform(const Request &request) noexcept;
 namespace mk {
 namespace bouncer {
 inline namespace MKBOUNCER_INLINE_NAMESPACE {
+
+// curl_reason_for_failure contains the cURL reason for failure.
+static std::string curl_reason_for_failure(
+    const curl::Response &response) noexcept {
+  if (response.error != 0) {
+    std::string rv = "bouncer: ";
+    rv += curl_easy_strerror((CURLcode)response.error);
+    return rv;
+  }
+  if (response.status_code != 200) {
+    std::string rv = "bouncer: ";
+    rv += curl_easy_strerror(CURLE_HTTP_RETURNED_ERROR);
+    return rv;
+  }
+  return "bouncer: unknown libcurl error";
+}
 
 // log_body is a helper to log about a body.
 static void log_body(const std::string &prefix, const std::string &body,
@@ -137,6 +158,7 @@ Response perform(const Request &request) noexcept {
       body = doc.dump();
     } catch (const std::exception &exc) {
       response.logs.push_back(exc.what());
+      response.reason = exc.what();
       return response;
     }
     log_body("Request", body, response.logs);
@@ -149,6 +171,7 @@ Response perform(const Request &request) noexcept {
   MKBOUNCER_HOOK(curl_response_error, curl_response.error);
   MKBOUNCER_HOOK(curl_response_status_code, curl_response.status_code);
   if (curl_response.error != 0 || curl_response.status_code != 200) {
+    response.reason = curl_reason_for_failure(curl_response);
     return response;
   }
   MKBOUNCER_HOOK(curl_response_body, curl_response.body);
@@ -196,6 +219,7 @@ Response perform(const Request &request) noexcept {
       }
     } catch (const std::exception &exc) {
       response.logs.push_back(exc.what());
+      response.reason = exc.what();
       return response;
     }
   }

@@ -12,6 +12,8 @@ public class MKReporterResults {
 
     final static native boolean Good(long handle);
 
+    final static native String Reason(long handle);
+
     final static native String Logs(long handle);
 
     final static native String UpdatedSerializedMeasurement(long handle);
@@ -29,6 +31,11 @@ public class MKReporterResults {
     /** isGood returns whether we succeded. */
     public boolean isGood() {
         return Good(handle);
+    }
+
+    /** getReason returns the reason for failure. */
+    public String getReason() {
+        return Reason(handle);
     }
 
     /** getLogs returns the logs as one-or-more newline-separated

@@ -16,7 +16,7 @@
 /// public symbols exported by this library are enclosed.
 ///
 /// See <https://github.com/measurement-kit/measurement-kit/issues/1867#issuecomment-514562622>.
-#define MKCOLLECTOR_INLINE_NAMESPACE v0_6_1_or_greater
+#define MKCOLLECTOR_INLINE_NAMESPACE v0_7_0_or_greater
 
 namespace mk {
 namespace collector {
@@ -84,6 +84,9 @@ struct OpenResponse {
   /// good indicates whether we succeded.
   bool good = false;
 
+  /// reason is the reason of failure.
+  std::string reason;
+
   /// report_id is the report ID (only meaningful on success).
   std::string report_id;
 
@@ -106,7 +109,11 @@ struct UpdateRequest {
 
 /// UpdateResponse is a response to an update request.
 struct UpdateResponse {
+  /// good indicates whether we succeded.
   bool good = false;
+
+  /// reason is the reason of failure.
+  std::string reason;
 
   /// logs contains the logs.
   std::vector<std::string> logs;
@@ -126,6 +133,9 @@ struct CloseRequest {
 struct CloseResponse {
   /// good indicates whether the operation succeeded
   bool good = false;
+
+  /// reason is the reason of failure.
+  std::string reason;
 
   /// logs contains the logs.
   std::vector<std::string> logs;
@@ -208,11 +218,13 @@ class Reporter {
 #undef XX
   };
 
-  // maybe_discover_and_submit_with_stats is like
-  // maybe_discover_and_submit_with_timeout but stores stats in @p stats.
-  bool maybe_discover_and_submit_with_stats(
+  /// maybe_discover_and_submit_with_stats_and_reason is like
+  /// maybe_discover_and_submit_with_timeout but stores stats in @p stats
+  /// and the reason in @p reason.
+  bool maybe_discover_and_submit_with_stats_and_reason(
       std::string &measurement, std::vector<std::string> &logs,
-      int64_t upload_timeout, Stats &stats) noexcept;
+      int64_t upload_timeout, Stats &stats,
+      std::string &reason) noexcept;
 
   /// maybe_discover_and_submit_with_timeout is like submit but enforces @p
   /// upload_timeout as the / number of seconds after which the HTTP
@@ -303,6 +315,8 @@ class Reporter {
 #include <stdexcept>
 #include <sstream>
 
+#include <curl/curl.h>
+
 #include "json.hpp"
 #include "mkbouncer.hpp"
 #include "mkmock.hpp"
@@ -364,6 +378,22 @@ LoadResult<OpenRequest> open_request_from_measurement(
   );
 }
 
+// curl_reason_for_failure contains the cURL reason for failure.
+static std::string curl_reason_for_failure(
+    const curl::Response &response) noexcept {
+  if (response.error != 0) {
+    std::string rv = "collector: ";
+    rv += curl_easy_strerror((CURLcode)response.error);
+    return rv;
+  }
+  if (response.status_code != 200) {
+    std::string rv = "collector: ";
+    rv += curl_easy_strerror(CURLE_HTTP_RETURNED_ERROR);
+    return rv;
+  }
+  return "collector: unknown libcurl error";
+}
+
 static OpenResponse open_with_client_(
     curl::Client &client, const OpenRequest &request,
     const Settings &settings) noexcept {
@@ -395,6 +425,7 @@ static OpenResponse open_with_client_(
       body = doc.dump();
     } catch (const std::exception &exc) {
       response.logs.push_back(exc.what());
+      response.reason = exc.what();
       return response;
     }
     log_body("Request", body, response.logs);
@@ -407,6 +438,7 @@ static OpenResponse open_with_client_(
   MKCOLLECTOR_HOOK(open_response_error, curl_response.error);
   MKCOLLECTOR_HOOK(open_response_status_code, curl_response.status_code);
   if (curl_response.error != 0 || curl_response.status_code != 200) {
+    response.reason = curl_reason_for_failure(curl_response);
     return response;
   }
   MKCOLLECTOR_HOOK(open_response_body, curl_response.body);
@@ -418,6 +450,7 @@ static OpenResponse open_with_client_(
       doc.at("report_id").get_to(response.report_id);
     } catch (const std::exception &exc) {
       response.logs.push_back(exc.what());
+      response.reason = exc.what();
       return response;
     }
   }
@@ -466,6 +499,7 @@ static UpdateResponse update_with_client_(
       body = doc.dump();
     } catch (const std::exception &exc) {
       response.logs.push_back(exc.what());
+      response.reason = exc.what();
       return response;
     }
     log_body("Request", body, response.logs);
@@ -478,6 +512,7 @@ static UpdateResponse update_with_client_(
   MKCOLLECTOR_HOOK(update_response_error, curl_response.error);
   MKCOLLECTOR_HOOK(update_response_status_code, curl_response.status_code);
   if (curl_response.error != 0 || curl_response.status_code != 200) {
+    response.reason = curl_reason_for_failure(curl_response);
     return response;
   }
   log_body("Response", curl_response.body, response.logs);
@@ -511,6 +546,7 @@ static CloseResponse close_with_client_(
     response.logs.push_back(std::move(entry.line));
   }
   if (curl_response.error != 0 || curl_response.status_code != 200) {
+    response.reason = curl_reason_for_failure(curl_response);
     return response;
   }
   log_body("Response", curl_response.body, response.logs);
@@ -567,9 +603,9 @@ Reporter::Stats::Stats(std::initializer_list<std::string> list) noexcept {
 #undef XX
 }
 
-bool Reporter::maybe_discover_and_submit_with_stats(
+bool Reporter::maybe_discover_and_submit_with_stats_and_reason(
     std::string &measurement, std::vector<std::string> &logs,
-    int64_t upload_timeout, Stats &stats) noexcept {
+    int64_t upload_timeout, Stats &stats, std::string &reason) noexcept {
   // step 0 (see description of the algorithm above) - maybe discover bouncer
   if (base_url_ == "") {
     // TODO(bassosimone): the bouncer API we're currently using only returns
@@ -588,6 +624,7 @@ bool Reporter::maybe_discover_and_submit_with_stats(
         std::end(logs), std::begin(response.logs), std::end(response.logs));
     MKCOLLECTOR_HOOK(bouncer_response_good, response.good);
     if (!response.good) {
+      reason = response.reason;
       stats.bouncer_error++;
       return false;
     }
@@ -599,7 +636,9 @@ bool Reporter::maybe_discover_and_submit_with_stats(
       }
     }
     if (base_url_ == "") {
-      logs.push_back("No suitable collector found in bouncer response");
+      const char *r = "No suitable collector found in bouncer response";
+      logs.push_back(r);
+      reason = r;
       stats.bouncer_no_collectors++;
       return false;
     }
@@ -625,6 +664,7 @@ bool Reporter::maybe_discover_and_submit_with_stats(
         if (!load_result.good) {
           logs.push_back(std::move(load_result.reason));
           stats.load_request_error += 1;
+          reason = std::move(load_result.reason);
           return false;
         }
         stats.load_request_okay += 1;
@@ -643,6 +683,7 @@ bool Reporter::maybe_discover_and_submit_with_stats(
         // DESIGN CHOICE: it's fine if we cannot close a report - keep going
         if (!close_response.good) {
           stats.close_report_error += 1;
+          reason = std::move(close_response.reason);
         } else {
           stats.close_report_okay += 1;
         }
@@ -657,12 +698,15 @@ bool Reporter::maybe_discover_and_submit_with_stats(
         MKCOLLECTOR_HOOK(reporter_open_response_good, open_response.good);
         if (!open_response.good) {
           stats.open_report_error += 1;
+          reason = std::move(open_response.reason);
           return false;
         }
         MKCOLLECTOR_HOOK(
             reporter_open_response_report_id, open_response.report_id);
         if (open_response.report_id == "") {
-          logs.push_back("Server returned an empty report ID");
+          const char *r = "Server returned an empty report ID";
+          logs.push_back(r);
+          reason = r;
           stats.report_id_empty += 1;
           return false;
         }
@@ -683,6 +727,7 @@ bool Reporter::maybe_discover_and_submit_with_stats(
       // we catch the exception nonetheless for ${robustness}.
       stats.serialize_measurement_error += 1;
       logs.push_back(exc.what());
+      reason = exc.what();
       return false;
     }
   }
@@ -694,6 +739,7 @@ bool Reporter::maybe_discover_and_submit_with_stats(
   MKCOLLECTOR_HOOK(reporter_update_response_good, update_response.good);
   if (!update_response.good) {
     stats.update_report_error += 1;
+    reason = std::move(update_response.reason);
     return false;
   }
   // step 6 - modify measurement to refer to the correct report ID
@@ -706,9 +752,10 @@ bool Reporter::maybe_discover_and_submit_with_stats(
 bool Reporter::maybe_discover_and_submit_with_timeout(
     std::string &measurement, std::vector<std::string> &logs,
     int64_t upload_timeout) noexcept {
+  std::string reason;
   Stats stats;
-  return maybe_discover_and_submit_with_stats(
-      measurement, logs, upload_timeout, stats);
+  return maybe_discover_and_submit_with_stats_and_reason(
+      measurement, logs, upload_timeout, stats, reason);
 }
 
 bool Reporter::maybe_discover_and_submit(
