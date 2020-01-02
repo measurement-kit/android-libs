@@ -5,6 +5,7 @@ package io.ooni.mk;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -31,8 +32,8 @@ public class MKResourcesManager {
     // should be able to access them. Returns whether we succeeded in copying.
     static private boolean copyResources(@NonNull Context context) {
         for (String resource : RESOURCES) {
-            try {
-                FileUtils.copyToFile(context.getAssets().open(resource),
+            try (InputStream source = context.getAssets().open(resource)) {
+                FileUtils.copyToFile(source,
                         getResourceAsFile(context, resource));
             } catch (java.io.IOException err) {
                 Log.e(LOG_TAG, "cannot copy resource", err);
@@ -46,8 +47,8 @@ public class MKResourcesManager {
     // false otherwise (including in the definition of otherwise any error case).
     static private boolean
     equals(@NonNull File file, @NonNull Context context, @NonNull String resource) {
-        try {
-            return IOUtils.contentEquals(new FileInputStream(file),
+        try (FileInputStream inputStream = new FileInputStream(file)) {
+            return IOUtils.contentEquals(inputStream,
                     context.getAssets().open(resource));
         } catch (java.io.IOException err) {
             Log.e(LOG_TAG, "cannot compare file and resource", err);
