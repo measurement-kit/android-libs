@@ -75,7 +75,7 @@ brew install android-measurement-kit android-sdk generic-assets jq
 3. install Android-platform components
 
 ```
-sdkmanager --install ndk 'build-tools;28.0.3' 'platforms;android-28'
+sdkmanager --install ndk 'build-tools;29.0.3' 'platforms;android-29'
 ```
 
 ### Updating dependencies
