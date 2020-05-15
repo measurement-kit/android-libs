@@ -1,13 +1,14 @@
 PHONIES += all configure dist sign
 .PHONY: $(PHONIES)
 
+# Fields to change at every release
+EXPECTED_VER   = 0.10.11-1
+VERSION_CODE   = 60
+VERSION_NAME   = 0.11.0-1
+
 CELLAR         = /usr/local/Cellar
 GENERIC_ASSETS = /usr/local/opt/generic-assets
 UPSTREAM       = `ls $(CELLAR)/android-measurement-kit/|tail -n1|tr '_' '-'`
-EXPECTED_VER   = 0.10.11-1
-OURS           = -android.1
-VERSION_CODE   = 59
-VERSION_NAME   = $(UPSTREAM)$(OURS)
 OUTPUT         = android-libs-$(VERSION_NAME).aar
 POM            = android-libs-$(VERSION_NAME).pom
 
