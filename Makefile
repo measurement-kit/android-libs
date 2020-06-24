@@ -3,8 +3,8 @@ PHONIES += all configure dist sign
 
 # Fields to change at every release
 EXPECTED_VER   = 0.10.11-1
-VERSION_CODE   = 60
-VERSION_NAME   = 0.11.0-1
+VERSION_CODE   = 61
+VERSION_NAME   = 0.12.0-1
 
 CELLAR         = /usr/local/Cellar
 GENERIC_ASSETS = /usr/local/opt/generic-assets
